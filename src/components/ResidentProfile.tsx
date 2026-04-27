@@ -1,145 +1,108 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { getAuthHeaders } from '../lib/auth'
 
-export default function ResidentProfile({ user, homesites }) {
-  // Get resident ID from URL params or use user's resident_id
-  const { id } = useParams()
-  const navigate = useNavigate()
-  
-  const residentId = id || user.resident_id
+export default function ResidentProfile({ residentId: propResidentId, user }) {
+  const urlParams = useParams()
+  const residentId = propResidentId || urlParams.id
   const [resident, setResident] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  
-  // Check if editing is allowed
-  const canEdit = user.role === 'admin' || String(user.resident_id) === residentId
+
+  const canEdit = user?.role === 'admin' || String(user?.resident_id) === residentId
 
   useEffect(() => {
+    if (!residentId) return
     const fetchResident = async () => {
       try {
-        const res = await fetch(`/api/residents/${residentId}/contacts`)
+        const res = await fetch(`/api/residents/${residentId}`, { headers: getAuthHeaders() })
         if (!res.ok) {
-          if (res.status === 403) {
-            navigate('/')
-            return
-          }
-          throw new Error('Failed to fetch resident')
+          if (res.status === 403) { window.location.href = '/'; return }
+          throw new Error('Failed to load profile')
         }
         const data = await res.json()
-        setResident(data.resident)
+        setResident(data)
       } catch (err) {
-        setError(err.message)
+        setError(err.message || 'Failed to load profile')
       } finally {
         setLoading(false)
       }
     }
-
     fetchResident()
-  }, [id, navigate])
+  }, [residentId])
 
   if (loading) return <div className="text-center py-12">Loading...</div>
   if (error) return <div className="text-red-600 text-center py-12">{error}</div>
-  if (!resident) return <div className="text-center py-12">Resident not found</div>
+  if (!resident) return <div className="text-center py-12">Profile not found.</div>
+
+  const phones = resident.phones || []
+  const emails = resident.emails || []
 
   return (
     <div className="max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">
-        {resident.name}'s Profile
-      </h2>
-      
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Address</h3>
-        <p className="text-gray-700">
-          {resident.street_number} {resident.street_name}
+      {user?.role === 'admin' && (
+        <Link to="/" className="text-indigo-600 hover:text-indigo-800 text-sm mb-4 inline-block">
+          ← Back to homesites
+        </Link>
+      )}
+
+      <div className="bg-white rounded-lg shadow p-6 mb-4">
+        <h2 className="text-2xl font-bold text-gray-900 mb-1">{resident.name}</h2>
+        <p className="text-gray-600">
+          {resident.street_number} {resident.street_name}, Charlotte NC {resident.zip_code || '28226'}
         </p>
-        <p className="text-gray-600">Charlotte, NC {resident.zip_code || '28226'}</p>
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
-        
-        <div className="mb-6">
-          <h4 className="text-md font-medium text-gray-900 mb-2">Phone Numbers</h4>
-          {resident.phones?.length > 0 ? (
-            <ul className="space-y-2">
-              {resident.phones.map(phone => (
-                <li key={phone.id} className="flex items-center">
-                  <span className="text-gray-700 flex-1">{phone.number}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-500 italic">No phone numbers on file</p>
-          )}
-        </div>
 
         <div className="mb-6">
-          <h4 className="text-md font-medium text-gray-900 mb-2">Email Addresses</h4>
-          {resident.emails?.length > 0 ? (
-            <ul className="space-y-2">
-              {resident.emails.map(email => (
-                <li key={email.id} className="flex items-center">
-                  <span className="text-gray-700 flex-1">{email.address}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-500 italic">No email addresses on file</p>
-          )}
+          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Phone Numbers</h4>
+          {phones.length
+            ? <ul className="space-y-2">{phones.map(p => (
+                <li key={p.id} className="text-gray-700">{p.number}</li>
+              ))}</ul>
+            : <p className="text-gray-400 italic">None on file</p>
+          }
         </div>
 
-        {canEdit && (
-          <ContactEditor residentId={resident.id} />
-        )}
+        <div className="mb-2">
+          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Email Addresses</h4>
+          {emails.length
+            ? <ul className="space-y-2">{emails.map(e => (
+                <li key={e.id} className="text-gray-700">{e.address}</li>
+              ))}</ul>
+            : <p className="text-gray-400 italic">None on file</p>
+          }
+        </div>
+
+        {canEdit && <ContactEditor residentId={resident.id} phones={phones} emails={emails} />}
       </div>
     </div>
   )
 }
 
-function ContactEditor({ residentId }) {
-  const [phones, setPhones] = useState([''])
-  const [emails, setEmails] = useState([''])
+function ContactEditor({ residentId, phones, emails }) {
+  const [phoneVals, setPhoneVals] = useState(phones.map(p => p.number))
+  const [emailVals, setEmailVals] = useState(emails.map(e => e.address))
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState('')
 
-  const addPhone = () => setPhones([...phones, ''])
-  const removePhone = (i) => {
-    if (phones.length > 1) setPhones(phones.filter((_, idx) => idx !== i))
-  }
-  const updatePhone = (i, val) => {
-    const newPhones = [...phones]
-    newPhones[i] = val
-    setPhones(newPhones)
-  }
-
-  const addEmail = () => setEmails([...emails, ''])
-  const removeEmail = (i) => {
-    if (emails.length > 1) setEmails(emails.filter((_, idx) => idx !== i))
-  }
-  const updateEmail = (i, val) => {
-    const newEmails = [...emails]
-    newEmails[i] = val
-    setEmails(newEmails)
-  }
-
-  const handleSubmit = async (e) => {
+  const handleSave = async (e) => {
     e.preventDefault()
     setSaving(true)
     setSuccess('')
-
     try {
-      const res = await fetch(`/api/users/${residentId}`, {
+      const res = await fetch(`/api/residents/${residentId}/contacts`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify({
-          phones: phones.filter(p => p.trim()),
-          emails: emails.filter(e => e.trim())
+          phones: phoneVals.filter(p => p.trim()),
+          emails: emailVals.filter(e => e.trim())
         })
       })
-
-      if (!res.ok) throw new Error('Failed to update')
-
-      setSuccess('Contact information updated successfully!')
+      if (!res.ok) throw new Error('Save failed')
+      setSuccess('Changes saved successfully!')
     } catch (err) {
       alert(err.message)
     } finally {
@@ -147,81 +110,53 @@ function ContactEditor({ residentId }) {
     }
   }
 
+  const updatePhone = (i, val) => setPhoneVals(prev => prev.map((v, idx) => idx === i ? val : v))
+  const updateEmail = (i, val) => setEmailVals(prev => prev.map((v, idx) => idx === i ? val : v))
+  const addPhone = () => setPhoneVals(prev => [...prev, ''])
+  const addEmail = () => setEmailVals(prev => [...prev, ''])
+
   return (
-    <form onSubmit={handleSubmit} className="mt-6 pt-6 border-t">
+    <form onSubmit={handleSave} className="mt-6 pt-6 border-t">
       {success && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-4">
-          {success}
-        </div>
+        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-4">{success}</div>
       )}
 
-      <h4 className="text-md font-medium text-gray-900 mb-2">Edit Contact</h4>
-      
+      <h4 className="text-md font-medium text-gray-900 mb-3">Edit Contact Info</h4>
+
       <div className="mb-4">
-        {phones.map((phone, i) => (
+        {phoneVals.map((val, i) => (
           <div key={i} className="flex gap-2 mb-2">
             <input
-              type="tel"
-              placeholder="(555) 123-4567"
-              className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500"
-              value={phone}
+              type="text"
+              value={val}
               onChange={(e) => updatePhone(i, e.target.value)}
+              className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
             />
-            {phones.length > 1 && (
-              <button
-                type="button"
-                onClick={() => removePhone(i)}
-                className="px-3 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200"
-              >
-                ✕
-              </button>
-            )}
           </div>
         ))}
-        <button
-          type="button"
-          onClick={addPhone}
-          className="text-sm text-indigo-600 hover:text-indigo-800 mt-2"
-        >
-          + Add phone
+        <button type="button" onClick={addPhone} className="text-sm text-indigo-600 hover:text-indigo-800">
+          + Add Phone
         </button>
       </div>
 
       <div className="mb-4">
-        {emails.map((email, i) => (
+        {emailVals.map((val, i) => (
           <div key={i} className="flex gap-2 mb-2">
             <input
-              type="email"
-              placeholder="email@example.com"
-              className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500 focus:border-indigo-500"
-              value={email}
+              type="text"
+              value={val}
               onChange={(e) => updateEmail(i, e.target.value)}
+              className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
             />
-            {emails.length > 1 && (
-              <button
-                type="button"
-                onClick={() => removeEmail(i)}
-                className="px-3 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200"
-              >
-                ✕
-              </button>
-            )}
           </div>
         ))}
-        <button
-          type="button"
-          onClick={addEmail}
-          className="text-sm text-indigo-600 hover:text-indigo-800 mt-2"
-        >
-          + Add email
+        <button type="button" onClick={addEmail} className="text-sm text-indigo-600 hover:text-indigo-800">
+          + Add Email
         </button>
       </div>
 
-      <button
-        type="submit"
-        disabled={saving}
-        className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400"
-      >
+      <button type="submit" disabled={saving}
+        className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
         {saving ? 'Saving...' : 'Save Changes'}
       </button>
     </form>

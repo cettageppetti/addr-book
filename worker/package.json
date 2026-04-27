@@ -1,0 +1,17 @@
+{
+  "name": "addr-book-worker",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --local --port 8787",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.0",
+    "bcryptjs": "^2.4.3",
+    "hono": "^4.6.0",
+    "jose": "^6.2.3",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

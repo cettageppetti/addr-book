@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import Login from './components/Login'
 import Home from './pages/Home'
+import ResidentProfile from './components/ResidentProfile'
+import { getAuthHeaders, clearToken } from './lib/auth'
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -15,40 +16,68 @@ function App() {
     }
   })
 
-  const [homesites, setHomesites] = useState(null)
-
-  // Check auth status on mount
+  // Check auth status on mount (works even if page was refreshed)
   useEffect(() => {
+    const token = window.localStorage.getItem('token')
+    if (!token) return  // Not logged in
+
+    const checkAuthStatus = async () => {
+      try {
+        const res = await fetch('/api/auth/me', {
+          headers: getAuthHeaders()
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setUser(data)
+          // Rehydrate user into localStorage if missing (e.g. after hard refresh where only token exists)
+          try { window.localStorage.setItem('user', JSON.stringify(data)) } catch {}
+        }
+      } catch {
+        // No session
+      }
+    }
     checkAuthStatus()
   }, [])
 
-  const checkAuthStatus = async () => {
-    try {
-      const res = await fetch('/api/auth/me')
-      if (res.ok) {
-        const data = await res.json()
-        setUser(data)
-      }
-    } catch (err) {
-      // No session, user is logged out
-    }
-  }
-
   const handleLogin = (userData) => {
     setUser(userData)
+    window.localStorage.setItem('user', JSON.stringify(userData))
+  }
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('user')
+    clearToken()
+    setUser(null)
   }
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        
+
         <Route
           path="/"
           element={
-            <Layout user={user} setUser={setUser}>
-              <Home user={user} homesites={homesites} />
-            </Layout>
+            user ? (
+              <Layout user={user} onLogout={handleLogout}>
+                <Home user={user} />
+              </Layout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        <Route
+          path="/residents/:id"
+          element={
+            user ? (
+              <Layout user={user} onLogout={handleLogout}>
+                <ResidentProfile user={user} />
+              </Layout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
           }
         />
 

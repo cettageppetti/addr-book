@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { setToken } from '../lib/auth'
 
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState('')
@@ -25,7 +26,8 @@ export default function Login({ onLogin }) {
         throw new Error(data.error || 'Login failed')
       }
 
-      onLogin(data.user)
+      setToken(data.token || '')
+      onLogin(data)
       navigate('/')
     } catch (err) {
       setError(err.message)
@@ -78,14 +80,6 @@ export default function Login({ onLogin }) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="text-sm">
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Forgot your password?
-              </a>
             </div>
           </div>
 

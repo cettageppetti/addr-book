@@ -1,0 +1,11 @@
+name = "addr-book-api"
+main = "src/index.ts"
+compatibility_date = "2025-01-09"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "addr-book-local"
+database_id = "local"
+
+[vars]
+JWT_SECRET = "addr-book-dev-secret-2024"
