@@ -8,7 +8,7 @@ const Database = require('better-sqlite3')
 const JWT_SECRET = process.env.JWT_SECRET || 'addr-book-dev-secret-2024'
 const JWT_EXPIRY = '24h'
 
-// Initialize database
+// Initialize database (sync, zero setup)
 const db = new Database('addr-book.db')
 
 // Create tables if not exist
@@ -240,6 +240,10 @@ app.post('/api/auth/logout', (req, res) => {
   res.json({ success: true })
 })
 
+app.get('/api/auth/status', authRequired, (req, res) => {
+  res.json({ user: { id: req.user.id, email: req.user.email, role: req.user.role } })
+})
+
 app.get('/api/homesites', authRequired, (req, res) => {
   let homesites
   if (req.user.role === 'admin') {
@@ -331,10 +335,6 @@ app.put('/api/users/:id', authRequired, (req, res) => {
   }
 
   res.json({ success: true })
-})
-
-app.get('/api/auth/status', authRequired, (req, res) => {
-  res.json({ user: { id: req.user.id, email: req.user.email, role: req.user.role } })
 })
 
 // Serve static files from frontend build

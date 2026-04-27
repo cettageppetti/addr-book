@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router'
+import { useParams, useNavigate } from 'react-router-dom'
 
 export default function ResidentProfile({ user, homesites }) {
   // Get resident ID from URL params or use user's resident_id

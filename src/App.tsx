@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import Login from './components/Login'
 import Home from './pages/Home'
@@ -24,10 +24,10 @@ function App() {
 
   const checkAuthStatus = async () => {
     try {
-      const res = await fetch('/api/auth/status')
+      const res = await fetch('/api/auth/me')
       if (res.ok) {
         const data = await res.json()
-        setUser(data.user)
+        setUser(data)
       }
     } catch (err) {
       // No session, user is logged out

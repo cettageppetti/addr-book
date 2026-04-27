@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router'
+import { Outlet, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
 export default function Layout({ user, setUser }) {

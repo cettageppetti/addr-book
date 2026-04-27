@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate } from 'react-router'
+import { Navigate } from 'react-router-dom'
 import HomesitesList from '../components/HomesitesList'
 import ResidentProfile from '../components/ResidentProfile'
 
