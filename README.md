@@ -1,144 +1,130 @@
 # Neighborhood Address Book
 
-A React + Express web application for managing neighborhood homesites and resident contact information. Uses SQLite for local development.
+A React + Cloudflare Workers web application for managing neighborhood homesites and resident contact information.
 
-## Features
+## Two Ways to Run
 
-- **JWT Authentication** - Secure login with httpOnly cookies
-- **Role-based access**:
-  - Residents can view and edit their own contact info (phones/emails)
-  - Admins can view all homesites and residents
-- **Charlotte NC Database** - 120 realistic homesites seeded on first run
+### Option A — Cloudflare Stack (local dev, mirrors production)
+This is the recommended workflow. Runs the actual Worker + D1 runtime locally.
+
+```bash
+# One-time setup: install worker deps and seed local D1
+cd ~/Code/addr-book
+npm install                           # project deps (frontend)
+cd worker && npm install --ignore-scripts  # Worker deps
+cd ..
+bash d1/setup.sh                      # spins up local D1, runs migrations + seed
+
+# Start developing
+# Terminal 1: Worker API (port 8787)
+cd ~/Code/addr-book/worker && npm run dev
+
+# Terminal 2: Frontend (port 5173)
+cd ~/Code/addr-book && npx vite
+```
+
+**URLs:**
+- Frontend: http://localhost:5173
+- API (Worker): http://localhost:8787
+
+### Option B — Express + SQLite fallback
+No Cloudflare account required. Pure local.
+```bash
+cd ~/Code/addr-book
+npm install --ignore-scripts
+node server.cjs              # seeds DB and starts on :3000
+# Open http://localhost:3000 directly (Express serves the built frontend)
+```
+
+---
 
 ## Tech Stack
 
-- **Frontend**: React + Vite (Tailwind CSS)
-- **Backend**: Express.js with better-sqlite3
-- **Auth**: bcryptjs for passwords, jsonwebtoken for session management
-
-## Setup
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-
-### Installation
-
-```bash
-# Navigate to project directory
-cd ~/Code/addr-book
-
-# Install dependencies
-npm install
-
-# Seed the database (one-time setup)
-npm run seed
-
-# Start development servers
-npm run dev
-```
-
-The app will be available at:
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:3000
+| Layer | Option A (Cloudflare) | Option B (Express) |
+|-------|----------------------|-------------------|
+| Frontend | React + Vite | Same |
+| API | Cloudflare Worker (Hono) | Express.js |
+| Database | D1 (SQLite, local via Wrangler) | SQLite (sql.js / better-sqlite3) |
+| Auth | JWT in httpOnly cookies | Same |
 
 ## Default Credentials
 
-### Admin Account
-- Email: `admin@addrbook.local`
-- Password: `ChangeThis123!`
-
-### Resident Accounts
-- Generated on seed (120 total)
-- Pattern: `resident{N}@addrbook.local`
-- Password: `Resident123!`
+- **Admin**: `admin@addrbook.local` / `ChangeThis123!`
+- **Residents**: `resident1–120@addrbook.local` / `Resident123!`
 
 ## Database Schema
 
-### Tables
-- **users**: id, email, password_hash, role (resident/admin), resident_id, created_at
-- **homesites**: id, street_number, street_name, zip_code (28226), created_at
-- **residents**: id, homesite_id (FK), name
-- **phones**: id, resident_id (FK), number
-- **emails**: id, resident_id (FK), address
-
-### One-to-One Relationships
-- Each homesite has one primary resident
-- Each resident has 1+ phone numbers and 1+ email addresses
+```
+users       — id, email, password_hash, role (resident/admin), resident_id
+homesites   — id, street_number, street_name, zip_code (28226)
+residents   — id, homesite_id (FK), name
+phones      — id, resident_id (FK), number
+emails      — id, resident_id (FK), address
+```
 
 ## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/auth/login` | Authenticate user, sets httpOnly cookie |
-| POST | `/api/auth/logout` | Clear authentication cookie |
-| GET | `/api/homesites` | Get homesites (all for admin, own for resident) |
-| GET | `/api/residents/:id/contacts` | Get resident contact info |
-| PUT | `/api/users/:id` | Update resident phones/emails |
+| POST | `/api/auth/login` | Authenticate, sets httpOnly cookie |
+| POST | `/api/auth/logout` | Clear cookie |
+| GET | `/api/auth/me` | Current user info |
+| GET | `/api/homesites` | All (admin) or own homesite (resident) |
+| GET | `/api/residents/:id` | Resident + phones + emails |
+| PUT | `/api/residents/:id/contacts` | Replace phones/emails |
+| PUT | `/api/users/:id/password` | Change password |
 
 ## Project Structure
 
 ```
 addr-book/
-├── server.js          # Express backend with SQLite
-├── seed.js            # Database seeding script
-├── package.json
-├── vite.config.ts     # Vite configuration with proxy
-├── tsconfig.json      # TypeScript config
-├── index.html         # Entry HTML
-└── src/
-    ├── main.tsx       # React entry point
-    ├── App.tsx        # Main app component
-    ├── index.css      # Global styles with Tailwind
-    ├── components/
-    │   ├── Layout.tsx         # App layout header/footer
-    │   ├── Login.tsx          # Login form
-    │   ├── HomesitesList.tsx  # Searchable homesite grid
-    │   └── ResidentProfile.tsx# Contact editing view
-    └── pages/
-        └── Home.tsx         # Dynamic home page
+├── worker/                  # Cloudflare Worker API
+│   ├── src/index.ts         # Hono app with all routes
+│   ├── wrangler.toml        # Worker config (D1 binding)
+│   └── package.json
+├── d1/                      # D1 migrations + seed
+│   ├── migrations/
+│   │   └── 00001_initial.sql
+│   ├── seed.sql             # Pre-generated INSERT statements
+│   └── setup.sh             # One-time local D1 setup script
+├── src/                     # React frontend
+│   ├── App.tsx
+│   └── components/
+└── server.cjs               # Express fallback (Option B)
 ```
 
-## Development
+## Deploying to Cloudflare
 
-### Running Tests
 ```bash
-npm run build    # Type-check and build for production
-npm run preview  # Preview production build
+# 1. Create production D1 database
+wrangler d1 create addr-book
+# Copy the database_id into worker/wrangler.toml
+
+# 2. Apply schema (get id from step 1)
+wrangler d1 execute addr-book --remote --file=d1/migrations/00001_initial.sql
+
+# 3. Seed production data
+wrangler d1 execute addr-book --remote --file=d1/seed.sql
+
+# 4. Deploy worker
+cd worker && wrangler deploy
+
+# 5. Add pages project and configure route to worker
 ```
 
-### Customization
+## Resetting Local D1
 
-**Change JWT Secret:**
 ```bash
-export JWT_SECRET="your-secure-secret-key"
+# Kill any running wrangler dev, then:
+rm -rf ~/.wrangler/state/
+bash d1/setup.sh
 ```
 
-**Change Port:**
-```bash
-# Frontend (Vite)
-npm run dev:frontend -- --port 4000
+## Security
 
-# Backend (Express)
-PORT=3001 npm run dev:backend
-```
-
-## Database Management
-
-The database file `addr-book.db` is created automatically in the project root when you run `npm run seed`.
-
-To reset and re-seed:
-```bash
-rm addr-book.db
-npm run seed
-```
-
-## Security Notes
-
-- Passwords are hashed with bcryptjs (cost factor: 10)
-- JWT tokens expire after 24 hours
-- Cookies are set with `httpOnly: true` and `sameSite: strict`
-- In production, enable `secure: true` on cookies
+- Passwords hashed with bcrypt (cost 10)
+- JWT tokens expire after 24h, stored in httpOnly cookies
+- SameSite=Lax — change to Strict in production with HTTPS
 
 ## License
 

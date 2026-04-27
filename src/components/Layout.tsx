@@ -1,20 +1,6 @@
-import { Outlet, Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
-export default function Layout({ user, setUser }) {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) return null
-
-  const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' })
-    setUser(null)
-  }
-
+export default function Layout({ user, onLogout, children }) {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
@@ -22,14 +8,14 @@ export default function Layout({ user, setUser }) {
           <Link to="/" className="text-xl font-bold text-gray-900 hover:text-indigo-600">
             Address Book
           </Link>
-          
+
           {user && (
             <div className="flex items-center gap-4">
               <span className="text-gray-700 text-sm">
                 {user.role === 'admin' ? 'Admin' : 'Resident'}: {user.email}
               </span>
               <button
-                onClick={handleLogout}
+                onClick={onLogout}
                 className="text-sm text-gray-600 hover:text-red-600"
               >
                 Logout
@@ -38,9 +24,9 @@ export default function Layout({ user, setUser }) {
           )}
         </div>
       </header>
-      
+
       <main className="py-8">
-        <Outlet />
+        {children}
       </main>
     </div>
   )

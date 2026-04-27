@@ -3,3 +3,7 @@ build
 dist
 *.db
 .env
+
+# Vite build
+dist/
+node_modules/.vite/
