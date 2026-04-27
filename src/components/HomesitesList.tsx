@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function HomesitesList({ homesites }) {
   const [search, setSearch] = useState('')
@@ -33,14 +33,15 @@ export default function HomesitesList({ homesites }) {
                 {homesite.street_number} {homesite.street_name}
               </h3>
               <p className="text-gray-600 mt-1">{homesite.zip_code || '28226'}</p>
-              <p className="text-gray-500 text-sm mt-2">{homesite.resident_names}</p>
-              {firstResidentId && (
+              {firstResidentId ? (
                 <Link
                   to={`/residents/${firstResidentId}`}
-                  className="mt-3 inline-block text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                  className="text-gray-500 text-sm mt-2 hover:text-indigo-600"
                 >
-                  View profile →
+                  {homesite.resident_names}
                 </Link>
+              ) : (
+                <p className="text-gray-500 text-sm mt-2">{homesite.resident_names}</p>
               )}
             </div>
           )
