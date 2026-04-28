@@ -22,6 +22,10 @@ export default function Home({ user }: { user: any }) {
   const [loading, setLoading]     = useState(true)
   const [tab, setTab]             = useState<Tab>('homesites')
 
+  const [homesites, setHomesites]         = useState<Homesite[]>([])
+  const [homesiteSearch, setHomesiteSearch] = useState('')
+  const [residents, setResidents]           = useState<Resident[]>([])
+
   // Admin create state
   const [showCreateHomesite, setShowCreate] = useState(false)
 
@@ -70,7 +74,7 @@ export default function Home({ user }: { user: any }) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">My Profile</h2>
-        {myHome ? <ResidentProfile residentId={String(user.resident_id)} /> : <p className="text-gray-500">No profile found.</p>}
+        {myHome ? <ResidentProfile residentId={String(user.resident_id)} user={user} /> : <p className="text-gray-500">No profile found.</p>}
       </div>
     )
   }
@@ -107,7 +111,7 @@ export default function Home({ user }: { user: any }) {
               className="max-w-xs px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500"
             />
             <button
-              onClick={() => { setShowCreate(true); setEditingId(null) }}
+              onClick={() => { setShowCreate(true); }}
               className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
             >
               + Add Homesite
@@ -123,7 +127,6 @@ export default function Home({ user }: { user: any }) {
           {filteredHomesites.length > 0 || homesiteSearch === ''
             ? <HomesiteGrid
                 homesites={filteredHomesites}
-                onEdit={(id) => { setEditingId(id); setShowCreate(false) }}
                 onDelete={async (id) => {
                   await fetch(`/api/homesites/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
                   setHomesites(prev => prev.filter(h => h.id !== id))
@@ -176,14 +179,13 @@ export default function Home({ user }: { user: any }) {
 
 // ── Homesite grid (extracted for clarity) ─────────────────────────────────────
 
-function HomesiteGrid({ homesites, onEdit, onDelete }: { homesites: any[]; onEdit: (id: number) => void; onDelete: (id: number) => void }) {
+function HomesiteGrid({ homesites, onDelete }: { homesites: any[]; onDelete: (id: number) => void }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {homesites.map(h => (
         <HomesiteAdminCard
           key={h.id}
           homesite={h}
-          onEdit={() => onEdit(h.id)}
           onDelete={onDelete}
         />
       ))}
