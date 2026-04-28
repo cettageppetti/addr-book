@@ -138,6 +138,106 @@ app.put('/api/homesites/:id', async (c) => {
   return c.json(home as any)
 })
 
+// ── Residents CRUD (admin only) ─────────────────────────────────────────────
+
+// GET /api/residents — all residents with homesite info (admin only)
+app.get('/api/residents', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const rows = await queryAll(c.env.DB, `
+    SELECT r.id, r.name, r.homesite_id,
+           h.street_number || ' ' || h.street_name as homesite_address
+    FROM residents r
+    JOIN homesites h ON h.id = r.homesite_id
+    ORDER BY h.street_number, h.street_name, r.name
+  `)
+  return c.json(rows.results || [])
+})
+
+// POST /api/residents  — create resident and assign to a homesite
+app.post('/api/residents', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const { name, homesite_id } = await c.req.json()
+  if (!name?.trim()) return c.json({ error: 'name is required' }, 400)
+  if (!homesite_id)    return c.json({ error: 'homesite_id is required' }, 400)
+
+  // Verify homesite exists
+  const home = await queryOne(c.env.DB, 'SELECT id FROM homesites WHERE id = ?', [homesite_id])
+  if (!home) return c.json({ error: 'Homesite not found' }, 404)
+
+  const result = await c.env.DB.prepare(
+    'INSERT INTO residents (homesite_id, name) VALUES (?, ?)'
+  ).bind(homesite_id, name.trim()).run()
+
+  const resident = await queryOne(c.env.DB,
+    `SELECT r.*, h.street_number, h.street_name
+     FROM residents r JOIN homesites h ON h.id = r.homesite_id WHERE r.id = ?`,
+    [result.meta.last_row_id])
+  return c.json({ ...(resident as any), phones: [], emails: [] } as any, 201)
+})
+
+// PUT /api/residents/:id  — update name and/or reassign to different homesite
+app.put('/api/residents/:id', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+
+  const { name, homesite_id } = await c.req.json()
+  if (!name?.trim()) return c.json({ error: 'name is required' }, 400)
+
+  // Verify target homesite exists (only if provided)
+  let hId = homesite_id
+  if (homesite_id != null) {
+    const home = await queryOne(c.env.DB, 'SELECT id FROM homesites WHERE id = ?', [homesite_id])
+    if (!home) return c.json({ error: 'Homesite not found' }, 404)
+    hId = Number(homesite_id)
+  } else {
+    const current = await queryOne(c.env.DB, 'SELECT homesite_id FROM residents WHERE id = ?', [id])
+    if (!current) return c.json({ error: 'Resident not found' }, 404)
+    hId = current.homesite_id
+  }
+
+  await c.env.DB.prepare(
+    'UPDATE residents SET name = ?, homesite_id = ? WHERE id = ?'
+  ).bind(name.trim(), hId, id).run()
+
+  const updated = await queryOne(c.env.DB,
+    `SELECT r.*, h.street_number, h.street_name
+     FROM residents r JOIN homesites h ON h.id = r.homesite_id WHERE r.id = ?`,
+    [id])
+  if (!updated) return c.json({ error: 'Not found' }, 404)
+
+  const phones = await queryAll(c.env.DB, 'SELECT * FROM phones WHERE resident_id = ?', [id])
+  const emails = await queryAll(c.env.DB, 'SELECT * FROM emails WHERE resident_id = ?', [id])
+  return c.json({ ...(updated as any), phones: phones.results || [], emails: emails.results || [] } as any)
+})
+
+// DELETE /api/residents/:id  — cascade phones + emails
+app.delete('/api/residents/:id', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+
+  await c.env.DB.prepare('DELETE FROM phones WHERE resident_id = ?').bind(id).run()
+  await c.env.DB.prepare('DELETE FROM emails WHERE resident_id = ?').bind(id).run()
+  await c.env.DB.prepare('DELETE FROM residents WHERE id = ?').bind(id).run()
+
+  return c.json({ ok: true })
+})
+
+// ── Homesites CRUD ─────────────────────────────────────────────────────────
+
 // DELETE /api/homesites/:id  (admin only)
 app.delete('/api/homesites/:id', async (c) => {
   const user = await getUserFromCookie(c)
