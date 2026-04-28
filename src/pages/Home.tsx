@@ -25,7 +25,7 @@ export default function Home({ user }: { user: any }) {
 
   // Admin edit state
   const [editingId, setEditingId]   = useState<number | null>(null)
-  const [showCreateHome, setShowCreate] = useState(false)
+  const [showCreateHomesite, setShowCreate] = useState(false)
 
   // Resident editor state
   const [editingResident, setEditingResident] = useState<Resident | null>(null)
@@ -97,7 +97,7 @@ export default function Home({ user }: { user: any }) {
             </button>
           </div>
 
-          {showCreate && (
+          {showCreateHomesite && (
             <div className="mb-6">
               <HomesiteEditor homesite={null} onSave={(h) => { setShowCreate(false); fetchHomesites() }} onCancel={() => setShowCreate(false)} />
             </div>
@@ -134,7 +134,7 @@ export default function Home({ user }: { user: any }) {
           residents={residents}
           homesites={homesites}
           editingResident={editingResident}
-          showCreate={showCreateResident}
+          showCreate={!!showCreateResident}
           onEdit={(r) => { setEditingResident(r); setShowCreateResident(false) }}
           onDelete={async (id) => {
             await fetch(`/api/residents/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
