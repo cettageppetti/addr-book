@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Navigate, Link } from 'react-router-dom'
-import HomesitesList from '../components/HomesitesList'
 import ResidentProfile from '../components/ResidentProfile'
 import { HomesiteAdder, HomesiteAdminCard } from '../components/HomesiteEditor'
 import { getAuthHeaders } from '../lib/auth'
@@ -18,20 +17,13 @@ interface Resident {
 }
 
 export default function Home({ user }: { user: any }) {
+  const [loading, setLoading] = useState(true)
+  const [tab,       setTab]   = useState<Tab>('homesites')
 
-  const [loading, setLoading]     = useState(true)
-  const [tab, setTab]             = useState<Tab>('homesites')
-
-  const [homesites, setHomesites]         = useState<Homesite[]>([])
+  const [homesites, setHomesites]           = useState<Homesite[]>([])
   const [homesiteSearch, setHomesiteSearch] = useState('')
   const [residents, setResidents]           = useState<Resident[]>([])
-
-  // Admin create state
   const [showCreateHomesite, setShowCreate] = useState(false)
-
-  // Resident editor state
-  const [editingResident, setEditingResident] = useState<Resident | null>(null)
-  const [showCreateResident, setShowCreateResident] = useState(false)
 
   useEffect(() => {
     if (user) { fetchHomesites(); fetchResidents() }
@@ -48,10 +40,9 @@ export default function Home({ user }: { user: any }) {
     try {
       const res = await fetch('/api/residents', { headers: getAuthHeaders() })
       if (res.ok) setResidents(await res.json())
-    } finally { setLoading(false) }
+    } finally { }
   }
 
-  // Filtered homesites — matches address or resident name
   const filteredHomesites = homesiteSearch.trim()
     ? homesites.filter(h => {
         const q = homesiteSearch.toLowerCase()
@@ -89,7 +80,7 @@ export default function Home({ user }: { user: any }) {
           {(['homesites', 'residents'] as Tab[]).map(t => (
             <button
               key={t}
-              onClick={() => { setTab(t); setShowCreate(false); setHomesiteSearch(''); setEditingResident(null); setShowCreateResident(false) }}
+              onClick={() => { setTab(t); setShowCreate(false); setHomesiteSearch('') }}
               className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
                 tab === t ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
               }`}
@@ -100,6 +91,7 @@ export default function Home({ user }: { user: any }) {
         </div>
       </div>
 
+      {/* ── Homesites tab ─────────────────────────────────────────────── */}
       {tab === 'homesites' && (
         <>
           <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
@@ -111,7 +103,7 @@ export default function Home({ user }: { user: any }) {
               className="max-w-xs px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500"
             />
             <button
-              onClick={() => { setShowCreate(true); }}
+              onClick={() => setShowCreate(true)}
               className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
             >
               + Add Homesite
@@ -125,13 +117,18 @@ export default function Home({ user }: { user: any }) {
           )}
 
           {filteredHomesites.length > 0 || homesiteSearch === ''
-            ? <HomesiteGrid
-                homesites={filteredHomesites}
-                onDelete={async (id) => {
-                  await fetch(`/api/homesites/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
-                  setHomesites(prev => prev.filter(h => h.id !== id))
-                }}
-              />
+            ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredHomesites.map(h => (
+                  <HomesiteAdminCard
+                    key={h.id}
+                    homesite={h}
+                    onDelete={async (id) => {
+                      await fetch(`/api/homesites/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
+                      setHomesites(prev => prev.filter(x => x.id !== id))
+                    }}
+                  />
+                ))}
+              </div>
             : <div className="text-center py-12 text-gray-500">No matching homesites found.</div>
           }
 
@@ -146,99 +143,61 @@ export default function Home({ user }: { user: any }) {
         <ResidentAdminPanel
           residents={residents}
           homesites={homesites}
-          editingResident={editingResident}
-          showCreate={!!showCreateResident}
-          onEdit={(r) => { setEditingResident(r); setShowCreateResident(false) }}
+          fetchResidents={fetchResidents}
           onDelete={async (id) => {
             await fetch(`/api/residents/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
-            setResidents(prev => prev.filter(r => r.id !== id))
+            fetchResidents()
           }}
-          onCreate={() => { setShowCreateResident(true); setEditingResident(null) }}
-          onSaveNew={async (data) => {
-            const res = await fetch('/api/residents', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-              body: JSON.stringify(data)
-            })
-            if (res.ok) { setShowCreateResident(false); fetchResidents() }
-          }}
-          onSaveEdit={async (id, data) => {
-            const res = await fetch(`/api/residents/${id}`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-              body: JSON.stringify(data)
-            })
-            if (res.ok) { setEditingResident(null); fetchResidents() }
-          }}
-          onCancel={() => { setShowCreateResident(false); setEditingResident(null) }}
         />
       )}
     </div>
   )
 }
 
-// ── Homesite grid (extracted for clarity) ─────────────────────────────────────
-
-function HomesiteGrid({ homesites, onDelete }: { homesites: any[]; onDelete: (id: number) => void }) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {homesites.map(h => (
-        <HomesiteAdminCard
-          key={h.id}
-          homesite={h}
-          onDelete={onDelete}
-        />
-      ))}
-    </div>
-  )
-}
-
-// ── Resident admin panel ───────────────────────────────────────────────────────
-
-function ResidentAdminPanel({ residents, homesites, editingResident, showCreate, onEdit, onDelete, onCreate, onSaveNew, onSaveEdit, onCancel }: {
+function ResidentAdminPanel({ residents, homesites, onDelete }: {
   residents: Resident[]; homesites: Homesite[]
-  editingResident: Resident | null; showCreate: boolean
-  onEdit: (r: Resident) => void; onDelete: (id: number) => void
-  onCreate: () => void; onSaveNew: (d: any) => void
-  onSaveEdit: (id: number, d: any) => void; onCancel: () => void
+  onDelete: (id: number) => void; fetchResidents: () => void
 }) {
-  const [search, setSearch]     = useState('')
-  const [saving, setSaving]    = useState(false)
+  const [search,     setSearch]    = useState('')
+  const [showAdd,    setShowAdd]   = useState(false)
+  const [addName,     setAddName]     = useState('')
+  const [addHomesite, setAddHomesite] = useState(homesites[0]?.id || 0)
+  const [addSaving,   setAddSaving]   = useState(false)
+
+  // Sort state
   const [sortField, setSortField] = useState<'name' | 'address'>('name')
-  const [sortDir, setSortDir]     = useState<'asc' | 'desc'>('asc')
+  const [sortDir,   setSortDir]   = useState<'asc' | 'desc'>('asc')
 
   const handleSort = (field: 'name' | 'address') => {
     if (sortField === field) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
     else { setSortField(field); setSortDir('asc') }
   }
 
-  // Form state
-  const [name,       setName]       = useState('')
-  const [homesiteId, setHomesiteId] = useState<number>(0)
-
   const filtered = residents.filter(r =>
     r.name.toLowerCase().includes(search.toLowerCase()) ||
     (r.homesite_address || '').toLowerCase().includes(search.toLowerCase())
   )
 
-  const openCreate = () => {
-    setName(''); setHomesiteId(homesites[0]?.id || 0)
-    onCreate()
-  }
-
-  const openEdit = (r: Resident) => {
-    setName(r.name); setHomesiteId(r.homesite_id)
-    onEdit(r)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!name.trim() || !homesiteId) return
-    setSaving(true)
+    if (!addName.trim() || !addHomesite) return
+    setAddSaving(true)
     try {
-      if (editingResident) await onSaveEdit(editingResident.id, { name: name.trim(), homesite_id: homesiteId })
-      else await onSaveNew({ name: name.trim(), homesite_id: homesiteId })
-    } finally { setSaving(false) }
+      const res = await fetch('/api/residents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        body: JSON.stringify({ name: addName.trim(), homesite_id: addHomesite }),
+      })
+      if (res.ok) {
+        const r = await res.json()
+        // Build homesite_address for the new row
+        const home = homesites.find(h => h.id === addHomesite)
+        r.homesite_address = home ? `${home.street_number} ${home.street_name}` : `Homesite #${addHomesite}`
+        fetchResidents()
+        setAddName('')
+        setShowAdd(false)
+      }
+    } finally { setAddSaving(false) }
   }
 
   return (
@@ -252,50 +211,48 @@ function ResidentAdminPanel({ residents, homesites, editingResident, showCreate,
           className="max-w-xs px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500"
         />
         <button
-          onClick={openCreate}
+          onClick={() => { setShowAdd(true); setAddHomesite(homesites[0]?.id || 0) }}
           className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
         >
           + Add Resident
         </button>
       </div>
 
-      {(showCreate || editingResident) && (
-        <div className="bg-white rounded-lg shadow p-6 mb-6 border-2 border-indigo-200">
-          <h3 className="text-lg font-semibold mb-4">{editingResident ? 'Assign Resident Address' : 'Add Resident'}</h3>
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Full Name</label>
-              <input
-                type="text" value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full max-w-sm px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
-                placeholder="Jane Doe" required
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Homesite</label>
-              <select
-                value={homesiteId}
-                onChange={(e) => setHomesiteId(Number(e.target.value))}
-                className="w-full max-w-sm px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
-              >
-                {homesites.map(h => (
-                  <option key={h.id} value={h.id}>{h.street_number} {h.street_name}</option>
-                ))}
-              </select>
-            </div>
-            <div className="flex gap-3 pt-2">
-              <button type="submit" disabled={saving}
-                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
-                {saving ? 'Saving...' : editingResident ? 'Save Address' : 'Add Resident'}
-              </button>
-              <button type="button" onClick={onCancel}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
+      {/* Add row */}
+      {showAdd && (
+        <form onSubmit={handleAdd}
+          className="bg-indigo-50 rounded-lg p-4 mb-4 flex gap-3 items-end flex-wrap border border-indigo-200">
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Full Name</label>
+            <input
+              type="text" value={addName}
+              onChange={(e) => setAddName(e.target.value)}
+              className="px-3 py-1.5 border border-gray-300 rounded text-sm w-52"
+              placeholder="Jane Doe" required
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Homesite</label>
+            <select
+              value={addHomesite}
+              onChange={(e) => setAddHomesite(Number(e.target.value))}
+              className="px-3 py-1.5 border border-gray-300 rounded text-sm"
+            >
+              {homesites.map(h => (
+                <option key={h.id} value={h.id}>{h.street_number} {h.street_name}</option>
+              ))}
+            </select>
+          </div>
+          <button type="submit" disabled={addSaving}
+            className="px-3 py-1.5 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:bg-gray-400">
+            {addSaving ? 'Adding...' : 'Add Resident'}
+          </button>
+          <button type="button"
+            onClick={() => { setShowAdd(false); setAddName('') }}
+            className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded text-sm hover:bg-gray-200">
+            Cancel
+          </button>
+        </form>
       )}
 
       <table className="w-full text-sm bg-white rounded-lg shadow">
@@ -328,7 +285,7 @@ function ResidentAdminPanel({ residents, homesites, editingResident, showCreate,
             <ResidentRow
               key={r.id}
               resident={r}
-              onEdit={() => openEdit(r)}
+              homesites={homesites}
               onDelete={onDelete}
             />
           ))}
@@ -344,24 +301,107 @@ function ResidentAdminPanel({ residents, homesites, editingResident, showCreate,
   )
 }
 
-function ResidentRow({ resident, onEdit, onDelete }: { resident: Resident; onEdit: () => void; onDelete: (id: number) => void }) {
+// ── Single resident row with inline edit form ─────────────────────────────────
+
+function ResidentRow({ resident, homesites, onDelete }: {
+  resident: Resident; homesites: Homesite[]
+  onDelete: (id: number) => void
+}) {
   const [confirming, setConfirming] = useState(false)
+  const [editing,    setEditing]    = useState(false)
+  const [name,       setName]       = useState(resident.name)
+  const [homesiteId, setHomesiteId] = useState(resident.homesite_id)
+  const [saving,     setSaving]     = useState(false)
+
+  const handleSave = async () => {
+    if (!name.trim() || !homesiteId) return
+    setSaving(true)
+    try {
+      const res = await fetch(`/api/residents/${resident.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        body: JSON.stringify({ name: name.trim(), homesite_id: Number(homesiteId) }),
+      })
+      if (res.ok) {
+        const updated = await res.json()
+        resident.name         = updated.name
+        resident.homesite_id  = updated.homesite_id
+        const home = homesites.find(h => h.id === updated.homesite_id)
+        resident.homesite_address = home
+          ? `${home.street_number} ${home.street_name}`
+          : resident.homesite_address
+        setEditing(false)
+      }
+    } finally { setSaving(false) }
+  }
+
   return (
-    <tr className="border-b last:border-0 hover:bg-gray-50">
-      <td className="px-4 py-3 font-medium text-gray-900">
-        <Link to={`/residents/${resident.id}`} className="text-indigo-600 hover:underline">{resident.name}</Link>
-      </td>
-      <td className="px-4 py-3 text-gray-500">{resident.homesite_address || `Homesite #${resident.homesite_id}`}</td>
-      <td className="px-4 py-3 text-right">
-        <button onClick={onEdit} className="text-xs text-gray-500 hover:text-indigo-600 mr-3">Edit</button>
-        <button
-          onClick={() => { if (!confirming) { setConfirming(true); return } ; onDelete(resident.id) }}
-          className={`text-xs font-medium ${confirming ? 'text-red-600' : 'text-gray-400 hover:text-red-500'}`}
-        >
-          {confirming ? 'Confirm?' : 'Delete'}
-        </button>
-        {confirming && <button onClick={() => setConfirming(false)} className="text-xs text-gray-400 hover:text-gray-600 ml-1">Cancel</button>}
-      </td>
-    </tr>
+    <>
+      <tr className="border-b last:border-0 hover:bg-gray-50">
+        <td className="px-4 py-3 font-medium text-gray-900">
+          <Link to={`/residents/${resident.id}`} className="text-indigo-600 hover:underline">{resident.name}</Link>
+        </td>
+        <td className="px-4 py-3 text-gray-500">{resident.homesite_address || `Homesite #${resident.homesite_id}`}</td>
+        <td className="px-4 py-3 text-right">
+          {!editing && (
+            <button
+              onClick={() => { setName(resident.name); setHomesiteId(resident.homesite_id); setEditing(true) }}
+              className="text-xs text-gray-500 hover:text-indigo-600 mr-3"
+            >
+              Edit
+            </button>
+          )}
+          <button
+            onClick={() => { if (!confirming) { setConfirming(true); return }; onDelete(resident.id) }}
+            className={`text-xs font-medium ${confirming ? 'text-red-600' : 'text-gray-400 hover:text-red-500'}`}
+          >
+            {confirming ? 'Confirm?' : 'Delete'}
+          </button>
+          {confirming && (
+            <button onClick={() => setConfirming(false)} className="text-xs text-gray-400 hover:text-gray-600 ml-1">Cancel</button>
+          )}
+        </td>
+      </tr>
+
+      {editing && (
+        <tr className="bg-indigo-50 border-b last:border-0">
+          <td colSpan={3} className="px-4 py-3">
+            <form onSubmit={(e) => { e.preventDefault(); handleSave() }}
+              className="flex gap-3 items-end flex-wrap">
+              <div>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Full Name</label>
+                <input
+                  type="text" value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="px-3 py-1.5 border border-gray-300 rounded text-sm w-52"
+                  placeholder="Jane Doe" required
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Homesite</label>
+                <select
+                  value={homesiteId}
+                  onChange={(e) => setHomesiteId(Number(e.target.value))}
+                  className="px-3 py-1.5 border border-gray-300 rounded text-sm"
+                >
+                  {homesites.map(h => (
+                    <option key={h.id} value={h.id}>{h.street_number} {h.street_name}</option>
+                  ))}
+                </select>
+              </div>
+              <button type="submit" disabled={saving}
+                className="px-3 py-1.5 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:bg-gray-400">
+                {saving ? 'Saving...' : 'Save'}
+              </button>
+              <button type="button"
+                onClick={() => { setName(resident.name); setHomesiteId(resident.homesite_id); setEditing(false) }}
+                className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded text-sm hover:bg-gray-200">
+                Cancel
+              </button>
+            </form>
+          </td>
+        </tr>
+      )}
+    </>
   )
 }
