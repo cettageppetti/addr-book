@@ -2,7 +2,7 @@
 const sqlite3 = require('better-sqlite3')
 const bcrypt  = require('bcryptjs')
 
-const DB = `${process.env.HOME}/Code/addr-book/worker/.wrangler/state/v3/d1/miniflare-D1DatabaseObject/2b35d4d42e3c9f6b5ad5b5579a7b1470c66e69f6b33a31e3f5a0095cc6d18656.sqlite`
+const DB = `${process.env.HOME}/Code/addr-book/worker/.wrangler/state/v3/d1/miniflare-D1DatabaseObject/2b35d4d42e3c9f6b5ad5b5579a7b1470c66e69f6b33a31e3f5a009cc6d18656.sqlite`
 
 const db = sqlite3(DB)
 
@@ -103,6 +103,16 @@ for (const hid of homesiteIds) {
       const domain = pick(domains)
       const suffix = e > 0 ? String(e) : ''
       emailStmt.run(rid, `${fname.toLowerCase()}.${lname.toLowerCase()}${suffix}@${domain}`)
+    }
+
+    // Per-resident address (40% of residents have a different one than the homesite)
+    const hasOwnAddr = rand(100) < 40
+    if (hasOwnAddr) {
+      const streetNum = String(randInt(100, 9899))
+      const unitSuffixes = [' Apt A', ' Apt B', ' Unit 1', ' Suite 100', ' Lot 5', '']
+      const unit = pick(unitSuffixes)
+      db.prepare('UPDATE residents SET address_street_number = ?, address_street_name = ?, city = ?, state = ? WHERE id = ?')
+        .run(streetNum, `${streets[hid % streets.length]}${unit}`, 'Charlotte', 'NC', rid)
     }
   }
   residentsByHome.push(rids)
