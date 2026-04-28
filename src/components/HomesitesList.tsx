@@ -23,7 +23,7 @@ export default function HomesitesList({ homesites }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map(homesite => {
-          const firstResidentId = homesite.first_resident_id
+          const residents = homesite.residents || []
           return (
             <div
               key={homesite.id}
@@ -32,17 +32,17 @@ export default function HomesitesList({ homesites }) {
               <h3 className="text-xl font-semibold text-gray-900">
                 {homesite.street_number} {homesite.street_name}
               </h3>
-
-              {firstResidentId ? (
-                <Link
-                  to={`/residents/${firstResidentId}`}
-                  className="text-gray-500 text-sm mt-2 hover:text-indigo-600"
-                >
-                  {homesite.resident_names}
-                </Link>
-              ) : (
-                <p className="text-gray-500 text-sm mt-2">{homesite.resident_names}</p>
-              )}
+              <div className="mt-2 space-y-1">
+                {residents.map(r => (
+                  <Link
+                    key={r.id}
+                    to={`/residents/${r.id}`}
+                    className="block text-gray-500 text-sm hover:text-indigo-600"
+                  >
+                    {r.name}
+                  </Link>
+                ))}
+              </div>
             </div>
           )
         })}
