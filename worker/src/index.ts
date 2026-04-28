@@ -103,10 +103,12 @@ app.get('/api/homesites', async (c) => {
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
 
   let sql = `
-    SELECT h.*,
-      (SELECT GROUP_CONCAT(r.name, ', ') FROM residents r WHERE r.homesite_id = h.id) as resident_names,
-      (SELECT MIN(r.id) FROM residents r WHERE r.homesite_id = h.id) as first_resident_id
+    SELECT h.id, h.street_number, h.street_name,
+      json_group_array(json_object('id', r.id, 'name', r.name)) FILTER (WHERE r.id IS NOT NULL) as residents_json,
+      (SELECT MIN(r2.id) FROM residents r2 WHERE r2.homesite_id = h.id) as first_resident_id
     FROM homesites h
+    LEFT JOIN residents r ON r.homesite_id = h.id
+    GROUP BY h.id
   `
 
   if (user.role !== 'admin' && user.resident_id) {
@@ -119,7 +121,20 @@ app.get('/api/homesites', async (c) => {
   sql += ' ORDER BY CAST(h.street_number AS INTEGER), h.street_name'
 
   const homes = await queryAll(c.env.DB, sql)
-  return c.json((homes.results || []) as any[])
+
+  // Parse residents JSON array and pick first resident for backward compat
+  const result = (homes.results || []).map((h: any) => {
+    let residents = []
+    try { residents = JSON.parse(h.residents_json || '[]') } catch {}
+    return {
+      ...h,
+      residents,
+      resident_names: residents.map((r: any) => r.name).join(', '),
+      first_resident_id: h.first_resident_id,
+    }
+  })
+
+  return c.json(result as any[])
 })
 
 // GET /api/residents/:id
