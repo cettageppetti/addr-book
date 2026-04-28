@@ -103,14 +103,14 @@ app.post('/api/homesites', async (c) => {
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
   if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
 
-  const { street_number, street_name, city, state, zip_code, photo } = await c.req.json()
+  const { street_number, street_name, city, state, zip_code } = await c.req.json()
   if (!street_number?.trim() || !street_name?.trim()) {
     return c.json({ error: 'street_number and street_name are required' }, 400)
   }
 
   const result = await c.env.DB.prepare(
-    'INSERT INTO homesites (street_number, street_name, city, state, zip_code, photo) VALUES (?, ?, ?, ?, ?, ?)'
-  ).bind(street_number.trim(), street_name.trim(), city?.trim() || 'Charlotte', state?.trim() || 'NC', zip_code?.trim() || '28226', photo ?? null).run()
+    'INSERT INTO homesites (street_number, street_name, city, state, zip_code) VALUES (?, ?, ?, ?, ?)'
+  ).bind(street_number.trim(), street_name.trim(), city?.trim() || 'Charlotte', state?.trim() || 'NC', zip_code?.trim() || '28226').run()
 
   const home = await queryOne(c.env.DB, 'SELECT * FROM homesites WHERE id = ?', [result.meta.last_row_id])
   return c.json(home as any, 201)
@@ -125,17 +125,71 @@ app.put('/api/homesites/:id', async (c) => {
   const id = parseInt(c.req.param('id'))
   if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
 
-  const { street_number, street_name, city, state, zip_code, photo } = await c.req.json()
+  const { street_number, street_name, city, state, zip_code } = await c.req.json()
   if (!street_number?.trim() || !street_name?.trim()) {
     return c.json({ error: 'street_number and street_name are required' }, 400)
   }
 
   await c.env.DB.prepare(
-    'UPDATE homesites SET street_number = ?, street_name = ?, city = ?, state = ?, zip_code = ?, photo = ? WHERE id = ?'
-  ).bind(street_number.trim(), street_name.trim(), city?.trim() || 'Charlotte', state?.trim() || 'NC', zip_code?.trim() || '28226', photo ?? null, id).run()
+    'UPDATE homesites SET street_number = ?, street_name = ?, city = ?, state = ?, zip_code = ? WHERE id = ?'
+  ).bind(street_number.trim(), street_name.trim(), city?.trim() || 'Charlotte', state?.trim() || 'NC', zip_code?.trim() || '28226', id).run()
 
   const home = await queryOne(c.env.DB, 'SELECT * FROM homesites WHERE id = ?', [id])
   return c.json(home as any)
+})
+
+// ── Photo upload / serve ─────────────────────────────────────────
+
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+const MAX_BYTES = 200 * 1024 // 200 KB
+
+// GET /api/homesites/:id/photo — returns binary JPEG or 404
+app.get('/api/homesites/:id/photo', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+
+  const row = await queryOne(c.env.DB, 'SELECT photo FROM homesites WHERE id = ?', [id])
+  if (!row || !(row as any).photo) return c.json({ error: 'No photo' }, 404)
+
+  const buf = (row as any).photo as ArrayBuffer
+  return c.body(buf, 200, {
+    'Content-Type': 'image/jpeg',
+    'Cache-Control': 'private, max-age=3600',
+  })
+})
+
+// DELETE /api/homesites/:id/photo — removes photo (admin only)
+app.delete('/api/homesites/:id/photo', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+
+  await c.env.DB.prepare('UPDATE homesites SET photo = NULL WHERE id = ?').bind(id).run()
+  return c.json({ ok: true })
+})
+
+// PUT /api/homesites/:id/photo — multipart upload (admin only)
+app.put('/api/homesites/:id/photo', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+
+  const body = await c.req.raw.arrayBuffer()
+  if (body.byteLength > MAX_BYTES) {
+    return c.json({ error: `Photo too large (max ${MAX_BYTES / 1024} KB)` }, 400)
+  }
+
+  await c.env.DB.prepare('UPDATE homesites SET photo = ? WHERE id = ?').bind(body, id).run()
+  return c.json({ ok: true })
 })
 
 // ── Residents CRUD (admin only) ─────────────────────────────────────────────
