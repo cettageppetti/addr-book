@@ -56,7 +56,7 @@ node server.cjs              # seeds DB and starts on :3000
 
 ```
 users       — id, email, password_hash, role (resident/admin), resident_id
-homesites   — id, street_number, street_name, zip_code (28226)
+homesites   — id, street_number, street_name, zip_code (28226), photo BLOB
 residents   — id, homesite_id (FK), name
 phones      — id, resident_id (FK), number
 emails      — id, resident_id (FK), address
@@ -71,8 +71,11 @@ emails      — id, resident_id (FK), address
 | GET | `/api/auth/me` | Current user info |
 | GET | `/api/homesites` | All (admin) or own homesite (resident) |
 | GET | `/api/residents/:id` | Resident + phones + emails |
-| PUT | `/api/residents/:id/contacts` | Replace phones/emails |
-| PUT | `/api/users/:id/password` | Change password |
+| GET  | `/api/homesites/:id/photo` | Binary JPEG photo (or 404) |
+| PUT  | `/api/homesites/:id/photo` | Upload photo (binary, ≤200 KB JPEG) |
+| DELETE | `/api/homesites/:id/photo` | Remove photo |
+| PUT  | `/api/residents/:id/contacts` | Replace phones/emails |
+| PUT  | `/api/users/:id/password` | Change password |
 
 ## Project Structure
 
@@ -93,6 +96,13 @@ addr-book/
 └── server.cjs               # Express fallback (Option B)
 ```
 
+## Homesite Photos
+
+Homesites support an optional photo stored as a binary JPEG BLOB in D1.
+- Photos are compressed client-side (max 640px, quality 60%, ≤200 KB)
+- Displayed via `<img src="/api/homesites/:id/photo">` — served as binary
+- Admin-only upload, remove, and replace
+
 ## Deploying to Cloudflare
 
 ```bash
@@ -100,8 +110,10 @@ addr-book/
 wrangler d1 create addr-book
 # Copy the database_id into worker/wrangler.toml
 
-# 2. Apply schema (get id from step 1)
+# 2. Apply schema migrations (in order)
 wrangler d1 execute addr-book --remote --file=d1/migrations/00001_initial.sql
+wrangler d1 execute addr-book --remote --file=d1/migrations/00004_homesite_photo.sql
+# ↑ Run 00004 even with no photos — it changes the column type from TEXT to BLOB.
 
 # 3. Seed production data
 wrangler d1 execute addr-book --remote --file=d1/seed.sql
