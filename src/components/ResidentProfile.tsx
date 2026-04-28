@@ -2,10 +2,29 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getAuthHeaders } from '../lib/auth'
 
-export default function ResidentProfile({ residentId: propResidentId, user }) {
+interface Resident {
+  id: number
+  name: string
+  street_number?: string
+  street_name?: string
+  zip_code?: string
+  address_street_number?: string
+  address_street_name?: string
+  city?: string
+  state?: string
+  phones: { id: number; number: string }[]
+  emails: { id: number; address: string }[]
+}
+
+interface Props {
+  residentId?: string
+  user: { role: string; resident_id?: number } | null
+}
+
+export default function ResidentProfile({ residentId: propResidentId, user }: Props) {
   const urlParams = useParams()
   const residentId = propResidentId || urlParams.id
-  const [resident, setResident] = useState(null)
+  const [resident, setResident] = useState<Resident | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -20,14 +39,15 @@ export default function ResidentProfile({ residentId: propResidentId, user }) {
           if (res.status === 403) { window.location.href = '/'; return }
           throw new Error('Failed to load profile')
         }
-        const data = await res.json()
+        const data: Resident = await res.json()
         setResident(data)
       } catch (err) {
-        setError(err.message || 'Failed to load profile')
+        setError(err instanceof Error ? err.message : 'Failed to load profile')
       } finally {
         setLoading(false)
       }
     }
+
     fetchResident()
   }, [residentId])
 
@@ -35,8 +55,16 @@ export default function ResidentProfile({ residentId: propResidentId, user }) {
   if (error) return <div className="text-red-600 text-center py-12">{error}</div>
   if (!resident) return <div className="text-center py-12">Profile not found.</div>
 
-  const phones = resident.phones || []
-  const emails = resident.emails || []
+  const phones = resident.phones ?? []
+  const emails = resident.emails ?? []
+
+  // Per-resident address overrides the shared homesite address
+  const hasAddress = !!(resident.address_street_number || resident.address_street_name)
+  const displayNum  = resident.address_street_number || resident.street_number
+  const displayName = resident.address_street_name    || resident.street_name
+  const city        = resident.city   || 'Charlotte'
+  const state       = resident.state  || 'NC'
+  const zip         = resident.zip_code || '28226'
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -49,7 +77,7 @@ export default function ResidentProfile({ residentId: propResidentId, user }) {
       <div className="bg-white rounded-lg shadow p-6 mb-4">
         <h2 className="text-2xl font-bold text-gray-900 mb-1">{resident.name}</h2>
         <p className="text-gray-600">
-          {resident.street_number} {resident.street_name}, Charlotte NC {resident.zip_code || '28226'}
+          {displayNum} {displayName}, {city} {state} {zip}
         </p>
       </div>
 
@@ -76,24 +104,28 @@ export default function ResidentProfile({ residentId: propResidentId, user }) {
           }
         </div>
 
-        {canEdit && <ContactEditor residentId={resident.id} phones={phones} emails={emails} />}
+        {canEdit && <ContactEditor resident={resident} onUpdate={setResident} />}
       </div>
     </div>
   )
 }
 
-function ContactEditor({ residentId, phones, emails }) {
-  const [phoneVals, setPhoneVals] = useState(phones.map(p => p.number))
-  const [emailVals, setEmailVals] = useState(emails.map(e => e.address))
+function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (r: Resident) => void }) {
+  const [phoneVals, setPhoneVals] = useState(resident.phones.map(p => p.number))
+  const [emailVals, setEmailVals] = useState(resident.emails.map(e => e.address))
+  const [addrStreetNum, setAddrStreetNum]   = useState(resident.address_street_number || '')
+  const [addrStreetName, setAddrStreetName] = useState(resident.address_street_name || '')
+  const [city, setCity]     = useState(resident.city   || '')
+  const [state, setState]   = useState(resident.state  || '')
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState('')
 
-  const handleSave = async (e) => {
+  const handleSaveContacts = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
     setSuccess('')
     try {
-      const res = await fetch(`/api/residents/${residentId}/contacts`, {
+      const res = await fetch(`/api/residents/${resident.id}/contacts`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify({
@@ -102,63 +134,153 @@ function ContactEditor({ residentId, phones, emails }) {
         })
       })
       if (!res.ok) throw new Error('Save failed')
+      const data = await res.json()
+      onUpdate({ ...resident, phones: data.phones, emails: data.emails })
       setSuccess('Changes saved successfully!')
     } catch (err) {
-      alert(err.message)
+      alert(err instanceof Error ? err.message : 'Save failed')
     } finally {
       setSaving(false)
     }
   }
 
-  const updatePhone = (i, val) => setPhoneVals(prev => prev.map((v, idx) => idx === i ? val : v))
-  const updateEmail = (i, val) => setEmailVals(prev => prev.map((v, idx) => idx === i ? val : v))
-  const addPhone = () => setPhoneVals(prev => [...prev, ''])
-  const addEmail = () => setEmailVals(prev => [...prev, ''])
+  const handleSaveAddress = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSaving(true)
+    setSuccess('')
+    try {
+      const res = await fetch(`/api/residents/${resident.id}/address`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        body: JSON.stringify({
+          address_street_number: addrStreetNum.trim(),
+          address_street_name:   addrStreetName.trim(),
+          city,
+          state
+        })
+      })
+      if (!res.ok) throw new Error('Save failed')
+      const data: Resident = await res.json()
+      onUpdate({ ...resident, ...data })
+      setSuccess('Address saved successfully!')
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Save failed')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const updatePhone = (i: number, val: string) => setPhoneVals(prev => prev.map((v, idx) => idx === i ? val : v))
+  const updateEmail = (i: number, val: string) => setEmailVals(prev => prev.map((v, idx) => idx === i ? val : v))
+  const addPhone    = () => setPhoneVals(prev => [...prev, ''])
+  const addEmail    = () => setEmailVals(prev => [...prev, ''])
 
   return (
-    <form onSubmit={handleSave} className="mt-6 pt-6 border-t">
+    <div className="mt-6 pt-6 border-t space-y-8">
       {success && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-4">{success}</div>
+        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">{success}</div>
       )}
 
-      <h4 className="text-md font-medium text-gray-900 mb-3">Edit Contact Info</h4>
+      {/* Contact info editor */}
+      <form onSubmit={handleSaveContacts}>
+        <h4 className="text-md font-medium text-gray-900 mb-3">Edit Contact Info</h4>
 
-      <div className="mb-4">
-        {phoneVals.map((val, i) => (
-          <div key={i} className="flex gap-2 mb-2">
+        <div className="mb-4">
+          {phoneVals.map((val, i) => (
+            <div key={i} className="flex gap-2 mb-2">
+              <input
+                type="text"
+                value={val}
+                onChange={(e) => updatePhone(i, e.target.value)}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              />
+            </div>
+          ))}
+          <button type="button" onClick={addPhone} className="text-sm text-indigo-600 hover:text-indigo-800">
+            + Add Phone
+          </button>
+        </div>
+
+        <div className="mb-4">
+          {emailVals.map((val, i) => (
+            <div key={i} className="flex gap-2 mb-2">
+              <input
+                type="text"
+                value={val}
+                onChange={(e) => updateEmail(i, e.target.value)}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              />
+            </div>
+          ))}
+          <button type="button" onClick={addEmail} className="text-sm text-indigo-600 hover:text-indigo-800">
+            + Add Email
+          </button>
+        </div>
+
+        <button type="submit" disabled={saving}
+          className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
+          {saving ? 'Saving...' : 'Save Contacts'}
+        </button>
+      </form>
+
+      {/* Address editor */}
+      <form onSubmit={handleSaveAddress}>
+        <h4 className="text-md font-medium text-gray-900 mb-3">Address</h4>
+        <p className="text-sm text-gray-500 mb-4">
+          Leave blank to use the shared homesite address, or enter a different address for this resident.
+        </p>
+
+        <div className="grid grid-cols-6 gap-3 mb-3">
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">Street #</label>
             <input
               type="text"
-              value={val}
-              onChange={(e) => updatePhone(i, e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              value={addrStreetNum}
+              onChange={(e) => setAddrStreetNum(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              placeholder="123"
             />
           </div>
-        ))}
-        <button type="button" onClick={addPhone} className="text-sm text-indigo-600 hover:text-indigo-800">
-          + Add Phone
-        </button>
-      </div>
-
-      <div className="mb-4">
-        {emailVals.map((val, i) => (
-          <div key={i} className="flex gap-2 mb-2">
+          <div className="col-span-5">
+            <label className="block text-xs text-gray-500 mb-1">Street Name</label>
             <input
               type="text"
-              value={val}
-              onChange={(e) => updateEmail(i, e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              value={addrStreetName}
+              onChange={(e) => setAddrStreetName(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              placeholder="Oak Street"
             />
           </div>
-        ))}
-        <button type="button" onClick={addEmail} className="text-sm text-indigo-600 hover:text-indigo-800">
-          + Add Email
-        </button>
-      </div>
+        </div>
 
-      <button type="submit" disabled={saving}
-        className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
-        {saving ? 'Saving...' : 'Save Changes'}
-      </button>
-    </form>
+        <div className="grid grid-cols-3 gap-3 mb-4">
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">City</label>
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              placeholder="Charlotte"
+            />
+          </div>
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">State</label>
+            <input
+              type="text"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              placeholder="NC"
+            />
+          </div>
+        </div>
+
+        <button type="submit" disabled={saving}
+          className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
+          {saving ? 'Saving...' : 'Save Address'}
+        </button>
+      </form>
+    </div>
   )
 }

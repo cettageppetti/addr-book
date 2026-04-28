@@ -168,6 +168,43 @@ app.get('/api/residents/:id', async (c) => {
   })
 })
 
+// PATCH /api/residents/:id/address
+app.patch('/api/residents/:id/address', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+
+  if (user.role !== 'admin' && user.resident_id !== id) {
+    return c.json({ error: 'Forbidden' }, 403)
+  }
+
+  const body = await c.req.json()
+  const allowed = ['address_street_number', 'address_street_name', 'city', 'state']
+  const updates: string[] = []
+  const values: (string | number)[] = []
+
+  for (const key of allowed) {
+    if (key in body) {
+      updates.push(`${key} = ?`)
+      values.push(body[key] ?? '')
+    }
+  }
+
+  if (updates.length === 0) {
+    return c.json({ error: 'No address fields provided' }, 400)
+  }
+
+  values.push(id)
+  await c.env.DB.prepare(
+    `UPDATE residents SET ${updates.join(', ')} WHERE id = ?`
+  ).bind(...values).run()
+
+  const updated = await queryOne(c.env.DB, 'SELECT * FROM residents WHERE id = ?', [id])
+  return c.json(updated as any)
+})
+
 // PUT /api/residents/:id/contacts
 app.put('/api/residents/:id/contacts', async (c) => {
   const user = await getUserFromCookie(c)
