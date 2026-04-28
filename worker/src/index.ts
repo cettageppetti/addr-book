@@ -103,14 +103,14 @@ app.post('/api/homesites', async (c) => {
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
   if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
 
-  const { street_number, street_name, zip_code } = await c.req.json()
+  const { street_number, street_name, city, state, zip_code } = await c.req.json()
   if (!street_number?.trim() || !street_name?.trim()) {
     return c.json({ error: 'street_number and street_name are required' }, 400)
   }
 
   const result = await c.env.DB.prepare(
-    'INSERT INTO homesites (street_number, street_name, zip_code) VALUES (?, ?, ?)'
-  ).bind(street_number.trim(), street_name.trim(), zip_code?.trim() || '28226').run()
+    'INSERT INTO homesites (street_number, street_name, city, state, zip_code) VALUES (?, ?, ?, ?, ?)'
+  ).bind(street_number.trim(), street_name.trim(), city?.trim() || 'Charlotte', state?.trim() || 'NC', zip_code?.trim() || '28226').run()
 
   const home = await queryOne(c.env.DB, 'SELECT * FROM homesites WHERE id = ?', [result.meta.last_row_id])
   return c.json(home as any, 201)
@@ -125,14 +125,14 @@ app.put('/api/homesites/:id', async (c) => {
   const id = parseInt(c.req.param('id'))
   if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
 
-  const { street_number, street_name, zip_code } = await c.req.json()
+  const { street_number, street_name, city, state, zip_code } = await c.req.json()
   if (!street_number?.trim() || !street_name?.trim()) {
     return c.json({ error: 'street_number and street_name are required' }, 400)
   }
 
   await c.env.DB.prepare(
-    'UPDATE homesites SET street_number = ?, street_name = ?, zip_code = ? WHERE id = ?'
-  ).bind(street_number.trim(), street_name.trim(), zip_code?.trim() || '28226', id).run()
+    'UPDATE homesites SET street_number = ?, street_name = ?, city = ?, state = ?, zip_code = ? WHERE id = ?'
+  ).bind(street_number.trim(), street_name.trim(), city?.trim() || 'Charlotte', state?.trim() || 'NC', zip_code?.trim() || '28226', id).run()
 
   const home = await queryOne(c.env.DB, 'SELECT * FROM homesites WHERE id = ?', [id])
   return c.json(home as any)
@@ -166,7 +166,7 @@ app.get('/api/homesites', async (c) => {
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
 
   let sql = `
-    SELECT h.id, h.street_number, h.street_name,
+    SELECT h.id, h.street_number, h.street_name, h.city, h.state,
       json_group_array(json_object('id', r.id, 'name', r.name)) FILTER (WHERE r.id IS NOT NULL) as residents_json,
       (SELECT MIN(r2.id) FROM residents r2 WHERE r2.homesite_id = h.id) as first_resident_id
     FROM homesites h

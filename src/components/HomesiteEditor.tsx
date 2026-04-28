@@ -6,6 +6,8 @@ interface Homesite {
   id: number
   street_number: string
   street_name: string
+  city?: string
+  state?: string
   zip_code?: string
 }
 
@@ -16,9 +18,11 @@ interface Props {
 }
 
 export default function HomesiteEditor({ homesite, onSave, onCancel }: Props) {
-  const [num, setNum]   = useState(homesite?.street_number || '')
-  const [name, setName] = useState(homesite?.street_name   || '')
-  const [zip, setZip]   = useState(homesite?.zip_code      || '28226')
+  const [num, setNum]     = useState(homesite?.street_number || '')
+  const [name, setName]   = useState(homesite?.street_name || '')
+  const [city, setCity]   = useState(homesite?.city        || 'Charlotte')
+  const [state, setState] = useState(homesite?.state       || 'NC')
+  const [zip, setZip]     = useState(homesite?.zip_code    || '28226')
   const [saving, setSaving] = useState(false)
   const [error, setError]   = useState('')
 
@@ -35,7 +39,7 @@ export default function HomesiteEditor({ homesite, onSave, onCancel }: Props) {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), zip_code: zip.trim() }),
+        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim(), state: state.trim(), zip_code: zip.trim() }),
       })
       if (!res.ok) {
         const err = await res.json()
@@ -82,6 +86,29 @@ export default function HomesiteEditor({ homesite, onSave, onCancel }: Props) {
               className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
               placeholder="Oak Street"
               required
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-3">
+          <div className="w-48">
+            <label className="block text-xs font-medium text-gray-500 mb-1">City</label>
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              placeholder="Charlotte"
+            />
+          </div>
+          <div className="w-20">
+            <label className="block text-xs font-medium text-gray-500 mb-1">State</label>
+            <input
+              type="text"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              placeholder="NC"
             />
           </div>
           <div className="w-28">
