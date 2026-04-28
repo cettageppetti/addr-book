@@ -32,7 +32,7 @@ export default function HomesitesList({ homesites }) {
               <h3 className="text-xl font-semibold text-gray-900">
                 {homesite.street_number} {homesite.street_name}
               </h3>
-              <p className="text-gray-600 mt-1">{homesite.zip_code || '28226'}</p>
+
               {firstResidentId ? (
                 <Link
                   to={`/residents/${firstResidentId}`}
