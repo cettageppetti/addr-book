@@ -1,1026 +1,2811 @@
 -- Admin
-INSERT INTO users (email, password_hash, role) VALUES ('admin@addrbook.local', '$2a$10$suqoFIgUAL5Bf8ubs5O/aeoAc8dYvLd64eM7nJ9geC7IZ8rDhiwpa', 'admin');
+INSERT INTO users (email, password_hash, role) VALUES ('admin@addrbook.local', '$2a$10$cy2vZGr7DuM/zcnQ422EVedbYJhCg3sicgf0m3y3tx.VoVHS06N8e', 'admin');
 
 -- 120 Homesites
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7373', 'Oak Street', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8288', 'Maple Avenue', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2529', 'Pine Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('394', 'Cedar Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('361', 'Elm Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2732', 'Walnut Circle', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8595', 'Birch Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2942', 'Spruce Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4107', 'Ash Boulevard', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5712', 'Hickory Place', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3601', 'Poplar Street', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('306', 'Willow Avenue', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7327', 'Sycamore Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6244', 'Chestnut Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1213', 'Magnolia Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6054', 'Redwood Circle', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6597', 'Sequoia Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7320', 'Juniper Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4993', 'Cypress Boulevard', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4318', 'Palm Place', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6951', 'Briar Ridge', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7788', 'Holloway Vale', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5277', 'Meadowbrook Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7022', 'Riverstone Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3699', 'Sunset Hills', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('552', 'Cobblestone Path', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1359', 'Winding Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('238', 'Hidden Valley', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('9065', 'Mountain View Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4564', 'Clearwater Creek', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('603', 'Lakeside Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3690', 'Pinehurst Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1203', 'Valley View Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3592', 'Hilltop Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7569', 'Briarcliff Place', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7618', 'Cherry Blossom Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2399', 'Wildflower Path', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8388', 'Sunrise Trail', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7293', 'Evening Star Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6258', 'Morning Glory Circle', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('195', 'Autumn Leaf Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3880', 'Winter Pine Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2823', 'Spring Bloom Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2602', 'Summer Sun Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3625', 'Golden Oak Street', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2740', 'Silver Maple Avenue', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6389', 'Bronze Pine Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1386', 'Titanium Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4475', 'Platinum Place', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3248', 'Diamond Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('263', 'Ruby Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7610', 'Sapphire Circle', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5473', 'Emerald Boulevard', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3116', 'Amethyst Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8187', 'Topaz Place', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4306', 'Jade Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7315', 'Onyx Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3280', 'Pearl Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4969', 'Coral Path', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2390', 'Lapis Circle', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4337', 'Moonstone Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8204', 'Sunstone Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5947', 'Azurite Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5514', 'Turquoise Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4613', 'Malachite Place', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1248', 'Oak Street', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7545', 'Maple Avenue', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6962', 'Pine Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5759', 'Cedar Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('500', 'Elm Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7827', 'Walnut Circle', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8194', 'Birch Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3301', 'Spruce Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8440', 'Ash Boulevard', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1529', 'Hickory Place', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7174', 'Poplar Street', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5257', 'Willow Avenue', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4044', 'Sycamore Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('555', 'Chestnut Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7010', 'Magnolia Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7219', 'Redwood Circle', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3192', 'Sequoia Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4377', 'Juniper Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5878', 'Cypress Boulevard', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3593', 'Palm Place', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4012', 'Briar Ridge', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('659', 'Holloway Vale', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6746', 'Meadowbrook Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4395', 'Riverstone Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1952', 'Sunset Hills', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2831', 'Cobblestone Path', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4798', 'Winding Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1521', 'Hidden Valley', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3292', 'Mountain View Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2731', 'Clearwater Creek', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2946', 'Lakeside Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7867', 'Pinehurst Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8560', 'Valley View Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4519', 'Hilltop Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2994', 'Briarcliff Place', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('561', 'Cherry Blossom Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1636', 'Wildflower Path', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('645', 'Sunrise Trail', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3994', 'Evening Star Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8333', 'Morning Glory Circle', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6056', 'Autumn Leaf Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4225', 'Winter Pine Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1618', 'Spring Bloom Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7745', 'Summer Sun Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5908', 'Golden Oak Street', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3917', 'Silver Maple Avenue', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1414', 'Bronze Pine Road', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5573', 'Titanium Court', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2880', 'Platinum Place', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3809', 'Diamond Drive', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2702', 'Ruby Lane', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6895', 'Sapphire Circle', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5516', 'Emerald Boulevard', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2771', 'Amethyst Way', '28226');
-INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8950', 'Topaz Place', '28226');
-
--- Residents + contacts + user accounts
-
--- Resident 1
-INSERT INTO residents (homesite_id, name) VALUES (1, 'John Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1), '(704) 123-3324');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1), 'john.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident1@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1));
-
--- Resident 2
-INSERT INTO residents (homesite_id, name) VALUES (2, 'Mary Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1), '(704) 789-5474');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1), '(980) 789-9336');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1), 'mary.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1), 'mary.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident2@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1));
-
--- Resident 3
-INSERT INTO residents (homesite_id, name) VALUES (3, 'James Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=3 ORDER BY id DESC LIMIT 1), '(704) 123-6346');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=3 ORDER BY id DESC LIMIT 1), '(980) 123-5140');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=3 ORDER BY id DESC LIMIT 1), '(723) 123-3234');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=3 ORDER BY id DESC LIMIT 1), 'james.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident3@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=3 ORDER BY id DESC LIMIT 1));
-
--- Resident 4
-INSERT INTO residents (homesite_id, name) VALUES (4, 'Patricia Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1), '(704) 789-9248');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1), 'patricia.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1), 'patricia.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident4@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1));
-
--- Resident 5
-INSERT INTO residents (homesite_id, name) VALUES (5, 'Robert Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1), '(704) 123-4626');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1), '(980) 789-1756');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1), 'robert.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident5@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1));
-
--- Resident 6
-INSERT INTO residents (homesite_id, name) VALUES (6, 'Jennifer Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1), '(704) 789-7662');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1), '(980) 123-8584');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1), '(723) 123-5082');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1), 'jennifer.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1), 'jennifer.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident6@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1));
-
--- Resident 7
-INSERT INTO residents (homesite_id, name) VALUES (7, 'Michael Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1), '(704) 789-2268');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1), 'michael.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident7@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1));
-
--- Resident 8
-INSERT INTO residents (homesite_id, name) VALUES (8, 'Linda Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1), '(704) 123-4194');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1), '(980) 123-7328');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1), 'linda.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1), 'linda.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident8@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1));
-
--- Resident 9
-INSERT INTO residents (homesite_id, name) VALUES (9, 'William Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1), '(704) 123-3246');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1), '(980) 123-2988');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1), '(723) 123-8498');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1), 'william.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident9@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1));
-
--- Resident 10
-INSERT INTO residents (homesite_id, name) VALUES (10, 'Elizabeth Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1), '(704) 789-4400');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1), 'elizabeth.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1), 'elizabeth.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident10@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1));
-
--- Resident 11
-INSERT INTO residents (homesite_id, name) VALUES (11, 'David Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1), '(704) 123-3142');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1), '(980) 789-3932');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1), 'david.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident11@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1));
-
--- Resident 12
-INSERT INTO residents (homesite_id, name) VALUES (12, 'Barbara Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1), '(704) 789-4490');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1), '(980) 789-3064');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1), '(723) 123-7058');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1), 'barbara.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1), 'barbara.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident12@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1));
-
--- Resident 13
-INSERT INTO residents (homesite_id, name) VALUES (13, 'Richard Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1), '(704) 789-5028');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1), 'richard.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident13@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1));
-
--- Resident 14
-INSERT INTO residents (homesite_id, name) VALUES (14, 'Susan Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=14 ORDER BY id DESC LIMIT 1), '(704) 789-8730');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=14 ORDER BY id DESC LIMIT 1), '(980) 789-6096');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=14 ORDER BY id DESC LIMIT 1), 'susan.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=14 ORDER BY id DESC LIMIT 1), 'susan.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident14@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=14 ORDER BY id DESC LIMIT 1));
-
--- Resident 15
-INSERT INTO residents (homesite_id, name) VALUES (15, 'Joseph Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1), '(704) 789-2262');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1), '(980) 123-6140');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1), '(723) 789-3094');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1), 'joseph.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident15@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1));
-
--- Resident 16
-INSERT INTO residents (homesite_id, name) VALUES (16, 'Jessica Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=16 ORDER BY id DESC LIMIT 1), '(704) 123-5248');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=16 ORDER BY id DESC LIMIT 1), 'jessica.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=16 ORDER BY id DESC LIMIT 1), 'jessica.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident16@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=16 ORDER BY id DESC LIMIT 1));
-
--- Resident 17
-INSERT INTO residents (homesite_id, name) VALUES (17, 'Thomas Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1), '(704) 789-5278');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1), '(980) 789-8276');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1), 'thomas.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident17@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1));
-
--- Resident 18
-INSERT INTO residents (homesite_id, name) VALUES (18, 'Sarah Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1), '(704) 789-2418');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1), '(980) 123-7072');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1), '(723) 123-5558');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1), 'sarah.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1), 'sarah.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident18@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1));
-
--- Resident 19
-INSERT INTO residents (homesite_id, name) VALUES (19, 'Charles Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=19 ORDER BY id DESC LIMIT 1), '(704) 789-4204');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=19 ORDER BY id DESC LIMIT 1), 'charles.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident19@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=19 ORDER BY id DESC LIMIT 1));
-
--- Resident 20
-INSERT INTO residents (homesite_id, name) VALUES (20, 'Karen Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1), '(704) 123-8038');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1), '(980) 123-7800');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1), 'karen.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1), 'karen.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident20@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1));
-
--- Resident 21
-INSERT INTO residents (homesite_id, name) VALUES (21, 'Christopher Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1), '(704) 789-9994');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1), '(980) 123-3028');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1), '(723) 123-2922');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1), 'christopher.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident21@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1));
-
--- Resident 22
-INSERT INTO residents (homesite_id, name) VALUES (22, 'Nancy Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=22 ORDER BY id DESC LIMIT 1), '(704) 123-4272');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=22 ORDER BY id DESC LIMIT 1), 'nancy.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=22 ORDER BY id DESC LIMIT 1), 'nancy.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident22@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=22 ORDER BY id DESC LIMIT 1));
-
--- Resident 23
-INSERT INTO residents (homesite_id, name) VALUES (23, 'Daniel Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1), '(704) 789-7682');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1), '(980) 789-6164');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1), 'daniel.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident23@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1));
-
--- Resident 24
-INSERT INTO residents (homesite_id, name) VALUES (24, 'Lisa Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1), '(704) 123-9098');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1), '(980) 123-9560');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1), '(723) 123-3662');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1), 'lisa.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1), 'lisa.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident24@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1));
-
--- Resident 25
-INSERT INTO residents (homesite_id, name) VALUES (25, 'Matthew Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1), '(704) 789-5996');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1), 'matthew.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident25@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1));
-
--- Resident 26
-INSERT INTO residents (homesite_id, name) VALUES (26, 'Betty Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1), '(704) 123-1650');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1), '(980) 789-3424');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1), 'betty.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1), 'betty.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident26@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1));
-
--- Resident 27
-INSERT INTO residents (homesite_id, name) VALUES (27, 'Anthony Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1), '(704) 789-4202');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1), '(980) 789-2940');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1), '(723) 789-9042');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1), 'anthony.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident27@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1));
-
--- Resident 28
-INSERT INTO residents (homesite_id, name) VALUES (28, 'Margaret Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=28 ORDER BY id DESC LIMIT 1), '(704) 789-9624');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=28 ORDER BY id DESC LIMIT 1), 'margaret.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=28 ORDER BY id DESC LIMIT 1), 'margaret.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident28@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=28 ORDER BY id DESC LIMIT 1));
-
--- Resident 29
-INSERT INTO residents (homesite_id, name) VALUES (29, 'Mark Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1), '(704) 789-2842');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1), '(980) 789-9460');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1), 'mark.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident29@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1));
-
--- Resident 30
-INSERT INTO residents (homesite_id, name) VALUES (30, 'Sandra Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1), '(704) 789-4166');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1), '(980) 789-4072');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1), '(723) 123-8186');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1), 'sandra.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1), 'sandra.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident30@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1));
-
--- Resident 31
-INSERT INTO residents (homesite_id, name) VALUES (31, 'Donald Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1), '(704) 123-8940');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1), 'donald.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident31@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1));
-
--- Resident 32
-INSERT INTO residents (homesite_id, name) VALUES (32, 'Ashley Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1), '(704) 123-1362');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1), '(980) 789-7584');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1), 'ashley.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1), 'ashley.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident32@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1));
-
--- Resident 33
-INSERT INTO residents (homesite_id, name) VALUES (33, 'Steven Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1), '(704) 123-2518');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1), '(980) 789-6556');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1), '(723) 123-2378');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1), 'steven.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident33@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1));
-
--- Resident 34
-INSERT INTO residents (homesite_id, name) VALUES (34, 'Kimberly Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=34 ORDER BY id DESC LIMIT 1), '(704) 789-5304');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=34 ORDER BY id DESC LIMIT 1), 'kimberly.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=34 ORDER BY id DESC LIMIT 1), 'kimberly.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident34@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=34 ORDER BY id DESC LIMIT 1));
-
--- Resident 35
-INSERT INTO residents (homesite_id, name) VALUES (35, 'Paul Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1), '(704) 123-8410');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1), '(980) 123-6524');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1), 'paul.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident35@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1));
-
--- Resident 36
-INSERT INTO residents (homesite_id, name) VALUES (36, 'Emily Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1), '(704) 789-5646');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1), '(980) 123-7296');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1), '(723) 123-5582');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1), 'emily.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1), 'emily.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident36@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1));
-
--- Resident 37
-INSERT INTO residents (homesite_id, name) VALUES (37, 'Andrew Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1), '(704) 123-4628');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1), 'andrew.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident37@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1));
-
--- Resident 38
-INSERT INTO residents (homesite_id, name) VALUES (38, 'Donna Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1), '(704) 789-5154');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1), '(980) 789-1864');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1), 'donna.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1), 'donna.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident38@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1));
-
--- Resident 39
-INSERT INTO residents (homesite_id, name) VALUES (39, 'Joshua Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1), '(704) 789-2466');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1), '(980) 123-7404');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1), '(723) 789-1702');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1), 'joshua.smith@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident39@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1));
-
--- Resident 40
-INSERT INTO residents (homesite_id, name) VALUES (40, 'Michelle Smith');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1), '(704) 789-7168');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1), 'michelle.smith@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1), 'michelle.smith1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident40@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1));
-
--- Resident 41
-INSERT INTO residents (homesite_id, name) VALUES (41, 'John Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1), '(704) 123-3146');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1), '(980) 123-7812');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1), 'john.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident41@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1));
-
--- Resident 42
-INSERT INTO residents (homesite_id, name) VALUES (42, 'Mary Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1), '(704) 123-5150');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1), '(980) 789-2336');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1), '(723) 789-6690');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1), 'mary.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1), 'mary.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident42@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1));
-
--- Resident 43
-INSERT INTO residents (homesite_id, name) VALUES (43, 'James Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=43 ORDER BY id DESC LIMIT 1), '(704) 789-1764');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=43 ORDER BY id DESC LIMIT 1), 'james.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident43@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=43 ORDER BY id DESC LIMIT 1));
-
--- Resident 44
-INSERT INTO residents (homesite_id, name) VALUES (44, 'Patricia Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=44 ORDER BY id DESC LIMIT 1), '(704) 789-5470');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=44 ORDER BY id DESC LIMIT 1), '(980) 789-6672');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=44 ORDER BY id DESC LIMIT 1), 'patricia.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=44 ORDER BY id DESC LIMIT 1), 'patricia.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident44@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=44 ORDER BY id DESC LIMIT 1));
-
--- Resident 45
-INSERT INTO residents (homesite_id, name) VALUES (45, 'Robert Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1), '(704) 123-2834');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1), '(980) 789-6452');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1), '(723) 123-3254');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1), 'robert.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident45@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1));
-
--- Resident 46
-INSERT INTO residents (homesite_id, name) VALUES (46, 'Jennifer Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=46 ORDER BY id DESC LIMIT 1), '(704) 123-8448');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=46 ORDER BY id DESC LIMIT 1), 'jennifer.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=46 ORDER BY id DESC LIMIT 1), 'jennifer.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident46@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=46 ORDER BY id DESC LIMIT 1));
-
--- Resident 47
-INSERT INTO residents (homesite_id, name) VALUES (47, 'Michael Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=47 ORDER BY id DESC LIMIT 1), '(704) 123-5202');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=47 ORDER BY id DESC LIMIT 1), '(980) 789-2492');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=47 ORDER BY id DESC LIMIT 1), 'michael.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident47@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=47 ORDER BY id DESC LIMIT 1));
-
--- Resident 48
-INSERT INTO residents (homesite_id, name) VALUES (48, 'Linda Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1), '(704) 789-2218');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1), '(980) 123-1672');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1), '(723) 123-9566');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1), 'linda.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1), 'linda.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident48@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1));
-
--- Resident 49
-INSERT INTO residents (homesite_id, name) VALUES (49, 'William Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1), '(704) 123-9516');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1), 'william.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident49@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1));
-
--- Resident 50
-INSERT INTO residents (homesite_id, name) VALUES (50, 'Elizabeth Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1), '(704) 123-6918');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1), '(980) 123-6272');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1), 'elizabeth.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1), 'elizabeth.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident50@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1));
-
--- Resident 51
-INSERT INTO residents (homesite_id, name) VALUES (51, 'David Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1), '(704) 123-4574');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1), '(980) 123-8132');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1), '(723) 123-2322');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1), 'david.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident51@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1));
-
--- Resident 52
-INSERT INTO residents (homesite_id, name) VALUES (52, 'Barbara Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=52 ORDER BY id DESC LIMIT 1), '(704) 123-6592');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=52 ORDER BY id DESC LIMIT 1), 'barbara.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=52 ORDER BY id DESC LIMIT 1), 'barbara.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident52@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=52 ORDER BY id DESC LIMIT 1));
-
--- Resident 53
-INSERT INTO residents (homesite_id, name) VALUES (53, 'Richard Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1), '(704) 123-3574');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1), '(980) 789-3156');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1), 'richard.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident53@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1));
-
--- Resident 54
-INSERT INTO residents (homesite_id, name) VALUES (54, 'Susan Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1), '(704) 789-6870');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1), '(980) 789-4256');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1), '(723) 789-1130');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1), 'susan.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1), 'susan.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident54@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1));
-
--- Resident 55
-INSERT INTO residents (homesite_id, name) VALUES (55, 'Joseph Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=55 ORDER BY id DESC LIMIT 1), '(704) 789-2828');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=55 ORDER BY id DESC LIMIT 1), 'joseph.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident55@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=55 ORDER BY id DESC LIMIT 1));
-
--- Resident 56
-INSERT INTO residents (homesite_id, name) VALUES (56, 'Jessica Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1), '(704) 123-2666');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1), '(980) 123-8928');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1), 'jessica.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1), 'jessica.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident56@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1));
-
--- Resident 57
-INSERT INTO residents (homesite_id, name) VALUES (57, 'Thomas Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1), '(704) 789-5746');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1), '(980) 123-8204');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1), '(723) 789-4142');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1), 'thomas.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident57@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1));
-
--- Resident 58
-INSERT INTO residents (homesite_id, name) VALUES (58, 'Sarah Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1), '(704) 123-4128');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1), 'sarah.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1), 'sarah.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident58@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1));
-
--- Resident 59
-INSERT INTO residents (homesite_id, name) VALUES (59, 'Charles Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1), '(704) 123-8354');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1), '(980) 123-4748');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1), 'charles.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident59@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1));
-
--- Resident 60
-INSERT INTO residents (homesite_id, name) VALUES (60, 'Karen Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1), '(704) 123-3694');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1), '(980) 789-3504');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1), '(723) 789-5174');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1), 'karen.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1), 'karen.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident60@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1));
-
--- Resident 61
-INSERT INTO residents (homesite_id, name) VALUES (61, 'Christopher Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1), '(704) 123-9340');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1), 'christopher.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident61@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1));
-
--- Resident 62
-INSERT INTO residents (homesite_id, name) VALUES (62, 'Nancy Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=62 ORDER BY id DESC LIMIT 1), '(704) 789-1998');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=62 ORDER BY id DESC LIMIT 1), '(980) 123-9960');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=62 ORDER BY id DESC LIMIT 1), 'nancy.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=62 ORDER BY id DESC LIMIT 1), 'nancy.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident62@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=62 ORDER BY id DESC LIMIT 1));
-
--- Resident 63
-INSERT INTO residents (homesite_id, name) VALUES (63, 'Daniel Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1), '(704) 789-8254');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1), '(980) 789-2676');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1), '(723) 123-9806');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1), 'daniel.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident63@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1));
-
--- Resident 64
-INSERT INTO residents (homesite_id, name) VALUES (64, 'Lisa Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1), '(704) 123-7568');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1), 'lisa.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1), 'lisa.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident64@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1));
-
--- Resident 65
-INSERT INTO residents (homesite_id, name) VALUES (65, 'Matthew Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1), '(704) 123-6002');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1), '(980) 789-2612');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1), 'matthew.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident65@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1));
-
--- Resident 66
-INSERT INTO residents (homesite_id, name) VALUES (66, 'Betty Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=66 ORDER BY id DESC LIMIT 1), '(704) 123-5270');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=66 ORDER BY id DESC LIMIT 1), '(980) 123-9856');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=66 ORDER BY id DESC LIMIT 1), '(723) 123-7622');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=66 ORDER BY id DESC LIMIT 1), 'betty.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=66 ORDER BY id DESC LIMIT 1), 'betty.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident66@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=66 ORDER BY id DESC LIMIT 1));
-
--- Resident 67
-INSERT INTO residents (homesite_id, name) VALUES (67, 'Anthony Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=67 ORDER BY id DESC LIMIT 1), '(704) 789-8364');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=67 ORDER BY id DESC LIMIT 1), 'anthony.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident67@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=67 ORDER BY id DESC LIMIT 1));
-
--- Resident 68
-INSERT INTO residents (homesite_id, name) VALUES (68, 'Margaret Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1), '(704) 789-1658');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1), '(980) 123-9128');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1), 'margaret.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1), 'margaret.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident68@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1));
-
--- Resident 69
-INSERT INTO residents (homesite_id, name) VALUES (69, 'Mark Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=69 ORDER BY id DESC LIMIT 1), '(704) 123-1222');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=69 ORDER BY id DESC LIMIT 1), '(980) 789-6668');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=69 ORDER BY id DESC LIMIT 1), '(723) 123-8582');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=69 ORDER BY id DESC LIMIT 1), 'mark.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident69@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=69 ORDER BY id DESC LIMIT 1));
-
--- Resident 70
-INSERT INTO residents (homesite_id, name) VALUES (70, 'Sandra Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1), '(704) 123-9592');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1), 'sandra.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1), 'sandra.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident70@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1));
-
--- Resident 71
-INSERT INTO residents (homesite_id, name) VALUES (71, 'Donald Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=71 ORDER BY id DESC LIMIT 1), '(704) 123-6898');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=71 ORDER BY id DESC LIMIT 1), '(980) 789-8604');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=71 ORDER BY id DESC LIMIT 1), 'donald.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident71@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=71 ORDER BY id DESC LIMIT 1));
-
--- Resident 72
-INSERT INTO residents (homesite_id, name) VALUES (72, 'Ashley Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=72 ORDER BY id DESC LIMIT 1), '(704) 123-5066');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=72 ORDER BY id DESC LIMIT 1), '(980) 123-8720');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=72 ORDER BY id DESC LIMIT 1), '(723) 123-1174');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=72 ORDER BY id DESC LIMIT 1), 'ashley.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=72 ORDER BY id DESC LIMIT 1), 'ashley.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident72@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=72 ORDER BY id DESC LIMIT 1));
-
--- Resident 73
-INSERT INTO residents (homesite_id, name) VALUES (73, 'Steven Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1), '(704) 789-1148');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1), 'steven.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident73@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1));
-
--- Resident 74
-INSERT INTO residents (homesite_id, name) VALUES (74, 'Kimberly Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1), '(704) 789-6314');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1), '(980) 123-4584');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1), 'kimberly.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1), 'kimberly.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident74@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1));
-
--- Resident 75
-INSERT INTO residents (homesite_id, name) VALUES (75, 'Paul Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1), '(704) 789-2950');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1), '(980) 123-6908');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1), '(723) 789-5490');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1), 'paul.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident75@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1));
-
--- Resident 76
-INSERT INTO residents (homesite_id, name) VALUES (76, 'Emily Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=76 ORDER BY id DESC LIMIT 1), '(704) 789-6696');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=76 ORDER BY id DESC LIMIT 1), 'emily.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=76 ORDER BY id DESC LIMIT 1), 'emily.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident76@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=76 ORDER BY id DESC LIMIT 1));
-
--- Resident 77
-INSERT INTO residents (homesite_id, name) VALUES (77, 'Andrew Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1), '(704) 123-7434');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1), '(980) 123-8772');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1), 'andrew.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident77@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1));
-
--- Resident 78
-INSERT INTO residents (homesite_id, name) VALUES (78, 'Donna Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1), '(704) 123-3906');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1), '(980) 123-9008');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1), '(723) 789-1398');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1), 'donna.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1), 'donna.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident78@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1));
-
--- Resident 79
-INSERT INTO residents (homesite_id, name) VALUES (79, 'Joshua Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1), '(704) 123-2452');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1), 'joshua.johnson@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident79@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1));
-
--- Resident 80
-INSERT INTO residents (homesite_id, name) VALUES (80, 'Michelle Johnson');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=80 ORDER BY id DESC LIMIT 1), '(704) 789-8222');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=80 ORDER BY id DESC LIMIT 1), '(980) 789-8696');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=80 ORDER BY id DESC LIMIT 1), 'michelle.johnson@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=80 ORDER BY id DESC LIMIT 1), 'michelle.johnson1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident80@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=80 ORDER BY id DESC LIMIT 1));
-
--- Resident 81
-INSERT INTO residents (homesite_id, name) VALUES (81, 'John Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1), '(704) 123-2842');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1), '(980) 789-6532');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1), '(723) 789-8698');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1), 'john.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident81@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1));
-
--- Resident 82
-INSERT INTO residents (homesite_id, name) VALUES (82, 'Mary Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1), '(704) 123-5864');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1), 'mary.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1), 'mary.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident82@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1));
-
--- Resident 83
-INSERT INTO residents (homesite_id, name) VALUES (83, 'James Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1), '(704) 123-3614');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1), '(980) 123-5164');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1), 'james.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident83@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1));
-
--- Resident 84
-INSERT INTO residents (homesite_id, name) VALUES (84, 'Patricia Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1), '(704) 789-4078');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1), '(980) 789-8680');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1), '(723) 789-3058');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1), 'patricia.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1), 'patricia.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident84@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1));
-
--- Resident 85
-INSERT INTO residents (homesite_id, name) VALUES (85, 'Robert Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1), '(704) 789-3916');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1), 'robert.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident85@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1));
-
--- Resident 86
-INSERT INTO residents (homesite_id, name) VALUES (86, 'Jennifer Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=86 ORDER BY id DESC LIMIT 1), '(704) 789-1534');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=86 ORDER BY id DESC LIMIT 1), '(980) 789-4976');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=86 ORDER BY id DESC LIMIT 1), 'jennifer.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=86 ORDER BY id DESC LIMIT 1), 'jennifer.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident86@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=86 ORDER BY id DESC LIMIT 1));
-
--- Resident 87
-INSERT INTO residents (homesite_id, name) VALUES (87, 'Michael Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=87 ORDER BY id DESC LIMIT 1), '(704) 123-5478');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=87 ORDER BY id DESC LIMIT 1), '(980) 789-8132');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=87 ORDER BY id DESC LIMIT 1), '(723) 789-6426');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=87 ORDER BY id DESC LIMIT 1), 'michael.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident87@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=87 ORDER BY id DESC LIMIT 1));
-
--- Resident 88
-INSERT INTO residents (homesite_id, name) VALUES (88, 'Linda Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1), '(704) 123-3680');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1), 'linda.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1), 'linda.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident88@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1));
-
--- Resident 89
-INSERT INTO residents (homesite_id, name) VALUES (89, 'William Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1), '(704) 123-4102');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1), '(980) 123-6212');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1), 'william.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident89@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1));
-
--- Resident 90
-INSERT INTO residents (homesite_id, name) VALUES (90, 'Elizabeth Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1), '(704) 123-9034');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1), '(980) 789-7360');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1), '(723) 789-6754');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1), 'elizabeth.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1), 'elizabeth.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident90@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1));
-
--- Resident 91
-INSERT INTO residents (homesite_id, name) VALUES (91, 'David Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1), '(704) 123-6436');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1), 'david.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident91@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1));
-
--- Resident 92
-INSERT INTO residents (homesite_id, name) VALUES (92, 'Barbara Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=92 ORDER BY id DESC LIMIT 1), '(704) 123-1786');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=92 ORDER BY id DESC LIMIT 1), '(980) 789-9760');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=92 ORDER BY id DESC LIMIT 1), 'barbara.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=92 ORDER BY id DESC LIMIT 1), 'barbara.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident92@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=92 ORDER BY id DESC LIMIT 1));
-
--- Resident 93
-INSERT INTO residents (homesite_id, name) VALUES (93, 'Richard Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1), '(704) 123-5086');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1), '(980) 789-3964');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1), '(723) 789-7246');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1), 'richard.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident93@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1));
-
--- Resident 94
-INSERT INTO residents (homesite_id, name) VALUES (94, 'Susan Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=94 ORDER BY id DESC LIMIT 1), '(704) 789-7128');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=94 ORDER BY id DESC LIMIT 1), 'susan.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=94 ORDER BY id DESC LIMIT 1), 'susan.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident94@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=94 ORDER BY id DESC LIMIT 1));
-
--- Resident 95
-INSERT INTO residents (homesite_id, name) VALUES (95, 'Joseph Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1), '(704) 789-8082');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1), '(980) 789-1116');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1), 'joseph.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident95@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1));
-
--- Resident 96
-INSERT INTO residents (homesite_id, name) VALUES (96, 'Jessica Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1), '(704) 789-6958');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1), '(980) 123-4064');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1), '(723) 123-1730');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1), 'jessica.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1), 'jessica.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident96@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1));
-
--- Resident 97
-INSERT INTO residents (homesite_id, name) VALUES (97, 'Thomas Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1), '(704) 789-6660');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1), 'thomas.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident97@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1));
-
--- Resident 98
-INSERT INTO residents (homesite_id, name) VALUES (98, 'Sarah Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=98 ORDER BY id DESC LIMIT 1), '(704) 123-4054');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=98 ORDER BY id DESC LIMIT 1), '(980) 789-2408');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=98 ORDER BY id DESC LIMIT 1), 'sarah.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=98 ORDER BY id DESC LIMIT 1), 'sarah.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident98@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=98 ORDER BY id DESC LIMIT 1));
-
--- Resident 99
-INSERT INTO residents (homesite_id, name) VALUES (99, 'Charles Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1), '(704) 789-9310');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1), '(980) 789-3236');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1), '(723) 123-3146');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1), 'charles.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident99@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1));
-
--- Resident 100
-INSERT INTO residents (homesite_id, name) VALUES (100, 'Karen Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1), '(704) 789-1408');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1), 'karen.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1), 'karen.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident100@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1));
-
--- Resident 101
-INSERT INTO residents (homesite_id, name) VALUES (101, 'Christopher Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1), '(704) 123-1674');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1), '(980) 789-1212');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1), 'christopher.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident101@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1));
-
--- Resident 102
-INSERT INTO residents (homesite_id, name) VALUES (102, 'Nancy Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=102 ORDER BY id DESC LIMIT 1), '(704) 789-7194');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=102 ORDER BY id DESC LIMIT 1), '(980) 789-3880');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=102 ORDER BY id DESC LIMIT 1), '(723) 123-8170');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=102 ORDER BY id DESC LIMIT 1), 'nancy.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=102 ORDER BY id DESC LIMIT 1), 'nancy.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident102@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=102 ORDER BY id DESC LIMIT 1));
-
--- Resident 103
-INSERT INTO residents (homesite_id, name) VALUES (103, 'Daniel Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=103 ORDER BY id DESC LIMIT 1), '(704) 789-6948');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=103 ORDER BY id DESC LIMIT 1), 'daniel.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident103@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=103 ORDER BY id DESC LIMIT 1));
-
--- Resident 104
-INSERT INTO residents (homesite_id, name) VALUES (104, 'Lisa Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1), '(704) 123-3554');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1), '(980) 123-2208');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1), 'lisa.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1), 'lisa.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident104@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1));
-
--- Resident 105
-INSERT INTO residents (homesite_id, name) VALUES (105, 'Matthew Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=105 ORDER BY id DESC LIMIT 1), '(704) 789-3998');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=105 ORDER BY id DESC LIMIT 1), '(980) 123-2668');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=105 ORDER BY id DESC LIMIT 1), '(723) 123-2286');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=105 ORDER BY id DESC LIMIT 1), 'matthew.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident105@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=105 ORDER BY id DESC LIMIT 1));
-
--- Resident 106
-INSERT INTO residents (homesite_id, name) VALUES (106, 'Betty Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1), '(704) 123-8768');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1), 'betty.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1), 'betty.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident106@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1));
-
--- Resident 107
-INSERT INTO residents (homesite_id, name) VALUES (107, 'Anthony Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1), '(704) 123-9674');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1), '(980) 123-9612');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1), 'anthony.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident107@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1));
-
--- Resident 108
-INSERT INTO residents (homesite_id, name) VALUES (108, 'Margaret Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=108 ORDER BY id DESC LIMIT 1), '(704) 123-6370');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=108 ORDER BY id DESC LIMIT 1), '(980) 123-4704');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=108 ORDER BY id DESC LIMIT 1), '(723) 123-2470');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=108 ORDER BY id DESC LIMIT 1), 'margaret.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=108 ORDER BY id DESC LIMIT 1), 'margaret.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident108@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=108 ORDER BY id DESC LIMIT 1));
-
--- Resident 109
-INSERT INTO residents (homesite_id, name) VALUES (109, 'Mark Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=109 ORDER BY id DESC LIMIT 1), '(704) 789-4588');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=109 ORDER BY id DESC LIMIT 1), 'mark.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident109@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=109 ORDER BY id DESC LIMIT 1));
-
--- Resident 110
-INSERT INTO residents (homesite_id, name) VALUES (110, 'Sandra Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=110 ORDER BY id DESC LIMIT 1), '(704) 789-6090');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=110 ORDER BY id DESC LIMIT 1), '(980) 123-4400');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=110 ORDER BY id DESC LIMIT 1), 'sandra.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=110 ORDER BY id DESC LIMIT 1), 'sandra.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident110@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=110 ORDER BY id DESC LIMIT 1));
-
--- Resident 111
-INSERT INTO residents (homesite_id, name) VALUES (111, 'Donald Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=111 ORDER BY id DESC LIMIT 1), '(704) 789-2974');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=111 ORDER BY id DESC LIMIT 1), '(980) 123-1028');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=111 ORDER BY id DESC LIMIT 1), '(723) 123-4174');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=111 ORDER BY id DESC LIMIT 1), 'donald.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident111@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=111 ORDER BY id DESC LIMIT 1));
-
--- Resident 112
-INSERT INTO residents (homesite_id, name) VALUES (112, 'Ashley Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=112 ORDER BY id DESC LIMIT 1), '(704) 789-5368');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=112 ORDER BY id DESC LIMIT 1), 'ashley.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=112 ORDER BY id DESC LIMIT 1), 'ashley.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident112@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=112 ORDER BY id DESC LIMIT 1));
-
--- Resident 113
-INSERT INTO residents (homesite_id, name) VALUES (113, 'Steven Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1), '(704) 789-7030');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1), '(980) 123-6652');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1), 'steven.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident113@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1));
-
--- Resident 114
-INSERT INTO residents (homesite_id, name) VALUES (114, 'Kimberly Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=114 ORDER BY id DESC LIMIT 1), '(704) 123-1206');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=114 ORDER BY id DESC LIMIT 1), '(980) 789-4808');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=114 ORDER BY id DESC LIMIT 1), '(723) 789-4942');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=114 ORDER BY id DESC LIMIT 1), 'kimberly.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=114 ORDER BY id DESC LIMIT 1), 'kimberly.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident114@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=114 ORDER BY id DESC LIMIT 1));
-
--- Resident 115
-INSERT INTO residents (homesite_id, name) VALUES (115, 'Paul Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1), '(704) 789-1212');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1), 'paul.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident115@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1));
-
--- Resident 116
-INSERT INTO residents (homesite_id, name) VALUES (116, 'Emily Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=116 ORDER BY id DESC LIMIT 1), '(704) 123-3350');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=116 ORDER BY id DESC LIMIT 1), '(980) 123-6816');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=116 ORDER BY id DESC LIMIT 1), 'emily.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=116 ORDER BY id DESC LIMIT 1), 'emily.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident116@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=116 ORDER BY id DESC LIMIT 1));
-
--- Resident 117
-INSERT INTO residents (homesite_id, name) VALUES (117, 'Andrew Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1), '(704) 789-2562');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1), '(980) 789-1708');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1), '(723) 789-2402');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1), 'andrew.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident117@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1));
-
--- Resident 118
-INSERT INTO residents (homesite_id, name) VALUES (118, 'Donna Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1), '(704) 789-2184');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1), 'donna.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1), 'donna.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident118@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1));
-
--- Resident 119
-INSERT INTO residents (homesite_id, name) VALUES (119, 'Joshua Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1), '(704) 123-6946');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1), '(980) 123-3468');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1), 'joshua.williams@gmail.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident119@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1));
-
--- Resident 120
-INSERT INTO residents (homesite_id, name) VALUES (120, 'Michelle Williams');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1), '(704) 789-7026');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1), '(980) 789-6008');
-INSERT INTO phones (resident_id, number) VALUES ((SELECT id FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1), '(723) 789-8294');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1), 'michelle.williams@gmail.com');
-INSERT INTO emails (resident_id, address) VALUES ((SELECT id FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1), 'michelle.williams1@yahoo.com');
-INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident120@addrbook.local', '$2a$10$FL.aliSDyrXDRZ4JH075NuaOc8zQQzrrifbl4zZhyFcMRS4QdxIWa', 'resident', (SELECT id FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1));
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7248', 'Oak Street', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6601', 'Maple Avenue', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5254', 'Pine Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('295', 'Cedar Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3588', 'Elm Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3211', 'Walnut Circle', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7374', 'Birch Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3045', 'Spruce Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4680', 'Ash Boulevard', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8103', 'Hickory Place', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8334', 'Poplar Street', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5495', 'Willow Avenue', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4196', 'Sycamore Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2611', 'Chestnut Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3766', 'Magnolia Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6805', 'Redwood Circle', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5408', 'Sequoia Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3479', 'Juniper Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8674', 'Cypress Boulevard', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5393', 'Palm Place', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6724', 'Briar Ridge', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4741', 'Holloway Vale', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7110', 'Meadowbrook Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('9045', 'Riverstone Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6680', 'Sunset Hills', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6929', 'Cobblestone Path', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8762', 'Winding Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2751', 'Hidden Valley', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1348', 'Mountain View Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8125', 'Clearwater Creek', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2018', 'Lakeside Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1021', 'Pinehurst Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6456', 'Valley View Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3271', 'Hilltop Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('954', 'Briarcliff Place', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7385', 'Cherry Blossom Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('9060', 'Wildflower Path', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2661', 'Sunrise Trail', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5702', 'Evening Star Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2467', 'Morning Glory Circle', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2760', 'Autumn Leaf Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8025', 'Winter Pine Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5050', 'Spring Bloom Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7249', 'Summer Sun Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5508', 'Golden Oak Street', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1915', 'Silver Maple Avenue', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8814', 'Bronze Pine Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2709', 'Titanium Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1632', 'Platinum Place', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('839', 'Diamond Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1370', 'Ruby Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3007', 'Sapphire Circle', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6572', 'Emerald Boulevard', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('749', 'Amethyst Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5114', 'Topaz Place', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2155', 'Jade Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('992', 'Onyx Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1649', 'Pearl Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4638', 'Coral Path', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1831', 'Lapis Circle', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1620', 'Moonstone Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5011', 'Sunstone Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4622', 'Azurite Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7099', 'Turquoise Place', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4168', 'Malachite Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5015', 'Oak Street', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8494', 'Maple Avenue', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1225', 'Pine Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('148', 'Cedar Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8411', 'Elm Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1958', 'Walnut Circle', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7933', 'Birch Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4488', 'Spruce Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4127', 'Ash Boulevard', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5814', 'Hickory Place', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6313', 'Poplar Street', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7948', 'Willow Avenue', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2243', 'Sycamore Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2466', 'Chestnut Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5237', 'Magnolia Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2784', 'Redwood Circle', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5871', 'Sequoia Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1734', 'Juniper Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6703', 'Cypress Boulevard', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3836', 'Palm Place', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3373', 'Briar Ridge', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8222', 'Holloway Vale', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1731', 'Meadowbrook Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('328', 'Riverstone Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('599', 'Sunset Hills', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('294', 'Cobblestone Path', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8047', 'Winding Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6004', 'Hidden Valley', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8549', 'Mountain View Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5602', 'Clearwater Creek', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6611', 'Lakeside Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7416', 'Pinehurst Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2841', 'Valley View Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8582', 'Hilltop Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7279', 'Briarcliff Place', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8580', 'Cherry Blossom Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1669', 'Wildflower Path', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5394', 'Sunrise Trail', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7429', 'Evening Star Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8320', 'Morning Glory Circle', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1633', 'Autumn Leaf Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4730', 'Winter Pine Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('4791', 'Spring Bloom Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6212', 'Summer Sun Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5421', 'Golden Oak Street', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1698', 'Silver Maple Avenue', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7963', 'Bronze Pine Road', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('3728', 'Titanium Court', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('2063', 'Platinum Place', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('1382', 'Diamond Drive', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('8633', 'Ruby Lane', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5596', 'Sapphire Circle', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6445', 'Emerald Boulevard', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('5590', 'Amethyst Way', '28226');
+INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('437', 'Topaz Place', '28226');
+
+-- Residents
+INSERT INTO residents (homesite_id, name) VALUES (1, 'Karen Thompson');
+INSERT INTO residents (homesite_id, name) VALUES (1, 'Laura Hernandez');
+INSERT INTO residents (homesite_id, name) VALUES (1, 'Emily Anderson');
+INSERT INTO residents (homesite_id, name) VALUES (1, 'Jennifer Lee');
+INSERT INTO residents (homesite_id, name) VALUES (2, 'Timothy Lopez');
+INSERT INTO residents (homesite_id, name) VALUES (2, 'Thomas Moore');
+INSERT INTO residents (homesite_id, name) VALUES (2, 'Benjamin Martinez');
+INSERT INTO residents (homesite_id, name) VALUES (2, 'Nicholas Roberts');
+INSERT INTO residents (homesite_id, name) VALUES (3, 'Elizabeth Jones');
+INSERT INTO residents (homesite_id, name) VALUES (3, 'Jennifer Green');
+INSERT INTO residents (homesite_id, name) VALUES (4, 'Matthew Wilson');
+INSERT INTO residents (homesite_id, name) VALUES (4, 'Donald Thomas');
+INSERT INTO residents (homesite_id, name) VALUES (4, 'William Rivera');
+INSERT INTO residents (homesite_id, name) VALUES (4, 'David Moore');
+INSERT INTO residents (homesite_id, name) VALUES (4, 'Brian Mitchell');
+INSERT INTO residents (homesite_id, name) VALUES (5, 'Laura Harris');
+INSERT INTO residents (homesite_id, name) VALUES (5, 'Susan Miller');
+INSERT INTO residents (homesite_id, name) VALUES (6, 'Jeffrey Garcia');
+INSERT INTO residents (homesite_id, name) VALUES (6, 'Joshua Martin');
+INSERT INTO residents (homesite_id, name) VALUES (6, 'William Brown');
+INSERT INTO residents (homesite_id, name) VALUES (7, 'Jennifer Clark');
+INSERT INTO residents (homesite_id, name) VALUES (7, 'Karen Lewis');
+INSERT INTO residents (homesite_id, name) VALUES (7, 'Mary Jones');
+INSERT INTO residents (homesite_id, name) VALUES (8, 'David Perez');
+INSERT INTO residents (homesite_id, name) VALUES (8, 'Mark Moore');
+INSERT INTO residents (homesite_id, name) VALUES (8, 'Jason Martin');
+INSERT INTO residents (homesite_id, name) VALUES (9, 'Jessica Rodriguez');
+INSERT INTO residents (homesite_id, name) VALUES (9, 'Sarah Green');
+INSERT INTO residents (homesite_id, name) VALUES (9, 'Sandra Hernandez');
+INSERT INTO residents (homesite_id, name) VALUES (10, 'Ryan Moore');
+INSERT INTO residents (homesite_id, name) VALUES (10, 'Daniel Martinez');
+INSERT INTO residents (homesite_id, name) VALUES (10, 'Nicholas Martinez');
+INSERT INTO residents (homesite_id, name) VALUES (11, 'Dorothy Taylor');
+INSERT INTO residents (homesite_id, name) VALUES (11, 'Helen Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (11, 'Kimberly Clark');
+INSERT INTO residents (homesite_id, name) VALUES (12, 'Timothy Lopez');
+INSERT INTO residents (homesite_id, name) VALUES (12, 'Robert Perez');
+INSERT INTO residents (homesite_id, name) VALUES (12, 'Donald Rivera');
+INSERT INTO residents (homesite_id, name) VALUES (12, 'Richard Johnson');
+INSERT INTO residents (homesite_id, name) VALUES (13, 'Dorothy Williams');
+INSERT INTO residents (homesite_id, name) VALUES (13, 'Laura Thompson');
+INSERT INTO residents (homesite_id, name) VALUES (13, 'Susan Anderson');
+INSERT INTO residents (homesite_id, name) VALUES (14, 'Jason Martin');
+INSERT INTO residents (homesite_id, name) VALUES (15, 'Cynthia Rodriguez');
+INSERT INTO residents (homesite_id, name) VALUES (15, 'Emily Clark');
+INSERT INTO residents (homesite_id, name) VALUES (15, 'Margaret Torres');
+INSERT INTO residents (homesite_id, name) VALUES (16, 'Steven Martinez');
+INSERT INTO residents (homesite_id, name) VALUES (17, 'Betty Nelson');
+INSERT INTO residents (homesite_id, name) VALUES (17, 'Cynthia Thompson');
+INSERT INTO residents (homesite_id, name) VALUES (17, 'Sandra Anderson');
+INSERT INTO residents (homesite_id, name) VALUES (17, 'Amanda Hill');
+INSERT INTO residents (homesite_id, name) VALUES (17, 'Emily Thompson');
+INSERT INTO residents (homesite_id, name) VALUES (18, 'Jason Perez');
+INSERT INTO residents (homesite_id, name) VALUES (18, 'Mark Mitchell');
+INSERT INTO residents (homesite_id, name) VALUES (18, 'Kevin Baker');
+INSERT INTO residents (homesite_id, name) VALUES (18, 'Andrew Thomas');
+INSERT INTO residents (homesite_id, name) VALUES (18, 'Jacob Young');
+INSERT INTO residents (homesite_id, name) VALUES (19, 'Susan Anderson');
+INSERT INTO residents (homesite_id, name) VALUES (19, 'Ruth Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (20, 'Benjamin Mitchell');
+INSERT INTO residents (homesite_id, name) VALUES (20, 'Eric Scott');
+INSERT INTO residents (homesite_id, name) VALUES (20, 'Joseph Ramirez');
+INSERT INTO residents (homesite_id, name) VALUES (21, 'Barbara Allen');
+INSERT INTO residents (homesite_id, name) VALUES (21, 'Kimberly Miller');
+INSERT INTO residents (homesite_id, name) VALUES (22, 'Kevin Davis');
+INSERT INTO residents (homesite_id, name) VALUES (23, 'Lisa Nelson');
+INSERT INTO residents (homesite_id, name) VALUES (23, 'Susan Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (24, 'Michael Martin');
+INSERT INTO residents (homesite_id, name) VALUES (24, 'Steven Baker');
+INSERT INTO residents (homesite_id, name) VALUES (24, 'David Flores');
+INSERT INTO residents (homesite_id, name) VALUES (24, 'Nicholas Martin');
+INSERT INTO residents (homesite_id, name) VALUES (24, 'Kevin Roberts');
+INSERT INTO residents (homesite_id, name) VALUES (25, 'Karen Williams');
+INSERT INTO residents (homesite_id, name) VALUES (25, 'Linda Hall');
+INSERT INTO residents (homesite_id, name) VALUES (25, 'Nancy Jackson');
+INSERT INTO residents (homesite_id, name) VALUES (25, 'Amanda Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (25, 'Margaret Allen');
+INSERT INTO residents (homesite_id, name) VALUES (26, 'Mark Adams');
+INSERT INTO residents (homesite_id, name) VALUES (26, 'James Johnson');
+INSERT INTO residents (homesite_id, name) VALUES (27, 'Susan Smith');
+INSERT INTO residents (homesite_id, name) VALUES (27, 'Patricia Hernandez');
+INSERT INTO residents (homesite_id, name) VALUES (27, 'Jennifer Thompson');
+INSERT INTO residents (homesite_id, name) VALUES (28, 'Brian Lopez');
+INSERT INTO residents (homesite_id, name) VALUES (29, 'Patricia Clark');
+INSERT INTO residents (homesite_id, name) VALUES (29, 'Mary Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (29, 'Ruth Hernandez');
+INSERT INTO residents (homesite_id, name) VALUES (30, 'David Martin');
+INSERT INTO residents (homesite_id, name) VALUES (30, 'Brian Sanchez');
+INSERT INTO residents (homesite_id, name) VALUES (31, 'Susan Lee');
+INSERT INTO residents (homesite_id, name) VALUES (31, 'Jessica Allen');
+INSERT INTO residents (homesite_id, name) VALUES (32, 'Robert King');
+INSERT INTO residents (homesite_id, name) VALUES (32, 'James Sanchez');
+INSERT INTO residents (homesite_id, name) VALUES (32, 'Matthew Adams');
+INSERT INTO residents (homesite_id, name) VALUES (32, 'David Johnson');
+INSERT INTO residents (homesite_id, name) VALUES (32, 'Richard Brown');
+INSERT INTO residents (homesite_id, name) VALUES (33, 'Susan Rodriguez');
+INSERT INTO residents (homesite_id, name) VALUES (33, 'Betty Hill');
+INSERT INTO residents (homesite_id, name) VALUES (33, 'Margaret Jackson');
+INSERT INTO residents (homesite_id, name) VALUES (33, 'Helen Carter');
+INSERT INTO residents (homesite_id, name) VALUES (33, 'Karen Gonzalez');
+INSERT INTO residents (homesite_id, name) VALUES (34, 'Benjamin Martin');
+INSERT INTO residents (homesite_id, name) VALUES (34, 'Richard Ramirez');
+INSERT INTO residents (homesite_id, name) VALUES (35, 'Linda Taylor');
+INSERT INTO residents (homesite_id, name) VALUES (35, 'Cynthia Jones');
+INSERT INTO residents (homesite_id, name) VALUES (35, 'Amanda Rodriguez');
+INSERT INTO residents (homesite_id, name) VALUES (36, 'Jacob Perez');
+INSERT INTO residents (homesite_id, name) VALUES (36, 'Steven Perez');
+INSERT INTO residents (homesite_id, name) VALUES (36, 'Timothy Young');
+INSERT INTO residents (homesite_id, name) VALUES (36, 'Mark Robinson');
+INSERT INTO residents (homesite_id, name) VALUES (37, 'Dorothy Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (37, 'Susan Lee');
+INSERT INTO residents (homesite_id, name) VALUES (37, 'Michelle Gonzalez');
+INSERT INTO residents (homesite_id, name) VALUES (37, 'Barbara Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (37, 'Michelle Miller');
+INSERT INTO residents (homesite_id, name) VALUES (38, 'Joshua Young');
+INSERT INTO residents (homesite_id, name) VALUES (38, 'Christopher Scott');
+INSERT INTO residents (homesite_id, name) VALUES (38, 'Michael Perez');
+INSERT INTO residents (homesite_id, name) VALUES (38, 'Andrew Lopez');
+INSERT INTO residents (homesite_id, name) VALUES (38, 'Jason Mitchell');
+INSERT INTO residents (homesite_id, name) VALUES (39, 'Helen Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (39, 'Jennifer Wright');
+INSERT INTO residents (homesite_id, name) VALUES (40, 'Charles Thomas');
+INSERT INTO residents (homesite_id, name) VALUES (40, 'Christopher Sanchez');
+INSERT INTO residents (homesite_id, name) VALUES (40, 'Benjamin Robinson');
+INSERT INTO residents (homesite_id, name) VALUES (40, 'Christopher Scott');
+INSERT INTO residents (homesite_id, name) VALUES (41, 'Karen Lee');
+INSERT INTO residents (homesite_id, name) VALUES (41, 'Jessica Thompson');
+INSERT INTO residents (homesite_id, name) VALUES (41, 'Sandra Clark');
+INSERT INTO residents (homesite_id, name) VALUES (41, 'Jessica Nelson');
+INSERT INTO residents (homesite_id, name) VALUES (42, 'Jeffrey Davis');
+INSERT INTO residents (homesite_id, name) VALUES (42, 'Benjamin Mitchell');
+INSERT INTO residents (homesite_id, name) VALUES (42, 'Thomas Perez');
+INSERT INTO residents (homesite_id, name) VALUES (42, 'Jason Lopez');
+INSERT INTO residents (homesite_id, name) VALUES (42, 'Andrew Martin');
+INSERT INTO residents (homesite_id, name) VALUES (43, 'Donna Hill');
+INSERT INTO residents (homesite_id, name) VALUES (43, 'Emily Thompson');
+INSERT INTO residents (homesite_id, name) VALUES (44, 'Matthew Martin');
+INSERT INTO residents (homesite_id, name) VALUES (45, 'Jennifer Miller');
+INSERT INTO residents (homesite_id, name) VALUES (45, 'Patricia Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (45, 'Laura Hall');
+INSERT INTO residents (homesite_id, name) VALUES (45, 'Donna Harris');
+INSERT INTO residents (homesite_id, name) VALUES (45, 'Dorothy Hall');
+INSERT INTO residents (homesite_id, name) VALUES (46, 'Jason King');
+INSERT INTO residents (homesite_id, name) VALUES (46, 'Thomas Nguyen');
+INSERT INTO residents (homesite_id, name) VALUES (47, 'Sandra Williams');
+INSERT INTO residents (homesite_id, name) VALUES (48, 'Joshua King');
+INSERT INTO residents (homesite_id, name) VALUES (48, 'Nicholas Scott');
+INSERT INTO residents (homesite_id, name) VALUES (48, 'Michael King');
+INSERT INTO residents (homesite_id, name) VALUES (49, 'Karen Allen');
+INSERT INTO residents (homesite_id, name) VALUES (49, 'Helen Carter');
+INSERT INTO residents (homesite_id, name) VALUES (49, 'Betty Allen');
+INSERT INTO residents (homesite_id, name) VALUES (49, 'Jessica Miller');
+INSERT INTO residents (homesite_id, name) VALUES (50, 'Anthony Davis');
+INSERT INTO residents (homesite_id, name) VALUES (50, 'Steven Garcia');
+INSERT INTO residents (homesite_id, name) VALUES (50, 'Joshua Roberts');
+INSERT INTO residents (homesite_id, name) VALUES (50, 'William Young');
+INSERT INTO residents (homesite_id, name) VALUES (50, 'Jacob Thomas');
+INSERT INTO residents (homesite_id, name) VALUES (51, 'Carol Nelson');
+INSERT INTO residents (homesite_id, name) VALUES (51, 'Donna Smith');
+INSERT INTO residents (homesite_id, name) VALUES (51, 'Sarah Anderson');
+INSERT INTO residents (homesite_id, name) VALUES (52, 'John Adams');
+INSERT INTO residents (homesite_id, name) VALUES (53, 'Sandra Clark');
+INSERT INTO residents (homesite_id, name) VALUES (53, 'Barbara Wright');
+INSERT INTO residents (homesite_id, name) VALUES (53, 'Michelle Torres');
+INSERT INTO residents (homesite_id, name) VALUES (53, 'Jessica Taylor');
+INSERT INTO residents (homesite_id, name) VALUES (54, 'William Nguyen');
+INSERT INTO residents (homesite_id, name) VALUES (54, 'Joshua Nguyen');
+INSERT INTO residents (homesite_id, name) VALUES (54, 'Ryan Lopez');
+INSERT INTO residents (homesite_id, name) VALUES (54, 'David Wilson');
+INSERT INTO residents (homesite_id, name) VALUES (54, 'Eric Lopez');
+INSERT INTO residents (homesite_id, name) VALUES (55, 'Linda Green');
+INSERT INTO residents (homesite_id, name) VALUES (55, 'Linda Harris');
+INSERT INTO residents (homesite_id, name) VALUES (56, 'Richard Martin');
+INSERT INTO residents (homesite_id, name) VALUES (56, 'Anthony Martin');
+INSERT INTO residents (homesite_id, name) VALUES (56, 'Matthew Davis');
+INSERT INTO residents (homesite_id, name) VALUES (57, 'Betty Clark');
+INSERT INTO residents (homesite_id, name) VALUES (57, 'Elizabeth Harris');
+INSERT INTO residents (homesite_id, name) VALUES (57, 'Michelle Taylor');
+INSERT INTO residents (homesite_id, name) VALUES (58, 'Paul Robinson');
+INSERT INTO residents (homesite_id, name) VALUES (58, 'Christopher Baker');
+INSERT INTO residents (homesite_id, name) VALUES (58, 'Anthony Moore');
+INSERT INTO residents (homesite_id, name) VALUES (58, 'John Rivera');
+INSERT INTO residents (homesite_id, name) VALUES (58, 'Charles Rivera');
+INSERT INTO residents (homesite_id, name) VALUES (59, 'Lisa Taylor');
+INSERT INTO residents (homesite_id, name) VALUES (59, 'Donna Jackson');
+INSERT INTO residents (homesite_id, name) VALUES (59, 'Kimberly Green');
+INSERT INTO residents (homesite_id, name) VALUES (60, 'Robert Roberts');
+INSERT INTO residents (homesite_id, name) VALUES (60, 'Kevin Flores');
+INSERT INTO residents (homesite_id, name) VALUES (60, 'Andrew Wilson');
+INSERT INTO residents (homesite_id, name) VALUES (61, 'Jessica Harris');
+INSERT INTO residents (homesite_id, name) VALUES (61, 'Cynthia Lewis');
+INSERT INTO residents (homesite_id, name) VALUES (61, 'Sarah Lewis');
+INSERT INTO residents (homesite_id, name) VALUES (61, 'Dorothy Carter');
+INSERT INTO residents (homesite_id, name) VALUES (61, 'Ruth Jones');
+INSERT INTO residents (homesite_id, name) VALUES (62, 'Joshua Young');
+INSERT INTO residents (homesite_id, name) VALUES (63, 'Kimberly Green');
+INSERT INTO residents (homesite_id, name) VALUES (63, 'Patricia Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (63, 'Ruth Torres');
+INSERT INTO residents (homesite_id, name) VALUES (63, 'Ruth Lee');
+INSERT INTO residents (homesite_id, name) VALUES (64, 'Charles Robinson');
+INSERT INTO residents (homesite_id, name) VALUES (64, 'Nicholas Baker');
+INSERT INTO residents (homesite_id, name) VALUES (64, 'Joshua Flores');
+INSERT INTO residents (homesite_id, name) VALUES (65, 'Barbara Torres');
+INSERT INTO residents (homesite_id, name) VALUES (65, 'Barbara Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (65, 'Kimberly Wright');
+INSERT INTO residents (homesite_id, name) VALUES (66, 'Thomas Robinson');
+INSERT INTO residents (homesite_id, name) VALUES (67, 'Jessica Rodriguez');
+INSERT INTO residents (homesite_id, name) VALUES (68, 'Joseph Martinez');
+INSERT INTO residents (homesite_id, name) VALUES (68, 'Brian Perez');
+INSERT INTO residents (homesite_id, name) VALUES (68, 'Paul Perez');
+INSERT INTO residents (homesite_id, name) VALUES (68, 'Andrew Baker');
+INSERT INTO residents (homesite_id, name) VALUES (68, 'Charles Nguyen');
+INSERT INTO residents (homesite_id, name) VALUES (69, 'Emily Jones');
+INSERT INTO residents (homesite_id, name) VALUES (70, 'Richard White');
+INSERT INTO residents (homesite_id, name) VALUES (70, 'Joseph Nguyen');
+INSERT INTO residents (homesite_id, name) VALUES (71, 'Nancy Taylor');
+INSERT INTO residents (homesite_id, name) VALUES (72, 'Robert Flores');
+INSERT INTO residents (homesite_id, name) VALUES (73, 'Michelle Walker');
+INSERT INTO residents (homesite_id, name) VALUES (73, 'Sandra Green');
+INSERT INTO residents (homesite_id, name) VALUES (73, 'Jennifer Thompson');
+INSERT INTO residents (homesite_id, name) VALUES (74, 'David Martinez');
+INSERT INTO residents (homesite_id, name) VALUES (74, 'William Young');
+INSERT INTO residents (homesite_id, name) VALUES (75, 'Jessica Allen');
+INSERT INTO residents (homesite_id, name) VALUES (75, 'Margaret Torres');
+INSERT INTO residents (homesite_id, name) VALUES (75, 'Nancy Lee');
+INSERT INTO residents (homesite_id, name) VALUES (75, 'Kimberly Thompson');
+INSERT INTO residents (homesite_id, name) VALUES (76, 'Brian Scott');
+INSERT INTO residents (homesite_id, name) VALUES (76, 'Michael Sanchez');
+INSERT INTO residents (homesite_id, name) VALUES (77, 'Laura Lee');
+INSERT INTO residents (homesite_id, name) VALUES (77, 'Sandra Gonzalez');
+INSERT INTO residents (homesite_id, name) VALUES (77, 'Helen Smith');
+INSERT INTO residents (homesite_id, name) VALUES (77, 'Cynthia Hill');
+INSERT INTO residents (homesite_id, name) VALUES (78, 'James Lopez');
+INSERT INTO residents (homesite_id, name) VALUES (78, 'Thomas Wilson');
+INSERT INTO residents (homesite_id, name) VALUES (79, 'Margaret Nelson');
+INSERT INTO residents (homesite_id, name) VALUES (79, 'Lisa Anderson');
+INSERT INTO residents (homesite_id, name) VALUES (79, 'Laura Taylor');
+INSERT INTO residents (homesite_id, name) VALUES (79, 'Jennifer Gonzalez');
+INSERT INTO residents (homesite_id, name) VALUES (80, 'Andrew Johnson');
+INSERT INTO residents (homesite_id, name) VALUES (81, 'Dorothy Harris');
+INSERT INTO residents (homesite_id, name) VALUES (81, 'Patricia Walker');
+INSERT INTO residents (homesite_id, name) VALUES (81, 'Carol Clark');
+INSERT INTO residents (homesite_id, name) VALUES (81, 'Margaret Smith');
+INSERT INTO residents (homesite_id, name) VALUES (82, 'Eric Brown');
+INSERT INTO residents (homesite_id, name) VALUES (82, 'Anthony White');
+INSERT INTO residents (homesite_id, name) VALUES (82, 'Jeffrey Robinson');
+INSERT INTO residents (homesite_id, name) VALUES (82, 'Jason Martinez');
+INSERT INTO residents (homesite_id, name) VALUES (83, 'Carol Harris');
+INSERT INTO residents (homesite_id, name) VALUES (83, 'Ashley Clark');
+INSERT INTO residents (homesite_id, name) VALUES (83, 'Linda Wright');
+INSERT INTO residents (homesite_id, name) VALUES (84, 'Thomas Wilson');
+INSERT INTO residents (homesite_id, name) VALUES (84, 'Timothy King');
+INSERT INTO residents (homesite_id, name) VALUES (84, 'Ryan Brown');
+INSERT INTO residents (homesite_id, name) VALUES (84, 'David Robinson');
+INSERT INTO residents (homesite_id, name) VALUES (85, 'Mary Hill');
+INSERT INTO residents (homesite_id, name) VALUES (85, 'Dorothy Hill');
+INSERT INTO residents (homesite_id, name) VALUES (85, 'Elizabeth Miller');
+INSERT INTO residents (homesite_id, name) VALUES (85, 'Patricia Gonzalez');
+INSERT INTO residents (homesite_id, name) VALUES (86, 'Joseph Young');
+INSERT INTO residents (homesite_id, name) VALUES (87, 'Barbara Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (87, 'Cynthia Hernandez');
+INSERT INTO residents (homesite_id, name) VALUES (88, 'David Martinez');
+INSERT INTO residents (homesite_id, name) VALUES (88, 'Nicholas Roberts');
+INSERT INTO residents (homesite_id, name) VALUES (88, 'Timothy Rivera');
+INSERT INTO residents (homesite_id, name) VALUES (88, 'Matthew Young');
+INSERT INTO residents (homesite_id, name) VALUES (89, 'Karen Rodriguez');
+INSERT INTO residents (homesite_id, name) VALUES (89, 'Helen Miller');
+INSERT INTO residents (homesite_id, name) VALUES (89, 'Amanda Lewis');
+INSERT INTO residents (homesite_id, name) VALUES (89, 'Karen Hall');
+INSERT INTO residents (homesite_id, name) VALUES (90, 'Thomas Sanchez');
+INSERT INTO residents (homesite_id, name) VALUES (90, 'Kevin King');
+INSERT INTO residents (homesite_id, name) VALUES (90, 'William Nguyen');
+INSERT INTO residents (homesite_id, name) VALUES (91, 'Margaret Jones');
+INSERT INTO residents (homesite_id, name) VALUES (91, 'Susan Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (91, 'Sandra Hall');
+INSERT INTO residents (homesite_id, name) VALUES (91, 'Sharon Carter');
+INSERT INTO residents (homesite_id, name) VALUES (91, 'Elizabeth Walker');
+INSERT INTO residents (homesite_id, name) VALUES (92, 'Benjamin Davis');
+INSERT INTO residents (homesite_id, name) VALUES (93, 'Kimberly Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (93, 'Linda Anderson');
+INSERT INTO residents (homesite_id, name) VALUES (93, 'Barbara Lewis');
+INSERT INTO residents (homesite_id, name) VALUES (93, 'Betty Rodriguez');
+INSERT INTO residents (homesite_id, name) VALUES (93, 'Patricia Williams');
+INSERT INTO residents (homesite_id, name) VALUES (94, 'Robert King');
+INSERT INTO residents (homesite_id, name) VALUES (94, 'Daniel Wilson');
+INSERT INTO residents (homesite_id, name) VALUES (95, 'Jessica Carter');
+INSERT INTO residents (homesite_id, name) VALUES (95, 'Kimberly Carter');
+INSERT INTO residents (homesite_id, name) VALUES (95, 'Sandra Torres');
+INSERT INTO residents (homesite_id, name) VALUES (95, 'Sandra Clark');
+INSERT INTO residents (homesite_id, name) VALUES (96, 'Charles White');
+INSERT INTO residents (homesite_id, name) VALUES (96, 'Eric Martinez');
+INSERT INTO residents (homesite_id, name) VALUES (96, 'Anthony Thomas');
+INSERT INTO residents (homesite_id, name) VALUES (97, 'Patricia Harris');
+INSERT INTO residents (homesite_id, name) VALUES (97, 'Sandra Gonzalez');
+INSERT INTO residents (homesite_id, name) VALUES (97, 'Sarah Williams');
+INSERT INTO residents (homesite_id, name) VALUES (98, 'Eric Young');
+INSERT INTO residents (homesite_id, name) VALUES (99, 'Margaret Williams');
+INSERT INTO residents (homesite_id, name) VALUES (99, 'Sandra Jones');
+INSERT INTO residents (homesite_id, name) VALUES (99, 'Jennifer Smith');
+INSERT INTO residents (homesite_id, name) VALUES (100, 'Joseph Thomas');
+INSERT INTO residents (homesite_id, name) VALUES (100, 'Robert Brown');
+INSERT INTO residents (homesite_id, name) VALUES (101, 'Sandra Williams');
+INSERT INTO residents (homesite_id, name) VALUES (101, 'Michelle Williams');
+INSERT INTO residents (homesite_id, name) VALUES (101, 'Susan Hernandez');
+INSERT INTO residents (homesite_id, name) VALUES (102, 'Timothy Young');
+INSERT INTO residents (homesite_id, name) VALUES (103, 'Lisa Smith');
+INSERT INTO residents (homesite_id, name) VALUES (104, 'Nicholas White');
+INSERT INTO residents (homesite_id, name) VALUES (104, 'Anthony Rivera');
+INSERT INTO residents (homesite_id, name) VALUES (104, 'William Nguyen');
+INSERT INTO residents (homesite_id, name) VALUES (105, 'Kimberly Nelson');
+INSERT INTO residents (homesite_id, name) VALUES (106, 'Jacob Moore');
+INSERT INTO residents (homesite_id, name) VALUES (106, 'Mark Mitchell');
+INSERT INTO residents (homesite_id, name) VALUES (106, 'David Martin');
+INSERT INTO residents (homesite_id, name) VALUES (106, 'Richard Rivera');
+INSERT INTO residents (homesite_id, name) VALUES (106, 'Timothy Martinez');
+INSERT INTO residents (homesite_id, name) VALUES (107, 'Lisa Allen');
+INSERT INTO residents (homesite_id, name) VALUES (107, 'Patricia Jones');
+INSERT INTO residents (homesite_id, name) VALUES (107, 'Ruth Hall');
+INSERT INTO residents (homesite_id, name) VALUES (107, 'Amanda Allen');
+INSERT INTO residents (homesite_id, name) VALUES (108, 'Joshua Johnson');
+INSERT INTO residents (homesite_id, name) VALUES (109, 'Barbara Thompson');
+INSERT INTO residents (homesite_id, name) VALUES (110, 'Ryan Brown');
+INSERT INTO residents (homesite_id, name) VALUES (111, 'Mary Walker');
+INSERT INTO residents (homesite_id, name) VALUES (112, 'Jason Nguyen');
+INSERT INTO residents (homesite_id, name) VALUES (112, 'Robert Brown');
+INSERT INTO residents (homesite_id, name) VALUES (113, 'Donna Campbell');
+INSERT INTO residents (homesite_id, name) VALUES (113, 'Kimberly Miller');
+INSERT INTO residents (homesite_id, name) VALUES (113, 'Mary Smith');
+INSERT INTO residents (homesite_id, name) VALUES (113, 'Sandra Harris');
+INSERT INTO residents (homesite_id, name) VALUES (114, 'Steven Young');
+INSERT INTO residents (homesite_id, name) VALUES (115, 'Karen Jackson');
+INSERT INTO residents (homesite_id, name) VALUES (115, 'Patricia Allen');
+INSERT INTO residents (homesite_id, name) VALUES (115, 'Karen Taylor');
+INSERT INTO residents (homesite_id, name) VALUES (115, 'Jessica Jackson');
+INSERT INTO residents (homesite_id, name) VALUES (116, 'Ryan Brown');
+INSERT INTO residents (homesite_id, name) VALUES (117, 'Susan Anderson');
+INSERT INTO residents (homesite_id, name) VALUES (117, 'Michelle Hernandez');
+INSERT INTO residents (homesite_id, name) VALUES (117, 'Elizabeth Williams');
+INSERT INTO residents (homesite_id, name) VALUES (118, 'Michael Sanchez');
+INSERT INTO residents (homesite_id, name) VALUES (118, 'Matthew Flores');
+INSERT INTO residents (homesite_id, name) VALUES (118, 'Jacob Adams');
+INSERT INTO residents (homesite_id, name) VALUES (118, 'Richard Roberts');
+INSERT INTO residents (homesite_id, name) VALUES (119, 'Margaret Lewis');
+INSERT INTO residents (homesite_id, name) VALUES (119, 'Margaret Rodriguez');
+INSERT INTO residents (homesite_id, name) VALUES (119, 'Amanda Smith');
+INSERT INTO residents (homesite_id, name) VALUES (119, 'Amanda Taylor');
+INSERT INTO residents (homesite_id, name) VALUES (120, 'Nicholas Moore');
+INSERT INTO residents (homesite_id, name) VALUES (120, 'David Nguyen');
+INSERT INTO residents (homesite_id, name) VALUES (120, 'Andrew Rivera');
+INSERT INTO residents (homesite_id, name) VALUES (120, 'Charles Ramirez');
+
+-- Phones
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9071' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-8730' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-9426' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3922' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1417' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2171' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8384' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4407' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1195' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1882' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7334' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1465' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6956' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-6392' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4961' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3293' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1206' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3077' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3705' FROM residents WHERE homesite_id=3 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5444' FROM residents WHERE homesite_id=3 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5464' FROM residents WHERE homesite_id=3 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5860' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6707' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6033' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-8710' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7974' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8717' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2992' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7044' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9555' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1959' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-6098' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2767' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7325' FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9784' FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6956' FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-6941' FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1054' FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1262' FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8513' FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5541' FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3695' FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5148' FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9160' FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6049' FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5410' FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3974' FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1986' FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4751' FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4485' FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3920' FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7569' FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-3789' FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9105' FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5114' FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9841' FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6227' FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5399' FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9956' FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5123' FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4377' FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5525' FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1698' FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3786' FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9025' FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9739' FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1361' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-4164' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5536' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5817' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2906' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3298' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8173' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8648' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5260' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5765' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6513' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5934' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4014' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7491' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2712' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-4620' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2083' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6545' FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2142' FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5890' FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2677' FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5807' FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3724' FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1576' FROM residents WHERE homesite_id=14 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1623' FROM residents WHERE homesite_id=14 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2859' FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7081' FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2581' FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5890' FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9186' FROM residents WHERE homesite_id=16 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3687' FROM residents WHERE homesite_id=16 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5908' FROM residents WHERE homesite_id=16 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3800' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9625' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4773' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5481' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5442' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6226' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7339' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9575' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1451' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8256' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6511' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5963' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-8249' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6861' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1759' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7874' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6831' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-2285' FROM residents WHERE homesite_id=19 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8920' FROM residents WHERE homesite_id=19 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1545' FROM residents WHERE homesite_id=19 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8117' FROM residents WHERE homesite_id=19 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-4614' FROM residents WHERE homesite_id=19 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8006' FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9777' FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1045' FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6304' FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1743' FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1837' FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2270' FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4766' FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8855' FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1068' FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1000' FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7345' FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-6310' FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4282' FROM residents WHERE homesite_id=22 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5947' FROM residents WHERE homesite_id=22 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-4856' FROM residents WHERE homesite_id=22 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5052' FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8803' FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3087' FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3078' FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4223' FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5341' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7447' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1500' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5632' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4433' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9261' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-8991' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5306' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2486' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-2213' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8015' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7597' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-8552' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3260' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7915' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9834' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-9782' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6430' FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9875' FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8577' FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7908' FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-6024' FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-3089' FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4458' FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6810' FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1117' FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7111' FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8373' FROM residents WHERE homesite_id=28 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3776' FROM residents WHERE homesite_id=28 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7684' FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4048' FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7905' FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6915' FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1942' FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2061' FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1233' FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8964' FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3299' FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4767' FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5477' FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9114' FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9627' FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5129' FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3140' FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9995' FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7031' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6275' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2705' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5802' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4566' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2635' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9889' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7011' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-9672' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4740' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7051' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5135' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6595' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7190' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2270' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-9242' FROM residents WHERE homesite_id=34 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3106' FROM residents WHERE homesite_id=34 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7919' FROM residents WHERE homesite_id=34 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2939' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7520' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8428' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8371' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5434' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-9886' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5215' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2444' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3768' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9921' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2739' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7246' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5778' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-6223' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7772' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-9528' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2204' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1301' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3551' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4365' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4630' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4922' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3143' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9893' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6767' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9228' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5600' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9439' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2483' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4778' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7125' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5593' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8196' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-8912' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6311' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2642' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6218' FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9485' FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5008' FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-4292' FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5667' FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7817' FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9018' FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7662' FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-9434' FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5322' FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-6226' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2881' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5892' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8336' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5297' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4835' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3079' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-8954' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-6238' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1923' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1623' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1652' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1504' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-2151' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1485' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9151' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4434' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-6097' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8509' FROM residents WHERE homesite_id=43 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5761' FROM residents WHERE homesite_id=43 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3156' FROM residents WHERE homesite_id=43 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3960' FROM residents WHERE homesite_id=44 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1529' FROM residents WHERE homesite_id=44 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-8326' FROM residents WHERE homesite_id=44 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-7870' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-2277' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1232' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9172' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4285' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9238' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6286' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5209' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8924' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3048' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7919' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1805' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1298' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5754' FROM residents WHERE homesite_id=46 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5758' FROM residents WHERE homesite_id=46 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2850' FROM residents WHERE homesite_id=47 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-9922' FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7949' FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7479' FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-6259' FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2904' FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1764' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6829' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9967' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3986' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1079' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8875' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1744' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2108' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5504' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2692' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8205' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6674' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3070' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6961' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7740' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4752' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-9004' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4459' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3430' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-4354' FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1518' FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6850' FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1030' FROM residents WHERE homesite_id=52 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7251' FROM residents WHERE homesite_id=52 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1057' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3484' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4387' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1313' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2110' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8063' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2949' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1112' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5887' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3109' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3254' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3579' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1255' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5492' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1549' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1959' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4126' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7785' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8085' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9217' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7004' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-6848' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9039' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-8402' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6306' FROM residents WHERE homesite_id=55 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3858' FROM residents WHERE homesite_id=55 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4966' FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1434' FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2922' FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8949' FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2993' FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-6395' FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-2433' FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-4412' FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8080' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9433' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6637' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8150' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7013' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3345' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8707' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6391' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4876' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9563' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9153' FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3058' FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2826' FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6150' FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9215' FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8588' FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1088' FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7543' FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7579' FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-9738' FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7579' FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6207' FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3972' FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1856' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-2943' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8333' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1550' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3206' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-7970' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5645' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-4632' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8348' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1136' FROM residents WHERE homesite_id=62 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9617' FROM residents WHERE homesite_id=62 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4274' FROM residents WHERE homesite_id=62 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3942' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3366' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1175' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5339' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-8936' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1140' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4243' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7065' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8058' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4665' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5059' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8896' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7628' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9285' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4846' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6310' FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3417' FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4357' FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7616' FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5641' FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1477' FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2842' FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-6602' FROM residents WHERE homesite_id=66 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6906' FROM residents WHERE homesite_id=67 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3254' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7543' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8453' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-8488' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8364' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4843' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6558' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4082' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3046' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4115' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2448' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8148' FROM residents WHERE homesite_id=69 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3288' FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3615' FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1405' FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1962' FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9683' FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5537' FROM residents WHERE homesite_id=71 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3795' FROM residents WHERE homesite_id=72 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4272' FROM residents WHERE homesite_id=72 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6841' FROM residents WHERE homesite_id=72 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9957' FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5726' FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4810' FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1031' FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7267' FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9968' FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9799' FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-8573' FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5249' FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-7894' FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4665' FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3133' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6832' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8593' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1773' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3353' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8262' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7678' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-6693' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1816' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1628' FROM residents WHERE homesite_id=76 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-7344' FROM residents WHERE homesite_id=76 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-3825' FROM residents WHERE homesite_id=76 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-3731' FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2633' FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2093' FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1402' FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8470' FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3479' FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7789' FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1768' FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5460' FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6349' FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5254' FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7334' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4777' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-8060' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-9032' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7396' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8061' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2385' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1797' FROM residents WHERE homesite_id=80 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8513' FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2341' FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-7974' FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2590' FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8770' FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1011' FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6519' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5420' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3496' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2545' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5990' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3326' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8317' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8455' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2653' FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1376' FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7609' FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5115' FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9865' FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4174' FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9903' FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8571' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1480' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2247' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3243' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7490' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4021' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7495' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8620' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1296' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2012' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6085' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7449' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2333' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2674' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1333' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6631' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3372' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6256' FROM residents WHERE homesite_id=86 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4401' FROM residents WHERE homesite_id=86 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6658' FROM residents WHERE homesite_id=86 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1626' FROM residents WHERE homesite_id=87 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7326' FROM residents WHERE homesite_id=87 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3334' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6318' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4190' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1837' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2952' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-9748' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5859' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6303' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2866' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4215' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4019' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8471' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7725' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-9440' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2255' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2531' FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2886' FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9723' FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7119' FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9563' FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7920' FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7449' FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-3893' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6537' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2398' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9425' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5579' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5705' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2980' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6416' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-7484' FROM residents WHERE homesite_id=92 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8997' FROM residents WHERE homesite_id=92 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-6391' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3554' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3126' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8494' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2718' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3277' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7056' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3076' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-7984' FROM residents WHERE homesite_id=94 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8148' FROM residents WHERE homesite_id=94 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5637' FROM residents WHERE homesite_id=94 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7538' FROM residents WHERE homesite_id=94 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9822' FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4231' FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7301' FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3937' FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-8499' FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2849' FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-1052' FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-9707' FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1385' FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1477' FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-4302' FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1506' FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7367' FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1420' FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1368' FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5247' FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1466' FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-6270' FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-7750' FROM residents WHERE homesite_id=98 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-2183' FROM residents WHERE homesite_id=98 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9501' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2456' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5609' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1459' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5474' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2690' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3185' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7596' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-2352' FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9353' FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7181' FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5182' FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9803' FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-8001' FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7115' FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-8887' FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5612' FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9245' FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4983' FROM residents WHERE homesite_id=102 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-3770' FROM residents WHERE homesite_id=102 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-4079' FROM residents WHERE homesite_id=102 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-3797' FROM residents WHERE homesite_id=103 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1777' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6908' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7843' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4145' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-5462' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5015' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9611' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8720' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-3913' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3797' FROM residents WHERE homesite_id=105 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4127' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4990' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1455' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-7997' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2944' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-1967' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5653' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4327' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-3357' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1474' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2362' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1399' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5180' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-6224' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5719' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1790' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3010' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4875' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1543' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2141' FROM residents WHERE homesite_id=108 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7815' FROM residents WHERE homesite_id=109 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-3100' FROM residents WHERE homesite_id=109 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2627' FROM residents WHERE homesite_id=109 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-6399' FROM residents WHERE homesite_id=110 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-8626' FROM residents WHERE homesite_id=110 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1641' FROM residents WHERE homesite_id=110 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1027' FROM residents WHERE homesite_id=111 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3512' FROM residents WHERE homesite_id=111 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9439' FROM residents WHERE homesite_id=111 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5509' FROM residents WHERE homesite_id=112 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-8911' FROM residents WHERE homesite_id=112 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4219' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5810' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4885' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-4465' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-5084' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2152' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7433' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-6878' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2854' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-1218' FROM residents WHERE homesite_id=114 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8511' FROM residents WHERE homesite_id=114 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5077' FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-6168' FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2300' FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-1477' FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9417' FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-2539' FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-5599' FROM residents WHERE homesite_id=116 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-3070' FROM residents WHERE homesite_id=116 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-2567' FROM residents WHERE homesite_id=116 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3875' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9792' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5089' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-7837' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-1218' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-7467' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5577' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-4812' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-3637' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3401' FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4645' FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-8553' FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-8586' FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4753' FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-2747' FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-3089' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-3341' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-2912' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5943' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-9235' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-5703' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-7198' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 123-9050' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 456-4651' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 123-1809' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 555-5540' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(704) 456-2704' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-9487' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+INSERT INTO phones (resident_id, number)
+  SELECT id, '(980) 555-5387' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+
+-- Emails
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'karen.thompson@gmail.com' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'laura.hernandez@outlook.com' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'emily.anderson@gmail.com' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jennifer.lee@gmail.com' FROM residents WHERE homesite_id=1 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'timothy.lopez@yahoo.com' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'thomas.moore@gmail.com' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'benjamin.martinez@yahoo.com' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nicholas.roberts@yahoo.com' FROM residents WHERE homesite_id=2 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'elizabeth.jones@gmail.com' FROM residents WHERE homesite_id=3 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jennifer.green@yahoo.com' FROM residents WHERE homesite_id=3 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'matthew.wilson@gmail.com' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'donald.thomas@outlook.com' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'william.rivera@yahoo.com' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.moore@gmail.com' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'brian.mitchell@gmail.com' FROM residents WHERE homesite_id=4 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'laura.harris@outlook.com' FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.miller@outlook.com' FROM residents WHERE homesite_id=5 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jeffrey.garcia@gmail.com' FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joshua.martin@outlook.com' FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'william.brown@outlook.com' FROM residents WHERE homesite_id=6 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jennifer.clark@yahoo.com' FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'karen.lewis@yahoo.com' FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'mary.jones@yahoo.com' FROM residents WHERE homesite_id=7 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.perez@yahoo.com' FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'mark.moore@outlook.com' FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jason.martin@yahoo.com' FROM residents WHERE homesite_id=8 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.rodriguez@yahoo.com' FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sarah.green@gmail.com' FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.hernandez@yahoo.com' FROM residents WHERE homesite_id=9 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ryan.moore@outlook.com' FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'daniel.martinez@outlook.com' FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nicholas.martinez@yahoo.com' FROM residents WHERE homesite_id=10 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'dorothy.taylor@outlook.com' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'helen.campbell@yahoo.com' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kimberly.clark@gmail.com' FROM residents WHERE homesite_id=11 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'timothy.lopez@yahoo.com' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'robert.perez@outlook.com' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'donald.rivera@yahoo.com' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'richard.johnson@yahoo.com' FROM residents WHERE homesite_id=12 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'dorothy.williams@gmail.com' FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'laura.thompson@outlook.com' FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.anderson@outlook.com' FROM residents WHERE homesite_id=13 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jason.martin@gmail.com' FROM residents WHERE homesite_id=14 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'cynthia.rodriguez@yahoo.com' FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'emily.clark@yahoo.com' FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'margaret.torres@outlook.com' FROM residents WHERE homesite_id=15 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'steven.martinez@yahoo.com' FROM residents WHERE homesite_id=16 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'betty.nelson@yahoo.com' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'cynthia.thompson@gmail.com' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.anderson@yahoo.com' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'amanda.hill@yahoo.com' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'emily.thompson@gmail.com' FROM residents WHERE homesite_id=17 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jason.perez@yahoo.com' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'mark.mitchell@gmail.com' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kevin.baker@outlook.com' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'andrew.thomas@outlook.com' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jacob.young@outlook.com' FROM residents WHERE homesite_id=18 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.anderson@yahoo.com' FROM residents WHERE homesite_id=19 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ruth.campbell@yahoo.com' FROM residents WHERE homesite_id=19 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'benjamin.mitchell@yahoo.com' FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'eric.scott@gmail.com' FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joseph.ramirez@outlook.com' FROM residents WHERE homesite_id=20 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'barbara.allen@outlook.com' FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kimberly.miller@yahoo.com' FROM residents WHERE homesite_id=21 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kevin.davis@gmail.com' FROM residents WHERE homesite_id=22 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'lisa.nelson@outlook.com' FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.campbell@outlook.com' FROM residents WHERE homesite_id=23 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michael.martin@outlook.com' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'steven.baker@yahoo.com' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.flores@outlook.com' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nicholas.martin@yahoo.com' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kevin.roberts@gmail.com' FROM residents WHERE homesite_id=24 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'karen.williams@outlook.com' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'linda.hall@yahoo.com' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nancy.jackson@gmail.com' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'amanda.campbell@yahoo.com' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'margaret.allen@yahoo.com' FROM residents WHERE homesite_id=25 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'mark.adams@gmail.com' FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'james.johnson@outlook.com' FROM residents WHERE homesite_id=26 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.smith@outlook.com' FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'patricia.hernandez@yahoo.com' FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jennifer.thompson@outlook.com' FROM residents WHERE homesite_id=27 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'brian.lopez@outlook.com' FROM residents WHERE homesite_id=28 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'patricia.clark@yahoo.com' FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'mary.campbell@gmail.com' FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ruth.hernandez@outlook.com' FROM residents WHERE homesite_id=29 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.martin@outlook.com' FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'brian.sanchez@gmail.com' FROM residents WHERE homesite_id=30 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.lee@gmail.com' FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.allen@yahoo.com' FROM residents WHERE homesite_id=31 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'robert.king@outlook.com' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'james.sanchez@outlook.com' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'matthew.adams@yahoo.com' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.johnson@outlook.com' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'richard.brown@gmail.com' FROM residents WHERE homesite_id=32 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.rodriguez@gmail.com' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'betty.hill@outlook.com' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'margaret.jackson@gmail.com' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'helen.carter@outlook.com' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'karen.gonzalez@yahoo.com' FROM residents WHERE homesite_id=33 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'benjamin.martin@yahoo.com' FROM residents WHERE homesite_id=34 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'richard.ramirez@yahoo.com' FROM residents WHERE homesite_id=34 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'linda.taylor@outlook.com' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'cynthia.jones@outlook.com' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'amanda.rodriguez@yahoo.com' FROM residents WHERE homesite_id=35 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jacob.perez@outlook.com' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'steven.perez@gmail.com' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'timothy.young@gmail.com' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'mark.robinson@yahoo.com' FROM residents WHERE homesite_id=36 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'dorothy.campbell@yahoo.com' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.lee@outlook.com' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michelle.gonzalez@gmail.com' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'barbara.campbell@outlook.com' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michelle.miller@gmail.com' FROM residents WHERE homesite_id=37 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joshua.young@gmail.com' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'christopher.scott@gmail.com' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michael.perez@yahoo.com' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'andrew.lopez@outlook.com' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jason.mitchell@yahoo.com' FROM residents WHERE homesite_id=38 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'helen.campbell@yahoo.com' FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jennifer.wright@gmail.com' FROM residents WHERE homesite_id=39 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'charles.thomas@yahoo.com' FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'christopher.sanchez@outlook.com' FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'benjamin.robinson@outlook.com' FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'christopher.scott@outlook.com' FROM residents WHERE homesite_id=40 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'karen.lee@gmail.com' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.thompson@yahoo.com' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.clark@yahoo.com' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.nelson@outlook.com' FROM residents WHERE homesite_id=41 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jeffrey.davis@outlook.com' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'benjamin.mitchell@gmail.com' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'thomas.perez@outlook.com' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jason.lopez@gmail.com' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'andrew.martin@outlook.com' FROM residents WHERE homesite_id=42 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'donna.hill@gmail.com' FROM residents WHERE homesite_id=43 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'emily.thompson@gmail.com' FROM residents WHERE homesite_id=43 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'matthew.martin@outlook.com' FROM residents WHERE homesite_id=44 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jennifer.miller@yahoo.com' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'patricia.campbell@yahoo.com' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'laura.hall@gmail.com' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'donna.harris@gmail.com' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'dorothy.hall@gmail.com' FROM residents WHERE homesite_id=45 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jason.king@gmail.com' FROM residents WHERE homesite_id=46 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'thomas.nguyen@yahoo.com' FROM residents WHERE homesite_id=46 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.williams@gmail.com' FROM residents WHERE homesite_id=47 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joshua.king@yahoo.com' FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nicholas.scott@outlook.com' FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michael.king@outlook.com' FROM residents WHERE homesite_id=48 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'karen.allen@outlook.com' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'helen.carter@outlook.com' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'betty.allen@outlook.com' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.miller@outlook.com' FROM residents WHERE homesite_id=49 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'anthony.davis@yahoo.com' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'steven.garcia@yahoo.com' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joshua.roberts@yahoo.com' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'william.young@yahoo.com' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jacob.thomas@outlook.com' FROM residents WHERE homesite_id=50 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'carol.nelson@gmail.com' FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'donna.smith@yahoo.com' FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sarah.anderson@yahoo.com' FROM residents WHERE homesite_id=51 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'john.adams@outlook.com' FROM residents WHERE homesite_id=52 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.clark@outlook.com' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'barbara.wright@outlook.com' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michelle.torres@outlook.com' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.taylor@outlook.com' FROM residents WHERE homesite_id=53 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'william.nguyen@outlook.com' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joshua.nguyen@outlook.com' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ryan.lopez@outlook.com' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.wilson@yahoo.com' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'eric.lopez@yahoo.com' FROM residents WHERE homesite_id=54 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'linda.green@yahoo.com' FROM residents WHERE homesite_id=55 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'linda.harris@gmail.com' FROM residents WHERE homesite_id=55 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'richard.martin@outlook.com' FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'anthony.martin@outlook.com' FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'matthew.davis@gmail.com' FROM residents WHERE homesite_id=56 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'betty.clark@yahoo.com' FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'elizabeth.harris@gmail.com' FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michelle.taylor@gmail.com' FROM residents WHERE homesite_id=57 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'paul.robinson@gmail.com' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'christopher.baker@outlook.com' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'anthony.moore@yahoo.com' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'john.rivera@yahoo.com' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'charles.rivera@outlook.com' FROM residents WHERE homesite_id=58 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'lisa.taylor@yahoo.com' FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'donna.jackson@gmail.com' FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kimberly.green@outlook.com' FROM residents WHERE homesite_id=59 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'robert.roberts@outlook.com' FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kevin.flores@outlook.com' FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'andrew.wilson@yahoo.com' FROM residents WHERE homesite_id=60 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.harris@outlook.com' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'cynthia.lewis@gmail.com' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sarah.lewis@yahoo.com' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'dorothy.carter@yahoo.com' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ruth.jones@yahoo.com' FROM residents WHERE homesite_id=61 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joshua.young@outlook.com' FROM residents WHERE homesite_id=62 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kimberly.green@outlook.com' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'patricia.campbell@gmail.com' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ruth.torres@outlook.com' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ruth.lee@gmail.com' FROM residents WHERE homesite_id=63 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'charles.robinson@yahoo.com' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nicholas.baker@yahoo.com' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joshua.flores@outlook.com' FROM residents WHERE homesite_id=64 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'barbara.torres@gmail.com' FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'barbara.campbell@yahoo.com' FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kimberly.wright@yahoo.com' FROM residents WHERE homesite_id=65 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'thomas.robinson@yahoo.com' FROM residents WHERE homesite_id=66 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.rodriguez@yahoo.com' FROM residents WHERE homesite_id=67 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joseph.martinez@gmail.com' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'brian.perez@gmail.com' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'paul.perez@outlook.com' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'andrew.baker@gmail.com' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'charles.nguyen@outlook.com' FROM residents WHERE homesite_id=68 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'emily.jones@yahoo.com' FROM residents WHERE homesite_id=69 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'richard.white@yahoo.com' FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joseph.nguyen@gmail.com' FROM residents WHERE homesite_id=70 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nancy.taylor@outlook.com' FROM residents WHERE homesite_id=71 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'robert.flores@yahoo.com' FROM residents WHERE homesite_id=72 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michelle.walker@gmail.com' FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.green@gmail.com' FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jennifer.thompson@gmail.com' FROM residents WHERE homesite_id=73 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.martinez@outlook.com' FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'william.young@gmail.com' FROM residents WHERE homesite_id=74 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.allen@yahoo.com' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'margaret.torres@outlook.com' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nancy.lee@yahoo.com' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kimberly.thompson@yahoo.com' FROM residents WHERE homesite_id=75 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'brian.scott@gmail.com' FROM residents WHERE homesite_id=76 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michael.sanchez@outlook.com' FROM residents WHERE homesite_id=76 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'laura.lee@gmail.com' FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.gonzalez@outlook.com' FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'helen.smith@yahoo.com' FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'cynthia.hill@yahoo.com' FROM residents WHERE homesite_id=77 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'james.lopez@gmail.com' FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'thomas.wilson@outlook.com' FROM residents WHERE homesite_id=78 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'margaret.nelson@gmail.com' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'lisa.anderson@gmail.com' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'laura.taylor@outlook.com' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jennifer.gonzalez@yahoo.com' FROM residents WHERE homesite_id=79 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'andrew.johnson@outlook.com' FROM residents WHERE homesite_id=80 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'dorothy.harris@gmail.com' FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'patricia.walker@outlook.com' FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'carol.clark@outlook.com' FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'margaret.smith@yahoo.com' FROM residents WHERE homesite_id=81 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'eric.brown@outlook.com' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'anthony.white@outlook.com' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jeffrey.robinson@outlook.com' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jason.martinez@outlook.com' FROM residents WHERE homesite_id=82 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'carol.harris@gmail.com' FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ashley.clark@gmail.com' FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'linda.wright@gmail.com' FROM residents WHERE homesite_id=83 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'thomas.wilson@outlook.com' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'timothy.king@gmail.com' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ryan.brown@yahoo.com' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.robinson@gmail.com' FROM residents WHERE homesite_id=84 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'mary.hill@outlook.com' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'dorothy.hill@gmail.com' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'elizabeth.miller@yahoo.com' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'patricia.gonzalez@outlook.com' FROM residents WHERE homesite_id=85 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joseph.young@yahoo.com' FROM residents WHERE homesite_id=86 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'barbara.campbell@gmail.com' FROM residents WHERE homesite_id=87 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'cynthia.hernandez@gmail.com' FROM residents WHERE homesite_id=87 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.martinez@gmail.com' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nicholas.roberts@yahoo.com' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'timothy.rivera@outlook.com' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'matthew.young@outlook.com' FROM residents WHERE homesite_id=88 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'karen.rodriguez@outlook.com' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'helen.miller@yahoo.com' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'amanda.lewis@gmail.com' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'karen.hall@gmail.com' FROM residents WHERE homesite_id=89 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'thomas.sanchez@yahoo.com' FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kevin.king@yahoo.com' FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'william.nguyen@outlook.com' FROM residents WHERE homesite_id=90 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'margaret.jones@outlook.com' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.campbell@outlook.com' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.hall@outlook.com' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sharon.carter@gmail.com' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'elizabeth.walker@outlook.com' FROM residents WHERE homesite_id=91 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'benjamin.davis@yahoo.com' FROM residents WHERE homesite_id=92 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kimberly.campbell@gmail.com' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'linda.anderson@outlook.com' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'barbara.lewis@gmail.com' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'betty.rodriguez@yahoo.com' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'patricia.williams@yahoo.com' FROM residents WHERE homesite_id=93 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'robert.king@gmail.com' FROM residents WHERE homesite_id=94 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'daniel.wilson@yahoo.com' FROM residents WHERE homesite_id=94 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.carter@outlook.com' FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kimberly.carter@yahoo.com' FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.torres@gmail.com' FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.clark@gmail.com' FROM residents WHERE homesite_id=95 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'charles.white@gmail.com' FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'eric.martinez@yahoo.com' FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'anthony.thomas@gmail.com' FROM residents WHERE homesite_id=96 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'patricia.harris@yahoo.com' FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.gonzalez@outlook.com' FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sarah.williams@outlook.com' FROM residents WHERE homesite_id=97 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'eric.young@gmail.com' FROM residents WHERE homesite_id=98 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'margaret.williams@gmail.com' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.jones@yahoo.com' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jennifer.smith@yahoo.com' FROM residents WHERE homesite_id=99 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joseph.thomas@outlook.com' FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'robert.brown@outlook.com' FROM residents WHERE homesite_id=100 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.williams@outlook.com' FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michelle.williams@gmail.com' FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.hernandez@gmail.com' FROM residents WHERE homesite_id=101 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'timothy.young@yahoo.com' FROM residents WHERE homesite_id=102 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'lisa.smith@outlook.com' FROM residents WHERE homesite_id=103 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nicholas.white@yahoo.com' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'anthony.rivera@yahoo.com' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'william.nguyen@gmail.com' FROM residents WHERE homesite_id=104 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kimberly.nelson@yahoo.com' FROM residents WHERE homesite_id=105 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jacob.moore@yahoo.com' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'mark.mitchell@gmail.com' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.martin@yahoo.com' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'richard.rivera@gmail.com' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'timothy.martinez@gmail.com' FROM residents WHERE homesite_id=106 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'lisa.allen@gmail.com' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'patricia.jones@yahoo.com' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ruth.hall@outlook.com' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'amanda.allen@yahoo.com' FROM residents WHERE homesite_id=107 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'joshua.johnson@outlook.com' FROM residents WHERE homesite_id=108 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'barbara.thompson@gmail.com' FROM residents WHERE homesite_id=109 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ryan.brown@outlook.com' FROM residents WHERE homesite_id=110 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'mary.walker@outlook.com' FROM residents WHERE homesite_id=111 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jason.nguyen@gmail.com' FROM residents WHERE homesite_id=112 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'robert.brown@gmail.com' FROM residents WHERE homesite_id=112 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'donna.campbell@yahoo.com' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'kimberly.miller@yahoo.com' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'mary.smith@yahoo.com' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'sandra.harris@yahoo.com' FROM residents WHERE homesite_id=113 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'steven.young@gmail.com' FROM residents WHERE homesite_id=114 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'karen.jackson@outlook.com' FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'patricia.allen@outlook.com' FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'karen.taylor@outlook.com' FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jessica.jackson@gmail.com' FROM residents WHERE homesite_id=115 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'ryan.brown@gmail.com' FROM residents WHERE homesite_id=116 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'susan.anderson@outlook.com' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michelle.hernandez@yahoo.com' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'elizabeth.williams@gmail.com' FROM residents WHERE homesite_id=117 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'michael.sanchez@yahoo.com' FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'matthew.flores@gmail.com' FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'jacob.adams@yahoo.com' FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'richard.roberts@outlook.com' FROM residents WHERE homesite_id=118 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'margaret.lewis@outlook.com' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'margaret.rodriguez@yahoo.com' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'amanda.smith@yahoo.com' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'amanda.taylor@gmail.com' FROM residents WHERE homesite_id=119 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'nicholas.moore@gmail.com' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'david.nguyen@outlook.com' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'andrew.rivera@outlook.com' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+INSERT INTO emails (resident_id, address)
+  SELECT id, 'charles.ramirez@outlook.com' FROM residents WHERE homesite_id=120 ORDER BY id DESC LIMIT 1;
+
+-- Resident user accounts (one per homesite — the first resident)
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident1@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=1;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident2@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=2;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident3@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=3;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident4@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=4;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident5@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=5;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident6@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=6;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident7@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=7;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident8@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=8;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident9@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=9;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident10@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=10;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident11@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=11;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident12@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=12;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident13@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=13;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident14@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=14;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident15@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=15;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident16@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=16;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident17@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=17;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident18@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=18;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident19@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=19;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident20@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=20;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident21@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=21;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident22@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=22;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident23@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=23;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident24@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=24;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident25@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=25;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident26@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=26;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident27@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=27;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident28@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=28;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident29@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=29;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident30@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=30;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident31@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=31;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident32@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=32;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident33@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=33;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident34@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=34;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident35@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=35;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident36@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=36;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident37@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=37;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident38@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=38;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident39@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=39;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident40@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=40;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident41@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=41;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident42@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=42;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident43@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=43;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident44@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=44;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident45@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=45;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident46@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=46;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident47@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=47;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident48@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=48;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident49@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=49;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident50@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=50;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident51@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=51;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident52@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=52;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident53@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=53;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident54@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=54;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident55@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=55;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident56@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=56;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident57@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=57;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident58@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=58;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident59@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=59;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident60@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=60;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident61@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=61;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident62@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=62;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident63@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=63;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident64@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=64;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident65@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=65;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident66@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=66;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident67@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=67;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident68@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=68;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident69@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=69;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident70@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=70;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident71@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=71;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident72@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=72;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident73@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=73;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident74@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=74;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident75@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=75;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident76@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=76;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident77@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=77;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident78@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=78;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident79@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=79;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident80@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=80;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident81@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=81;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident82@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=82;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident83@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=83;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident84@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=84;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident85@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=85;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident86@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=86;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident87@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=87;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident88@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=88;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident89@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=89;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident90@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=90;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident91@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=91;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident92@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=92;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident93@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=93;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident94@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=94;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident95@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=95;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident96@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=96;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident97@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=97;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident98@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=98;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident99@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=99;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident100@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=100;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident101@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=101;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident102@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=102;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident103@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=103;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident104@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=104;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident105@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=105;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident106@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=106;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident107@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=107;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident108@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=108;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident109@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=109;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident110@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=110;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident111@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=111;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident112@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=112;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident113@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=113;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident114@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=114;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident115@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=115;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident116@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=116;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident117@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=117;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident118@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=118;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident119@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=119;
+INSERT INTO users (email, password_hash, role, resident_id)
+  SELECT 'resident120@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=120;
+Done — 350 residents across 120 homesites
