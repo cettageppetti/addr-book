@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { getAuthHeaders } from '../lib/auth'
-import { fileToBase64Jpeg, isImage, photoSize } from '../lib/photo'
+import { fileToJpegBlob, isImage, blobSize } from '../lib/photo'
 
-// ── Standalone \"Add Homesite\" form (used in Home.tsx) ────────────────────────
+const PHOTO_ENDPOINT = (id: number) => `/api/homesites/${id}/photo`
+
+// ── Standalone "Add Homesite" form (used in Home.tsx) ────────────────────────
 interface AddProps { onSave: (h: any) => void }
 export function HomesiteAdder({ onSave }: AddProps) {
   const fileRef = useRef<HTMLInputElement>(null)
@@ -12,9 +14,19 @@ export function HomesiteAdder({ onSave }: AddProps) {
   const [city,  setCity]  = useState('Charlotte')
   const [state, setState] = useState('NC')
   const [zip,   setZip]   = useState('')
-  const [photo,  setPhoto]  = useState<string | null>(null)
-  const [saving, setSaving] = useState(false)
-  const [error,   setError]   = useState('')
+  const [photoBlob, setPhotoBlob] = useState<Blob | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [saving,   setSaving] = useState(false)
+  const [error,    setError]  = useState('')
+
+  // Upload a blob to the photo endpoint
+  const uploadPhoto = async (id: number, blob: Blob) => {
+    await fetch(PHOTO_ENDPOINT(id), {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: blob,
+    })
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -24,10 +36,12 @@ export function HomesiteAdder({ onSave }: AddProps) {
       const res = await fetch('/api/homesites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim() || 'Charlotte', state: state.trim() || 'NC', zip_code: zip.trim(), photo }),
+        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim() || 'Charlotte', state: state.trim() || 'NC', zip_code: zip.trim() }),
       })
       if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Save failed') }
-      onSave(await res.json())
+      const home = await res.json()
+      if (photoBlob) await uploadPhoto(home.id, photoBlob)
+      onSave({ ...home, city: city.trim() || 'Charlotte', state: state.trim() || 'NC' })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Save failed')
     } finally { setSaving(false) }
@@ -69,16 +83,23 @@ export function HomesiteAdder({ onSave }: AddProps) {
             const file = e.target.files?.[0]
             if (!file) return
             if (!isImage(file)) { setError('Please select an image file'); return }
-            try { const b64 = await fileToBase64Jpeg(file); setPhoto(b64) }
-            catch { setError('Failed to process image') }
+            try {
+              const blob = await fileToJpegBlob(file)
+              setPhotoBlob(blob)
+              if (previewUrl) URL.revokeObjectURL(previewUrl)
+              setPreviewUrl(URL.createObjectURL(blob))
+            } catch { setError('Failed to process image') }
           }} />
         <div className="flex items-center gap-3">
-          {photo
+          {previewUrl
             ? <div className="flex items-center gap-2">
-                <img src={photo} alt="Homesite" className="h-16 w-16 object-cover rounded border" />
-                <span className="text-xs text-gray-500">{photoSize(photo)}</span>
-                <button type="button" onClick={() => { setPhoto(null); if (fileRef.current) fileRef.current.value = '' }}
-                  className="text-xs text-red-500 hover:text-red-700">Remove</button>
+                <img src={previewUrl} alt="Homesite" className="h-16 w-16 object-cover rounded border" />
+                <span className="text-xs text-gray-500">{blobSize(photoBlob!)}</span>
+                <button type="button" onClick={() => {
+                  if (previewUrl) URL.revokeObjectURL(previewUrl)
+                  setPhotoBlob(null); setPreviewUrl(null)
+                  if (fileRef.current) fileRef.current.value = ''
+                }} className="text-xs text-red-500 hover:text-red-700">Remove</button>
               </div>
             : <button type="button" onClick={() => fileRef.current?.click()}
               className="text-sm text-indigo-600 hover:text-indigo-800 border border-indigo-200 rounded px-3 py-1.5 hover:bg-indigo-50">📷 Add Photo</button>
@@ -97,16 +118,25 @@ export function HomesiteAdder({ onSave }: AddProps) {
 interface CardProps { homesite: any; onDelete: (id: number) => void }
 
 export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
-  const fileRef     = useRef<HTMLInputElement>(null)
+  const fileRef      = useRef<HTMLInputElement>(null)
   const [confirming, setConfirming] = useState(false)
-  const [editing,     setEditing]   = useState(false)
-  const [num,         setNum]       = useState(homesite.street_number || '')
-  const [name,        setName]      = useState(homesite.street_name || '')
-  const [city,        setCity]      = useState(homesite.city || 'Charlotte')
-  const [state,       setState]     = useState(homesite.state || 'NC')
-  const [zip,         setZip]       = useState(homesite.zip_code || '')
-  const [photo,        setPhoto]     = useState<string | null>(homesite.photo ?? null)
-  const [saving,      setSaving]    = useState(false)
+  const [editing,    setEditing]    = useState(false)
+  const [num,        setNum]        = useState(homesite.street_number || '')
+  const [name,       setName]       = useState(homesite.street_name || '')
+  const [city,       setCity]       = useState(homesite.city || 'Charlotte')
+  const [state,      setState]      = useState(homesite.state || 'NC')
+  const [zip,        setZip]        = useState(homesite.zip_code || '')
+  // pendingBlob: new photo selected but not yet saved; null = no change
+  const [pendingBlob, setPendingBlob]   = useState<Blob | null>(null)
+  const [pendingUrl, setPendingUrl]     = useState<string | null>(null)
+  // deletePhoto: true when user wants to remove existing photo
+  const [deletePhoto, setDeletePhoto]   = useState(false)
+  const [saving,    setSaving]  = useState(false)
+
+  // True when user selected a new photo (show preview + "remove" option)
+  const hasPending = pendingBlob !== null || deletePhoto
+  // URL to show in the preview — pending if available, otherwise homesite photo
+  const previewSrc = pendingUrl ?? (!deletePhoto ? PHOTO_ENDPOINT(homesite.id) : null)
 
   const residents = homesite.residents || []
 
@@ -122,37 +152,54 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       const res = await fetch(`/api/homesites/${homesite.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim() || 'Charlotte', state: state.trim() || 'NC', zip_code: zip.trim(), photo }),
+        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim() || 'Charlotte', state: state.trim() || 'NC', zip_code: zip.trim() }),
       })
-      if (res.ok) {
-        const updated = await res.json()
-        // Update card fields in place without closing — user sees the new values
-        homesite.street_number = updated.street_number
-        homesite.street_name   = updated.street_name
-        homesite.city          = updated.city
-        homesite.state         = updated.state
-        homesite.zip_code      = updated.zip_code
-        if ('photo' in updated) { homesite.photo = updated.photo; setPhoto(updated.photo ?? null) }
-        setEditing(false)
+      if (!res.ok) { throw new Error('Save failed') }
+      const updated = await res.json()
+      homesite.street_number = updated.street_number
+      homesite.street_name   = updated.street_name
+      homesite.city          = updated.city
+      homesite.state         = updated.state
+      homesite.zip_code      = updated.zip_code
+
+      // Upload new photo, remove existing, or leave as-is
+      if (deletePhoto) {
+        await fetch(PHOTO_ENDPOINT(homesite.id), { method: 'DELETE', headers: getAuthHeaders() })
       }
+      if (pendingBlob) {
+        await fetch(PHOTO_ENDPOINT(homesite.id), {
+          method: 'PUT',
+          headers: getAuthHeaders(),
+          body: pendingBlob,
+        })
+      }
+
+      setEditing(false)
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Save failed')
     } finally { setSaving(false) }
+  }
+
+  const cancelEdit = () => {
+    if (pendingUrl) URL.revokeObjectURL(pendingUrl)
+    setEditing(false)
+    setPendingBlob(null); setPendingUrl(null); setDeletePhoto(false)
+    setNum(homesite.street_number); setName(homesite.street_name)
+    setCity(homesite.city || 'Charlotte'); setState(homesite.state || 'NC')
+    setZip(homesite.zip_code || '')
   }
 
   return (
     <div className="block bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow relative">
-      <div className="absolute top-4 right-4 flex gap-2">
+      <div className="absolute top-4 right-4 flex gap-2 z-10">
         {!editing && (
-          <button
-            onClick={() => setEditing(true)}
-            className="text-xs text-gray-500 hover:text-indigo-600 font-medium"
-          >
+          <button onClick={() => setEditing(true)}
+            className="text-xs text-gray-500 hover:text-indigo-600 font-medium">
             Edit
           </button>
         )}
-        <button
-          onClick={handleDelete}
-          className={`text-xs font-medium ${confirming ? 'text-red-600' : 'text-gray-400 hover:text-red-500'}`}
-        >
+        <button onClick={handleDelete}
+          className={`text-xs font-medium ${confirming ? 'text-red-600' : 'text-gray-400 hover:text-red-500'}`}>
           {confirming ? 'Confirm Delete?' : 'Delete'}
         </button>
         {confirming && (
@@ -163,8 +210,9 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       </div>
 
       {/* Photo thumbnail */}
-      {homesite.photo && (
-        <img src={homesite.photo} alt="Homesite" className="w-full h-32 object-cover rounded mb-3 border" />
+      {previewSrc && (
+        <img src={previewSrc} alt="Homesite"
+          className="w-full h-32 object-cover rounded mb-3 border" />
       )}
 
       <h3 className="text-xl font-semibold text-gray-900 pr-20">
@@ -181,11 +229,8 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
           </p>
           <div className="mt-2 space-y-1">
             {residents.map(r => (
-              <Link
-                key={r.id}
-                to={`/residents/${r.id}`}
-                className="block text-gray-500 text-sm hover:text-indigo-600"
-              >
+              <Link key={r.id} to={`/residents/${r.id}`}
+                className="block text-gray-500 text-sm hover:text-indigo-600">
                 {r.name}
               </Link>
             ))}
@@ -194,8 +239,8 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       ) : (
         <form onSubmit={(e) => { e.preventDefault(); handleSave() }} className="mt-3 space-y-2">
           <div className="flex gap-2">
-            <input value={num}   onChange={e => setNum(e.target.value)}   placeholder="Street #"  className="w-20 flex-shrink-0 px-2 py-1 border rounded text-sm" required />
-            <input value={name}  onChange={e => setName(e.target.value)}  placeholder="Street Name" className="flex-1 px-2 py-1 border rounded text-sm" required />
+            <input value={num}   onChange={e => setNum(e.target.value)}  placeholder="Street #"    className="w-20 flex-shrink-0 px-2 py-1 border rounded text-sm" required />
+            <input value={name}  onChange={e => setName(e.target.value)} placeholder="Street Name" className="flex-1 px-2 py-1 border rounded text-sm" required />
           </div>
           <div className="flex gap-2">
             <input value={city}  onChange={e => setCity(e.target.value)}  placeholder="City" className="flex-1 px-2 py-1 border rounded text-sm" />
@@ -203,32 +248,49 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
             <input value={zip}   onChange={e => setZip(e.target.value)}   placeholder="ZIP"  className="w-20 px-2 py-1 border rounded text-sm" />
           </div>
 
-          {/* Photo upload */}
+          {/* Photo controls */}
           <input ref={fileRef} type="file" accept="image/*" className="hidden"
             onChange={async (e) => {
               const file = e.target.files?.[0]
               if (!file || !isImage(file)) return
-              try { const b64 = await fileToBase64Jpeg(file); setPhoto(b64) }
-              catch { alert('Failed to process image') }
+              try {
+                const blob = await fileToJpegBlob(file)
+                setDeletePhoto(false)
+                if (pendingUrl) URL.revokeObjectURL(pendingUrl)
+                setPendingBlob(blob)
+                setPendingUrl(URL.createObjectURL(blob))
+              } catch { alert('Failed to process image') }
             }} />
           <div className="flex items-center gap-2">
-            {photo
+            {hasPending
               ? <>
-                  <img src={photo} alt="Preview" className="h-12 w-12 object-cover rounded border" />
-                  <span className="text-xs text-gray-500">{photoSize(photo)}</span>
-                  <button type="button" onClick={() => { setPhoto(null); if (fileRef.current) fileRef.current.value = '' }}
-                    className="text-xs text-red-500 hover:text-red-700">Remove</button>
+                  <img src={pendingUrl!} alt="Preview" className="h-12 w-12 object-cover rounded border" />
+                  <span className="text-xs text-gray-500">{blobSize(pendingBlob!)}</span>
+                  <button type="button" onClick={() => {
+                    if (pendingUrl) URL.revokeObjectURL(pendingUrl)
+                    setPendingBlob(null); setPendingUrl(null)
+                    if (fileRef.current) fileRef.current.value = ''
+                  }} className="text-xs text-red-500 hover:text-red-700">Cancel</button>
                 </>
               : <button type="button" onClick={() => fileRef.current?.click()}
-                className="text-xs text-indigo-600 hover:text-indigo-800 border border-indigo-200 rounded px-2 py-1">📷 Add Photo</button>
+                className="text-xs text-indigo-600 hover:text-indigo-800 border border-indigo-200 rounded px-2 py-1">📷 Add/Replace</button>
             }
+            {!deletePhoto && homesite.photo !== undefined && (
+              <button type="button" onClick={() => {
+                if (pendingUrl) URL.revokeObjectURL(pendingUrl)
+                setPendingBlob(null); setPendingUrl(null)
+                setDeletePhoto(true)
+              }} className="text-xs text-gray-400 hover:text-red-500">Remove photo</button>
+            )}
           </div>
 
           <div className="flex gap-2">
-            <button type="submit" disabled={saving} className="px-3 py-1 bg-indigo-600 text-white rounded text-xs hover:bg-indigo-700 disabled:bg-gray-400">
+            <button type="submit" disabled={saving}
+              className="px-3 py-1 bg-indigo-600 text-white rounded text-xs hover:bg-indigo-700 disabled:bg-gray-400">
               {saving ? 'Saving...' : 'Save'}
             </button>
-            <button type="button" onClick={() => { setEditing(false); setNum(homesite.street_number); setName(homesite.street_name); setCity(homesite.city || 'Charlotte'); setState(homesite.state || 'NC'); setZip(homesite.zip_code || '') }} className="px-3 py-1 bg-gray-100 text-gray-700 rounded text-xs hover:bg-gray-200">
+            <button type="button" onClick={cancelEdit}
+              className="px-3 py-1 bg-gray-100 text-gray-700 rounded text-xs hover:bg-gray-200">
               Cancel
             </button>
           </div>
