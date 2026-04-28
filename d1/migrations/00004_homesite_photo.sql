@@ -1,0 +1,1 @@
+ALTER TABLE homesites ADD COLUMN photo TEXT;

@@ -1,15 +1,18 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { getAuthHeaders } from '../lib/auth'
+import { fileToBase64Jpeg, isImage, photoSize } from '../lib/photo'
 
 // ── Standalone \"Add Homesite\" form (used in Home.tsx) ────────────────────────
 interface AddProps { onSave: (h: any) => void }
 export function HomesiteAdder({ onSave }: AddProps) {
+  const fileRef = useRef<HTMLInputElement>(null)
   const [num,   setNum]   = useState('')
   const [name,  setName]  = useState('')
   const [city,  setCity]  = useState('Charlotte')
   const [state, setState] = useState('NC')
   const [zip,   setZip]   = useState('')
+  const [photo,  setPhoto]  = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [error,   setError]   = useState('')
 
@@ -21,7 +24,7 @@ export function HomesiteAdder({ onSave }: AddProps) {
       const res = await fetch('/api/homesites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim() || 'Charlotte', state: state.trim() || 'NC', zip_code: zip.trim() }),
+        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim() || 'Charlotte', state: state.trim() || 'NC', zip_code: zip.trim(), photo }),
       })
       if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Save failed') }
       onSave(await res.json())
@@ -59,6 +62,29 @@ export function HomesiteAdder({ onSave }: AddProps) {
             <input type="text" value={zip} onChange={e => setZip(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="28226" />
           </div>
         </div>
+
+        {/* Photo upload */}
+        <input ref={fileRef} type="file" accept="image/*" className="hidden"
+          onChange={async (e) => {
+            const file = e.target.files?.[0]
+            if (!file) return
+            if (!isImage(file)) { setError('Please select an image file'); return }
+            try { const b64 = await fileToBase64Jpeg(file); setPhoto(b64) }
+            catch { setError('Failed to process image') }
+          }} />
+        <div className="flex items-center gap-3">
+          {photo
+            ? <div className="flex items-center gap-2">
+                <img src={photo} alt="Homesite" className="h-16 w-16 object-cover rounded border" />
+                <span className="text-xs text-gray-500">{photoSize(photo)}</span>
+                <button type="button" onClick={() => { setPhoto(null); if (fileRef.current) fileRef.current.value = '' }}
+                  className="text-xs text-red-500 hover:text-red-700">Remove</button>
+              </div>
+            : <button type="button" onClick={() => fileRef.current?.click()}
+              className="text-sm text-indigo-600 hover:text-indigo-800 border border-indigo-200 rounded px-3 py-1.5 hover:bg-indigo-50">📷 Add Photo</button>
+          }
+        </div>
+
         <button type="submit" disabled={saving} className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
           {saving ? 'Adding...' : 'Add Homesite'}
         </button>
@@ -71,6 +97,7 @@ export function HomesiteAdder({ onSave }: AddProps) {
 interface CardProps { homesite: any; onDelete: (id: number) => void }
 
 export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
+  const fileRef     = useRef<HTMLInputElement>(null)
   const [confirming, setConfirming] = useState(false)
   const [editing,     setEditing]   = useState(false)
   const [num,         setNum]       = useState(homesite.street_number || '')
@@ -78,6 +105,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
   const [city,        setCity]      = useState(homesite.city || 'Charlotte')
   const [state,       setState]     = useState(homesite.state || 'NC')
   const [zip,         setZip]       = useState(homesite.zip_code || '')
+  const [photo,        setPhoto]     = useState<string | null>(homesite.photo ?? null)
   const [saving,      setSaving]    = useState(false)
 
   const residents = homesite.residents || []
@@ -94,7 +122,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       const res = await fetch(`/api/homesites/${homesite.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim() || 'Charlotte', state: state.trim() || 'NC', zip_code: zip.trim() }),
+        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim() || 'Charlotte', state: state.trim() || 'NC', zip_code: zip.trim(), photo }),
       })
       if (res.ok) {
         const updated = await res.json()
@@ -104,6 +132,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
         homesite.city          = updated.city
         homesite.state         = updated.state
         homesite.zip_code      = updated.zip_code
+        if ('photo' in updated) { homesite.photo = updated.photo; setPhoto(updated.photo ?? null) }
         setEditing(false)
       }
     } finally { setSaving(false) }
@@ -132,6 +161,11 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
           </button>
         )}
       </div>
+
+      {/* Photo thumbnail */}
+      {homesite.photo && (
+        <img src={homesite.photo} alt="Homesite" className="w-full h-32 object-cover rounded mb-3 border" />
+      )}
 
       <h3 className="text-xl font-semibold text-gray-900 pr-20">
         {homesite.street_number} {homesite.street_name}
@@ -168,6 +202,28 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
             <input value={state} onChange={e => setState(e.target.value)} placeholder="ST"  className="w-14 px-2 py-1 border rounded text-sm" />
             <input value={zip}   onChange={e => setZip(e.target.value)}   placeholder="ZIP"  className="w-20 px-2 py-1 border rounded text-sm" />
           </div>
+
+          {/* Photo upload */}
+          <input ref={fileRef} type="file" accept="image/*" className="hidden"
+            onChange={async (e) => {
+              const file = e.target.files?.[0]
+              if (!file || !isImage(file)) return
+              try { const b64 = await fileToBase64Jpeg(file); setPhoto(b64) }
+              catch { alert('Failed to process image') }
+            }} />
+          <div className="flex items-center gap-2">
+            {photo
+              ? <>
+                  <img src={photo} alt="Preview" className="h-12 w-12 object-cover rounded border" />
+                  <span className="text-xs text-gray-500">{photoSize(photo)}</span>
+                  <button type="button" onClick={() => { setPhoto(null); if (fileRef.current) fileRef.current.value = '' }}
+                    className="text-xs text-red-500 hover:text-red-700">Remove</button>
+                </>
+              : <button type="button" onClick={() => fileRef.current?.click()}
+                className="text-xs text-indigo-600 hover:text-indigo-800 border border-indigo-200 rounded px-2 py-1">📷 Add Photo</button>
+            }
+          </div>
+
           <div className="flex gap-2">
             <button type="submit" disabled={saving} className="px-3 py-1 bg-indigo-600 text-white rounded text-xs hover:bg-indigo-700 disabled:bg-gray-400">
               {saving ? 'Saving...' : 'Save'}
