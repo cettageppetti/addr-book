@@ -97,6 +97,69 @@ app.get('/api/auth/me', async (c) => {
   return c.json({ id: user.id, email: user.email, role: user.role })
 })
 
+// POST /api/homesites  (admin only)
+app.post('/api/homesites', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const { street_number, street_name, zip_code } = await c.req.json()
+  if (!street_number?.trim() || !street_name?.trim()) {
+    return c.json({ error: 'street_number and street_name are required' }, 400)
+  }
+
+  const result = await c.env.DB.prepare(
+    'INSERT INTO homesites (street_number, street_name, zip_code) VALUES (?, ?, ?)'
+  ).bind(street_number.trim(), street_name.trim(), zip_code?.trim() || '28226').run()
+
+  const home = await queryOne(c.env.DB, 'SELECT * FROM homesites WHERE id = ?', [result.meta.last_row_id])
+  return c.json(home as any, 201)
+})
+
+// PUT /api/homesites/:id  (admin only)
+app.put('/api/homesites/:id', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+
+  const { street_number, street_name, zip_code } = await c.req.json()
+  if (!street_number?.trim() || !street_name?.trim()) {
+    return c.json({ error: 'street_number and street_name are required' }, 400)
+  }
+
+  await c.env.DB.prepare(
+    'UPDATE homesites SET street_number = ?, street_name = ?, zip_code = ? WHERE id = ?'
+  ).bind(street_number.trim(), street_name.trim(), zip_code?.trim() || '28226', id).run()
+
+  const home = await queryOne(c.env.DB, 'SELECT * FROM homesites WHERE id = ?', [id])
+  return c.json(home as any)
+})
+
+// DELETE /api/homesites/:id  (admin only)
+app.delete('/api/homesites/:id', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+
+  // Cascade delete residents + their contacts
+  const resRows = await queryAll(c.env.DB, 'SELECT id FROM residents WHERE homesite_id = ?', [id])
+  const rids = (resRows.results || []).map((r: any) => r.id)
+  for (const rid of rids) {
+    await c.env.DB.prepare('DELETE FROM phones WHERE resident_id = ?').bind(rid).run()
+    await c.env.DB.prepare('DELETE FROM emails WHERE resident_id = ?').bind(rid).run()
+  }
+  await c.env.DB.prepare('DELETE FROM residents WHERE homesite_id = ?').bind(id).run()
+  await c.env.DB.prepare('DELETE FROM homesites WHERE id = ?').bind(id).run()
+
+  return c.json({ ok: true })
+})
+
 // GET /api/homesites
 app.get('/api/homesites', async (c) => {
   const user = await getUserFromCookie(c)
