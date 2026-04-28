@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 import HomesitesList from '../components/HomesitesList'
 import ResidentProfile from '../components/ResidentProfile'
-import HomesiteEditor, { HomesiteAdminCard } from '../components/HomesiteEditor'
+import { HomesiteAdder, HomesiteAdminCard } from '../components/HomesiteEditor'
 import { getAuthHeaders } from '../lib/auth'
 
 type Tab = 'homesites' | 'residents'
@@ -18,14 +18,11 @@ interface Resident {
 }
 
 export default function Home({ user }: { user: any }) {
-  const [homesites, setHomesites] = useState<Homesite[]>([])
-  const [homesiteSearch, setHomesiteSearch] = useState('')
-  const [residents, setResidents] = useState<Resident[]>([])
+
   const [loading, setLoading]     = useState(true)
   const [tab, setTab]             = useState<Tab>('homesites')
 
-  // Admin edit state
-  const [editingId, setEditingId]   = useState<number | null>(null)
+  // Admin create state
   const [showCreateHomesite, setShowCreate] = useState(false)
 
   // Resident editor state
@@ -88,7 +85,7 @@ export default function Home({ user }: { user: any }) {
           {(['homesites', 'residents'] as Tab[]).map(t => (
             <button
               key={t}
-              onClick={() => { setTab(t); setEditingId(null); setShowCreate(false); setHomesiteSearch(''); setEditingResident(null); setShowCreateResident(false) }}
+              onClick={() => { setTab(t); setShowCreate(false); setHomesiteSearch(''); setEditingResident(null); setShowCreateResident(false) }}
               className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
                 tab === t ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
               }`}
@@ -119,17 +116,7 @@ export default function Home({ user }: { user: any }) {
 
           {showCreateHomesite && (
             <div className="mb-6">
-              <HomesiteEditor homesite={null} onSave={(h) => { setShowCreate(false); fetchHomesites() }} onCancel={() => setShowCreate(false)} />
-            </div>
-          )}
-
-          {editingId != null && (
-            <div className="mb-6">
-              <HomesiteEditor
-                homesite={homesites.find(h => h.id === editingId) || null}
-                onSave={() => { setEditingId(null); fetchHomesites() }}
-                onCancel={() => setEditingId(null)}
-              />
+              <HomesiteAdder onSave={() => { setShowCreate(false); fetchHomesites() }} />
             </div>
           )}
 
