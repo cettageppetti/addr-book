@@ -213,8 +213,15 @@ function ResidentAdminPanel({ residents, homesites, editingResident, showCreate,
   onCreate: () => void; onSaveNew: (d: any) => void
   onSaveEdit: (id: number, d: any) => void; onCancel: () => void
 }) {
-  const [search, setSearch] = useState('')
-  const [saving, setSaving] = useState(false)
+  const [search, setSearch]     = useState('')
+  const [saving, setSaving]    = useState(false)
+  const [sortField, setSortField] = useState<'name' | 'address'>('name')
+  const [sortDir, setSortDir]     = useState<'asc' | 'desc'>('asc')
+
+  const handleSort = (field: 'name' | 'address') => {
+    if (sortField === field) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
+    else { setSortField(field); setSortDir('asc') }
+  }
 
   // Form state
   const [name,       setName]       = useState('')
@@ -305,13 +312,29 @@ function ResidentAdminPanel({ residents, homesites, editingResident, showCreate,
       <table className="w-full text-sm bg-white rounded-lg shadow">
         <thead>
           <tr className="text-left border-b text-gray-500 uppercase tracking-wide text-xs">
-            <th className="px-4 py-3">Name</th>
-            <th className="px-4 py-3">Homesite</th>
+            <th
+              className="px-4 py-3 cursor-pointer select-none hover:text-indigo-600"
+              onClick={() => handleSort('name')}
+            >
+              Name {sortField === 'name' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
+            </th>
+            <th
+              className="px-4 py-3 cursor-pointer select-none hover:text-indigo-600"
+              onClick={() => handleSort('address')}
+            >
+              Homesite {sortField === 'address' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
+            </th>
             <th className="px-4 py-3 text-right">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filtered.map(r => (
+          {[...filtered].sort((a, b) => {
+            const cmp = sortField === 'name'
+              ? (a.name.split(' ').slice(-1)[0] || a.name)
+                  .localeCompare(b.name.split(' ').slice(-1)[0] || b.name)
+              : (a.homesite_address || '').localeCompare(b.homesite_address || '')
+            return sortDir === 'asc' ? cmp : -cmp
+          }).map(r => (
             <ResidentRow
               key={r.id}
               resident={r}
