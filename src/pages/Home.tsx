@@ -332,7 +332,8 @@ function ResidentAdminPanel({ residents, homesites, editingResident, showCreate,
             const cmp = sortField === 'name'
               ? (a.name.split(' ').slice(-1)[0] || a.name)
                   .localeCompare(b.name.split(' ').slice(-1)[0] || b.name)
-              : (a.homesite_address || '').localeCompare(b.homesite_address || '')
+              : (a.homesite_address || '').replace(/^\d+\s/, '')
+                  .localeCompare((b.homesite_address || '').replace(/^\d+\s/, ''))
             return sortDir === 'asc' ? cmp : -cmp
           }).map(r => (
             <ResidentRow
