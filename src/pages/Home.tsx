@@ -19,6 +19,7 @@ interface Resident {
 
 export default function Home({ user }: { user: any }) {
   const [homesites, setHomesites] = useState<Homesite[]>([])
+  const [homesiteSearch, setHomesiteSearch] = useState('')
   const [residents, setResidents] = useState<Resident[]>([])
   const [loading, setLoading]     = useState(true)
   const [tab, setTab]             = useState<Tab>('homesites')
@@ -49,6 +50,20 @@ export default function Home({ user }: { user: any }) {
     } finally { setLoading(false) }
   }
 
+  // Filtered homesites — matches address or resident name
+  const filteredHomesites = homesiteSearch.trim()
+    ? homesites.filter(h => {
+        const q = homesiteSearch.toLowerCase()
+        const addrMatch =
+          `${h.street_number} ${h.street_name}`.toLowerCase().includes(q) ||
+          (h.city || '').toLowerCase().includes(q)
+        const residentMatch = (h.residents || []).some(
+          (r: any) => r.name.toLowerCase().includes(q)
+        )
+        return addrMatch || residentMatch
+      })
+    : homesites
+
   if (!user) return <Navigate to="/login" replace />
   if (loading) return <div className="text-center py-12">Loading...</div>
 
@@ -73,7 +88,7 @@ export default function Home({ user }: { user: any }) {
           {(['homesites', 'residents'] as Tab[]).map(t => (
             <button
               key={t}
-              onClick={() => { setTab(t); setEditingId(null); setShowCreate(false); setEditingResident(null); setShowCreateResident(false) }}
+              onClick={() => { setTab(t); setEditingId(null); setShowCreate(false); setHomesiteSearch(''); setEditingResident(null); setShowCreateResident(false) }}
               className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
                 tab === t ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
               }`}
@@ -84,11 +99,16 @@ export default function Home({ user }: { user: any }) {
         </div>
       </div>
 
-      {/* ── Homesites tab ─────────────────────────────────────────────── */}
       {tab === 'homesites' && (
         <>
           <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
-            <p className="text-sm text-gray-500">{homesites.length} homesites</p>
+            <input
+              type="text"
+              placeholder="Search by name or address..."
+              value={homesiteSearch}
+              onChange={(e) => setHomesiteSearch(e.target.value)}
+              className="max-w-xs px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500"
+            />
             <button
               onClick={() => { setShowCreate(true); setEditingId(null) }}
               className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
@@ -113,14 +133,17 @@ export default function Home({ user }: { user: any }) {
             </div>
           )}
 
-          <HomesiteGrid
-            homesites={homesites}
-            onEdit={(id) => { setEditingId(id); setShowCreate(false) }}
-            onDelete={async (id) => {
-              await fetch(`/api/homesites/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
-              setHomesites(prev => prev.filter(h => h.id !== id))
-            }}
-          />
+          {filteredHomesites.length > 0 || homesiteSearch === ''
+            ? <HomesiteGrid
+                homesites={filteredHomesites}
+                onEdit={(id) => { setEditingId(id); setShowCreate(false) }}
+                onDelete={async (id) => {
+                  await fetch(`/api/homesites/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
+                  setHomesites(prev => prev.filter(h => h.id !== id))
+                }}
+              />
+            : <div className="text-center py-12 text-gray-500">No matching homesites found.</div>
+          }
 
           {homesites.length === 0 && (
             <div className="text-center py-12 text-gray-500">No homesites yet. Add one above.</div>
