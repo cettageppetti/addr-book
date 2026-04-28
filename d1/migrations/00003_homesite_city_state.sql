@@ -1,0 +1,2 @@
+ALTER TABLE homesites ADD COLUMN city TEXT DEFAULT 'Charlotte';
+ALTER TABLE homesites ADD COLUMN state TEXT DEFAULT 'NC';
