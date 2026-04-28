@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 import HomesitesList from '../components/HomesitesList'
 import ResidentProfile from '../components/ResidentProfile'
 import HomesiteEditor, { HomesiteAdminCard } from '../components/HomesiteEditor'
@@ -359,7 +359,9 @@ function ResidentRow({ resident, onEdit, onDelete }: { resident: Resident; onEdi
   const [confirming, setConfirming] = useState(false)
   return (
     <tr className="border-b last:border-0 hover:bg-gray-50">
-      <td className="px-4 py-3 font-medium text-gray-900">{resident.name}</td>
+      <td className="px-4 py-3 font-medium text-gray-900">
+        <Link to={`/residents/${resident.id}`} className="text-indigo-600 hover:underline">{resident.name}</Link>
+      </td>
       <td className="px-4 py-3 text-gray-500">{resident.homesite_address || `Homesite #${resident.homesite_id}`}</td>
       <td className="px-4 py-3 text-right">
         <button onClick={onEdit} className="text-xs text-gray-500 hover:text-indigo-600 mr-3">Edit</button>
