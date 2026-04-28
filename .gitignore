@@ -1,9 +1,11 @@
 node_modules
+dist/
 build
-dist
 *.db
 .env
 
-# Vite build
-dist/
+# Vite
 node_modules/.vite/
+
+# Wrangler dev cache (local D1 state + tmp bundles)
+worker/.wrangler/
