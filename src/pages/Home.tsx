@@ -265,7 +265,7 @@ function ResidentAdminPanel({ residents, homesites, editingResident, showCreate,
 
       {(showCreate || editingResident) && (
         <div className="bg-white rounded-lg shadow p-6 mb-6 border-2 border-indigo-200">
-          <h3 className="text-lg font-semibold mb-4">{editingResident ? 'Edit Resident' : 'Add Resident'}</h3>
+          <h3 className="text-lg font-semibold mb-4">{editingResident ? 'Assign Resident Address' : 'Add Resident'}</h3>
           <form onSubmit={handleSubmit} className="space-y-3">
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">Full Name</label>
@@ -291,7 +291,7 @@ function ResidentAdminPanel({ residents, homesites, editingResident, showCreate,
             <div className="flex gap-3 pt-2">
               <button type="submit" disabled={saving}
                 className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
-                {saving ? 'Saving...' : editingResident ? 'Save Changes' : 'Add Resident'}
+                {saving ? 'Saving...' : editingResident ? 'Save Address' : 'Add Resident'}
               </button>
               <button type="button" onClick={onCancel}
                 className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
