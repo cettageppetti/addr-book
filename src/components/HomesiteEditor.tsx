@@ -249,7 +249,6 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
             <input value={state} onChange={e => setState(e.target.value)} placeholder="ST"     className="w-14 px-2 py-1 border rounded text-sm" maxLength={2} required />
           </div>
           <input value={zip}   onChange={e => setZip(e.target.value)}  placeholder="ZIP"    className="w-24 px-2 py-1 border rounded text-sm" required />
-          </div>
 
           {/* Photo controls */}
           <input ref={fileRef} type="file" accept="image/*" className="hidden"
