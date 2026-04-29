@@ -1,10 +1,15 @@
-const express = require('express')
-const cookieParser = require('cookie-parser')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const Database = require('better-sqlite3')
+import express from "express";
+import cookieParser from "cookie-parser";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import Database from "better-sqlite3";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
 
 // Configuration
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const JWT_SECRET = process.env.JWT_SECRET || 'addr-book-dev-secret-2024'
 const JWT_EXPIRY = '24h'
 
@@ -185,7 +190,12 @@ app.use(express.json())
 
 // Middleware
 function authRequired(req, res, next) {
-  const token = req.cookies.token
+  // Accept token from cookie (browser) or Authorization header (API clients)
+  const cookieToken = req.cookies?.token
+  const bearerToken = req.headers.authorization?.startsWith('Bearer ')
+    ? req.headers.authorization.slice(7)
+    : null
+  const token = cookieToken || bearerToken
   if (!token) {
     return res.status(401).json({ error: 'No token provided' })
   }
@@ -218,7 +228,7 @@ app.post('/api/auth/login', (req, res) => {
   }
 
   const token = jwt.sign(
-    { id: user.id, email: user.email, role: user.role },
+    { id: user.id, email: user.email, role: user.role, resident_id: user.resident_id },
     JWT_SECRET,
     { expiresIn: JWT_EXPIRY }
   )
@@ -231,7 +241,8 @@ app.post('/api/auth/login', (req, res) => {
 
   res.json({
     success: true,
-    user: { id: user.id, email: user.email, role: user.role }
+    token,
+    user: { id: user.id, email: user.email, role: user.role, resident_id: user.resident_id }
   })
 })
 
@@ -244,30 +255,189 @@ app.get('/api/auth/status', authRequired, (req, res) => {
   res.json({ user: { id: req.user.id, email: req.user.email, role: req.user.role } })
 })
 
+app.get('/api/auth/me', authRequired, (req, res) => {
+  const user = db.prepare('SELECT id, email, role, resident_id FROM users WHERE id = ?').get(req.user.id)
+  if (!user) return res.status(404).json({ error: 'User not found' })
+  res.json(user)
+})
+
+app.put('/api/auth/profile', authRequired, (req, res) => {
+  const userId = req.user.id
+  const { email, password } = req.body
+
+  if (!email && !password) {
+    return res.status(400).json({ error: 'Nothing to update' })
+  }
+
+  const updates = []
+  const params  = []
+
+  if (email) {
+    // Validate email uniqueness (exclude current user)
+    const existing = db.prepare('SELECT id FROM users WHERE email = ? AND id != ?').get(email, userId)
+    if (existing) {
+      return res.status(409).json({ error: 'Email already in use' })
+    }
+    updates.push('email = ?')
+    params.push(email)
+  }
+
+  if (password) {
+    // Require current password to change
+    const { currentPassword } = req.body
+    if (!currentPassword) {
+      return res.status(400).json({ error: 'Current password required to set a new one' })
+    }
+    const user = db.prepare('SELECT password_hash FROM users WHERE id = ?').get(userId)
+    if (!bcrypt.compareSync(currentPassword, user.password_hash)) {
+      return res.status(403).json({ error: 'Current password is incorrect' })
+    }
+
+    // Basic strength check
+    if (password.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters' })
+    }
+
+    updates.push('password_hash = ?')
+    params.push(bcrypt.hashSync(password, 10))
+  }
+
+  if (updates.length === 0) {
+    return res.status(400).json({ error: 'Nothing to update' })
+  }
+
+  params.push(userId)
+  db.prepare(`UPDATE users SET ${updates.join(', ')} WHERE id = ?`).run(...params)
+
+  const updated = db.prepare('SELECT id, email, role FROM users WHERE id = ?').get(userId)
+  res.json({ user: updated })
+})
+
 app.get('/api/homesites', authRequired, (req, res) => {
   let homesites
   if (req.user.role === 'admin') {
-    // Admin sees all homesites with their primary resident
+    // Admin sees all homesites with their resident list
     const query = `
-      SELECT h.*, 
-             (SELECT r.name FROM residents r WHERE r.homesite_id = h.id LIMIT 1) as resident_name,
-             (SELECT r.id FROM residents r WHERE r.homesite_id = h.id LIMIT 1) as resident_id
-      FROM homesites h 
+      SELECT h.*,
+             (SELECT json_group_array(json_object('id', r.id, 'name', r.name))
+              FROM residents r WHERE r.homesite_id = h.id) as resident_list
+      FROM homesites h
       ORDER BY h.street_number
     `
-    homesites = db.prepare(query).all()
+    const rows = db.prepare(query).all()
+    homesites = rows.map(h => ({ ...h, residents: JSON.parse(h.resident_list || '[]') }))
   } else {
     // Residents only see their own homesite
     const query = `
-      SELECT h.*, 
-             (SELECT r.name FROM residents r WHERE r.homesite_id = h.id LIMIT 1) as resident_name,
-             (SELECT r.id FROM residents r WHERE r.homesite_id = h.id LIMIT 1) as resident_id
-      FROM homesites h 
+      SELECT h.*,
+             (SELECT json_group_array(json_object('id', r.id, 'name', r.name))
+              FROM residents r WHERE r.homesite_id = h.id) as resident_list
+      FROM homesites h
       WHERE h.id = (SELECT homesite_id FROM residents r WHERE r.id = ?)
     `
-    homesites = db.prepare(query).all(req.user.resident_id)
+    const rows = db.prepare(query).all(req.user.resident_id)
+    homesites = rows.map(h => ({ ...h, residents: JSON.parse(h.resident_list || '[]') }))
   }
-  res.json({ homesites })
+  res.json(homesites)
+})
+
+app.get('/api/admin/users', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const users = db.prepare(`
+    SELECT u.id, u.email, u.role, u.resident_id,
+           r.name as resident_name
+    FROM users u
+    LEFT JOIN residents r ON u.resident_id = r.id
+    ORDER BY u.role, u.email
+  `).all()
+  res.json(users)
+})
+
+app.post('/api/admin/users/:id/reset-password', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  
+  const { newPassword } = req.body
+  if (!newPassword || newPassword.length < 8) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters' })
+  }
+  
+  const userId = parseInt(req.params.id)
+  const password_hash = bcrypt.hashSync(newPassword, 10)
+  db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(password_hash, userId)
+  res.json({ success: true })
+})
+
+app.post('/api/admin/users', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  
+  const { email, password, resident_id } = req.body
+  if (!email || !password || !resident_id) {
+    return res.status(400).json({ error: 'email, password, and resident_id required' })
+  }
+  if (password.length < 8) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters' })
+  }
+
+  const resident = db.prepare('SELECT id FROM residents WHERE id = ?').get(resident_id)
+  if (!resident) return res.status(404).json({ error: 'Resident not found' })
+
+  const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(email)
+  if (existing) return res.status(409).json({ error: 'Email already in use' })
+
+  const password_hash = bcrypt.hashSync(password, 10)
+  const result = db.prepare(
+    'INSERT INTO users (email, password_hash, role, resident_id) VALUES (?, ?, ?, ?)'
+  ).run(email, password_hash, 'resident', resident_id)
+
+  res.status(201).json({ id: result.lastInsertRowid, email, role: 'resident', resident_id })
+})
+
+app.delete('/api/admin/users/:id', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  
+  const userId = parseInt(req.params.id)
+  if (userId === req.user.id) {
+    return res.status(400).json({ error: 'Cannot delete your own account' })
+  }
+  
+  db.prepare('DELETE FROM users WHERE id = ?').run(userId)
+  res.json({ success: true })
+})
+
+app.get('/api/residents', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const residents = db.prepare(`
+    SELECT r.id, r.name, r.homesite_id,
+           h.street_number || ' ' || h.street_name as homesite_address
+    FROM residents r
+    JOIN homesites h ON r.homesite_id = h.id
+  `).all()
+  res.json(residents)
+})
+
+app.get('/api/residents/:id', authRequired, (req, res) => {
+
+  const residentId = parseInt(req.params.id)
+
+  // Check permissions — residents can only see their own record
+  if (req.user.role !== 'admin' && req.user.resident_id !== residentId) {
+    return res.status(403).json({ error: 'Permission denied' })
+  }
+
+  const resident = db.prepare(`
+    SELECT r.*,
+           h.street_number, h.street_name, h.zip_code
+    FROM residents r
+    JOIN homesites h ON r.homesite_id = h.id
+    WHERE r.id = ?
+  `).get(residentId)
+
+  if (!resident) return res.status(404).json({ error: 'Not found' })
+
+  const phones = db.prepare('SELECT * FROM phones WHERE resident_id = ?').all(residentId)
+  const emails = db.prepare('SELECT * FROM emails WHERE resident_id = ?').all(residentId)
+
+  res.json({ ...resident, phones: phones || [], emails: emails || [] })
 })
 
 app.get('/api/residents/:id/contacts', authRequired, (req, res) => {
@@ -338,7 +508,6 @@ app.put('/api/users/:id', authRequired, (req, res) => {
 })
 
 // Serve static files from frontend build
-const path = require('path')
 app.use(express.static(path.join(__dirname, 'dist')))
 
 // Handle SPA routing - serve index.html for all non-API routes

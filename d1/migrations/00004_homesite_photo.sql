@@ -1,6 +1,8 @@
 -- Convert photo column from TEXT (base64) to BLOB (true binary)
--- First we need to drop and recreate since SQLite doesn't support ALTER COLUMN TYPE directly.
--- Data is lost — if photos exist, they'd need to be re-uploaded.
+-- SQLite doesn't support ALTER COLUMN TYPE; table is recreated.
+-- Wrangler executes all statements in one implicit transaction.
+
+PRAGMA foreign_keys = OFF;
 
 CREATE TABLE IF NOT EXISTS homesites_new (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
