@@ -247,7 +247,8 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
           <div className="flex gap-2">
             <input value={city}  onChange={e => setCity(e.target.value)}  placeholder="City"   className="flex-1 px-2 py-1 border rounded text-sm" required />
             <input value={state} onChange={e => setState(e.target.value)} placeholder="ST"     className="w-14 px-2 py-1 border rounded text-sm" maxLength={2} required />
-            <input value={zip}   onChange={e => setZip(e.target.value)}  placeholder="ZIP"    className="w-24 px-2 py-1 border rounded text-sm" required />
+          </div>
+          <input value={zip}   onChange={e => setZip(e.target.value)}  placeholder="ZIP"    className="w-24 px-2 py-1 border rounded text-sm" required />
           </div>
 
           {/* Photo controls */}
