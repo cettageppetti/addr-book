@@ -111,8 +111,8 @@ async function initDatabase() {
 
     for (let i = 0; i < 120; i++) {
       const streetNum = Math.floor(Math.random() * 9000) + 100
-      db.run('INSERT INTO homesites (street_number, street_name) VALUES (?, ?)', [
-        streetNum.toString(), streets[i % streets.length]
+      db.run('INSERT INTO homesites (street_number, street_name, city, state) VALUES (?, ?, ?, ?)', [
+        streetNum.toString(), streets[i % streets.length], 'Charlotte', 'NC'
       ])
     }
 
@@ -266,6 +266,38 @@ app.get('/api/homesites', authMiddleware, (req, res) => {
   }
 
   res.json(homes)
+})
+
+// Create a new homesite (admin only)
+app.post('/api/homesites', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const { street_number, street_name, city, state, zip_code } = req.body
+  if (!street_number || !street_name) return res.status(400).json({ error: 'street_number and street_name required' })
+  db.run(`
+    INSERT INTO homesites (street_number, street_name, city, state, zip_code)
+    VALUES (?, ?, ?, ?, ?)
+  `, [street_number.trim(), street_name.trim(), (city || '').trim(), (state || '').trim(), (zip_code || '').trim()])
+  const newId = queryOne('SELECT last_insert_rowid() as id').id
+  const home = queryOne('SELECT * FROM homesites WHERE id = ?', [newId])
+  home.residents = []
+  res.json(home)
+})
+
+// Update a homesite (admin only)
+app.put('/api/homesites/:id', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const { street_number, street_name, city, state, zip_code } = req.body
+  if (!street_number || !street_name) return res.status(400).json({ error: 'street_number and street_name required' })
+  if (!queryOne('SELECT 1 FROM homesites WHERE id = ?', [parseInt(req.params.id)])) {
+    return res.status(404).json({ error: 'Not found' })
+  }
+  db.run(`
+    UPDATE homesites SET street_number = ?, street_name = ?, city = ?, state = ?, zip_code = ?
+    WHERE id = ?
+  `, [street_number.trim(), street_name.trim(), (city || '').trim(), (state || '').trim(), (zip_code || '').trim(), parseInt(req.params.id)])
+  const updated = queryOne('SELECT * FROM homesites WHERE id = ?', [parseInt(req.params.id)])
+  updated.residents = (queryAll('SELECT id, name FROM residents WHERE homesite_id = ?', [updated.id]))
+  res.json(updated)
 })
 
 // Get resident detail with contact info (admin or own record)

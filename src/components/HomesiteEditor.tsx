@@ -12,6 +12,8 @@ export function HomesiteAdder({ onSave }: AddProps) {
   const fileRef = useRef<HTMLInputElement>(null)
   const [num,   setNum]   = useState('')
   const [name,  setName]  = useState('')
+  const [city,  setCity]  = useState('')
+  const [state, setState] = useState('NC')
   const [zip,   setZip]   = useState('')
   const [photoBlob, setPhotoBlob] = useState<Blob | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
@@ -35,7 +37,7 @@ export function HomesiteAdder({ onSave }: AddProps) {
       const res = await fetch('/api/homesites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), zip_code: zip.trim() }),
+        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim(), state: state.trim(), zip_code: zip.trim() }),
       })
       if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Save failed') }
       const home = await res.json()
@@ -62,6 +64,14 @@ export function HomesiteAdder({ onSave }: AddProps) {
           </div>
         </div>
         <div className="flex gap-3">
+          <div className="flex-1">
+            <label className="block text-xs font-medium text-gray-500 mb-1">City</label>
+            <input type="text" value={city} onChange={e => setCity(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="Charlotte" />
+          </div>
+          <div className="w-24">
+            <label className="block text-xs font-medium text-gray-500 mb-1">State</label>
+            <input type="text" value={state} onChange={e => setState(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="NC" maxLength={2} />
+          </div>
           <div className="w-28">
             <label className="block text-xs font-medium text-gray-500 mb-1">ZIP</label>
             <input type="text" value={zip} onChange={e => setZip(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="28226" />
@@ -114,6 +124,8 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
   const [editing,    setEditing]    = useState(false)
   const [num,        setNum]        = useState(homesite.street_number || '')
   const [name,       setName]       = useState(homesite.street_name || '')
+  const [city,       setCity]       = useState(homesite.city || '')
+  const [state,      setState]      = useState(homesite.state || '')
   const [zip,        setZip]        = useState(homesite.zip_code || '')
   // pendingBlob: new photo selected but not yet saved; null = no change
   const [pendingBlob, setPendingBlob]   = useState<Blob | null>(null)
@@ -141,12 +153,14 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       const res = await fetch(`/api/homesites/${homesite.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), zip_code: zip.trim() }),
+        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim(), state: state.trim(), zip_code: zip.trim() }),
       })
       if (!res.ok) { throw new Error('Save failed') }
       const updated = await res.json()
       homesite.street_number = updated.street_number
       homesite.street_name   = updated.street_name
+      homesite.city          = updated.city || ''
+      homesite.state         = updated.state || ''
       homesite.zip_code      = updated.zip_code
 
       // Upload new photo, remove existing, or leave as-is
@@ -172,6 +186,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
     setEditing(false)
     setPendingBlob(null); setPendingUrl(null); setDeletePhoto(false)
     setNum(homesite.street_number); setName(homesite.street_name)
+    setCity(homesite.city || ''); setState(homesite.state || '')
     setZip(homesite.zip_code || '')
   }
 
@@ -209,7 +224,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       {!editing ? (
         <>
           <p className="text-gray-400 text-sm mt-1">
-            Charlotte, NC  {(homesite.zip_code || '').replace(/\s/g, '')}
+            {homesite.city || 'Charlotte'}, {(homesite.state || homesite.state_code) || 'NC'} {((homesite.zip_code || '') + '').replace(/\s/g, '')}
           </p>
           <p className="text-gray-400 text-sm">
             {residents.length} resident{residents.length !== 1 ? 's' : ''}
@@ -226,9 +241,13 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       ) : (
         <form onSubmit={(e) => { e.preventDefault(); handleSave() }} className="mt-3 space-y-2">
           <div className="flex gap-2">
-            <input value={num}   onChange={e => setNum(e.target.value)}  placeholder="Street #"    className="w-20 flex-shrink-0 px-2 py-1 border rounded text-sm" required />
-            <input value={name}  onChange={e => setName(e.target.value)} placeholder="Street Name" className="flex-1 px-2 py-1 border rounded text-sm" required />
-            <input value={zip}   onChange={e => setZip(e.target.value)}  placeholder="ZIP"        className="w-24 px-2 py-1 border rounded text-sm" />
+            <input value={num}   onChange={e => setNum(e.target.value)}  placeholder="#"    className="w-16 flex-shrink-0 px-2 py-1 border rounded text-sm" required />
+            <input value={name}  onChange={e => setName(e.target.value)} placeholder="Street" className="flex-1 px-2 py-1 border rounded text-sm" required />
+          </div>
+          <div className="flex gap-2">
+            <input value={city}  onChange={e => setCity(e.target.value)}  placeholder="City"   className="flex-1 px-2 py-1 border rounded text-sm" />
+            <input value={state} onChange={e => setState(e.target.value)} placeholder="ST"     className="w-14 px-2 py-1 border rounded text-sm" maxLength={2} />
+            <input value={zip}   onChange={e => setZip(e.target.value)}  placeholder="ZIP"    className="w-24 px-2 py-1 border rounded text-sm" />
           </div>
 
           {/* Photo controls */}
