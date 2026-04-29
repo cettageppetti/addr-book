@@ -227,7 +227,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
 
       {/* Address editor */}
       <form onSubmit={handleSaveAddress}>
-        <h4 className="text-md font-medium text-gray-900 mb-3">Address</h4>
+        <h4 className="text-md font-medium text-gray-900 mb-3">Alternate Address</h4>
         <p className="text-sm text-gray-500 mb-4">
           Leave blank to use the shared homesite address, or enter a different address for this resident.
         </p>
@@ -288,10 +288,23 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
           </div>
         </div>
 
-        <button type="submit" disabled={saving}
-          className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
-          {saving ? 'Saving...' : 'Save Address'}
-        </button>
+        <div className="flex gap-3">
+          <button type="submit" disabled={saving}
+            className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
+            {saving ? 'Saving...' : 'Save Address'}
+          </button>
+          <button type="button"
+            onClick={() => {
+              setAddrStreetNum('')
+              setAddrStreetName('')
+              setCity('Charlotte')
+              setState('NC')
+              setZip('')
+            }}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+            Reset
+          </button>
+        </div>
       </form>
     </div>
   )
