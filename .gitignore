@@ -9,3 +9,7 @@ node_modules/.vite/
 
 # Wrangler dev cache (local D1 state + tmp bundles)
 worker/.wrangler/
+# Local artifacts
+addr-book.db
+addr-book.db.broken
+public/default-home.jpg
