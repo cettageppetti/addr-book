@@ -512,6 +512,17 @@ export default function Settings({ user, onUserUpdate }: Props) {
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   {u.id === user.id ? (
                     <span className="text-gray-400 text-xs">Owner</span>
+                  ) : resetTarget === u.id ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-amber-600 font-medium">Resetting password…</span>
+                      <button
+                        type="button"
+                        onClick={() => { setResetTarget(null); setResetPassword(''); setConfirmReset('') }}
+                        className="text-gray-400 hover:text-gray-600 text-xs"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   ) : (
                     <div className="flex items-center justify-end gap-2">
                       <button
@@ -534,6 +545,55 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ))}
           </tbody>
         </table>
+
+        {/* Password reset panel — appears below the table on the user's line context */}
+        {resetTarget !== null && (() => {
+          const target = users.find(u => u.id === resetTarget)
+          return target ? (
+            <div className="bg-amber-50 border-t border-amber-200 px-6 py-4">
+              <p className="text-sm font-medium text-gray-800 mb-3">
+                Reset password for <span className="text-amber-700">{target.email}</span>
+              </p>
+              <form onSubmit={(e) => handleResetPassword(e, resetTarget!)} className="flex flex-wrap items-end gap-3">
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1">New password</label>
+                  <input
+                    type="password"
+                    value={resetPassword}
+                    onChange={(e) => setResetPassword(e.target.value)}
+                    placeholder="Min. 8 characters"
+                    className="px-3 py-2 border border-gray-300 rounded-lg text-sm w-48"
+                    autoFocus
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1">Confirm</label>
+                  <input
+                    type="password"
+                    value={confirmReset}
+                    onChange={(e) => setConfirmReset(e.target.value)}
+                    placeholder="Repeat password"
+                    className="px-3 py-2 border border-gray-300 rounded-lg text-sm w-48"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={resetting}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 disabled:bg-gray-400"
+                >
+                  {resetting ? 'Saving...' : 'Save Password'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setResetTarget(null); setResetPassword(''); setConfirmReset('') }}
+                  className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+              </form>
+            </div>
+          ) : null
+        })()}
       </div>
     </div>
   )
