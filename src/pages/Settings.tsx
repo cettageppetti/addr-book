@@ -365,7 +365,56 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const AdminUserManagement = () => (
     <div className="space-y-6 mt-8">
       <h3 className="text-lg font-medium text-gray-900">User Management</h3>
-      
+
+      {/* Password reset panel — shown above table when a reset is in progress */}
+      {resetTarget !== null && (() => {
+        const target = users.find(u => u.id === resetTarget)
+        return target ? (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
+            <p className="text-sm font-medium text-gray-800 mb-3">
+              Reset password for <span className="text-amber-700">{target.email}</span>
+            </p>
+            <form onSubmit={(e) => handleResetPassword(e, resetTarget!)} className="flex flex-wrap items-end gap-3">
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">New password</label>
+                <input
+                  type="password"
+                  value={resetPassword}
+                  onChange={(e) => setResetPassword(e.target.value)}
+                  placeholder="Min. 8 characters"
+                  className="px-3 py-2 border border-gray-300 rounded-lg text-sm w-48"
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">Confirm</label>
+                <input
+                  type="password"
+                  value={confirmReset}
+                  onChange={(e) => setConfirmReset(e.target.value)}
+                  placeholder="Repeat password"
+                  className="px-3 py-2 border border-gray-300 rounded-lg text-sm w-48"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={resetting}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 disabled:bg-gray-400"
+              >
+                {resetting ? 'Saving...' : 'Save Password'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setResetTarget(null); setResetPassword(''); setConfirmReset('') }}
+                className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        ) : null
+      })()}
+
       <div className="bg-white shadow rounded-xl overflow-hidden">
         {showAddUserForm ? (
           <div className="p-6 border-b border-gray-200">
@@ -463,37 +512,6 @@ export default function Settings({ user, onUserUpdate }: Props) {
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   {u.id === user.id ? (
                     <span className="text-gray-400 text-xs">Owner</span>
-                  ) : resetTarget === u.id ? (
-                    <form onSubmit={(e) => handleResetPassword(e, u.id)} className="inline-flex gap-2">
-                      <input
-                        type="password"
-                        value={resetPassword}
-                        onChange={(e) => setResetPassword(e.target.value)}
-                        placeholder="New password"
-                        className="px-2 py-1 border border-gray-300 rounded text-sm w-32"
-                      />
-                      <input
-                        type="password"
-                        value={confirmReset}
-                        onChange={(e) => setConfirmReset(e.target.value)}
-                        placeholder="Confirm"
-                        className="px-2 py-1 border border-gray-300 rounded text-sm w-32"
-                      />
-                      <button
-                        type="submit"
-                        disabled={resetting}
-                        className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700 disabled:bg-gray-400"
-                      >
-                        {resetting ? '...' : 'Reset'}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => { setResetTarget(null); setResetPassword(''); setConfirmReset('') }}
-                        className="px-3 py-1 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300"
-                      >
-                        Cancel
-                      </button>
-                    </form>
                   ) : (
                     <div className="flex items-center justify-end gap-2">
                       <button
