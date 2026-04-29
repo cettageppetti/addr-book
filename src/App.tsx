@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import Login from './components/Login'
 import Home from './pages/Home'
+import Settings from './pages/Settings'
 import ResidentProfile from './components/ResidentProfile'
 import { getAuthHeaders, clearToken } from './lib/auth'
 
@@ -30,7 +31,7 @@ function App() {
           const data = await res.json()
           setUser(data)
           // Rehydrate user into localStorage if missing (e.g. after hard refresh where only token exists)
-          try { window.localStorage.setItem('user', JSON.stringify(data)) } catch {}
+          try { window.localStorage.setItem('user', JSON.stringify({ ...data, resident_id: data.resident_id })) } catch {}
         }
       } catch {
         // No session
@@ -61,6 +62,22 @@ function App() {
             user ? (
               <Layout user={user} onLogout={handleLogout}>
                 <Home user={user} />
+              </Layout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            user ? (
+              <Layout user={user} onLogout={handleLogout}>
+                <Settings user={user} onUserUpdate={(u) => {
+                  setUser(u)
+                  window.localStorage.setItem('user', JSON.stringify(u))
+                }} />
               </Layout>
             ) : (
               <Navigate to="/login" replace />

@@ -55,6 +55,7 @@ export default function Home({ user }: { user: any }) {
         return addrMatch || residentMatch
       })
     : homesites
+  console.log('filteredHomesites:', typeof filteredHomesites, Array.isArray(filteredHomesites), 'homesites type:', typeof homesites, Array.isArray(homesites))
 
   if (!user) return <Navigate to="/login" replace />
   if (loading) return <div className="text-center py-12">Loading...</div>

@@ -11,6 +11,9 @@ export default function Layout({ user, onLogout, children }) {
 
           {user && (
             <div className="flex items-center gap-4">
+              <Link to="/settings" className="text-sm text-gray-600 hover:text-indigo-600">
+                Settings
+              </Link>
               <span className="text-gray-700 text-sm">
                 {user.role === 'admin' ? 'Admin' : 'Resident'}: {user.email}
               </span>
