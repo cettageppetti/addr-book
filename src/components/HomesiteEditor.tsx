@@ -12,9 +12,9 @@ export function HomesiteAdder({ onSave }: AddProps) {
   const fileRef = useRef<HTMLInputElement>(null)
   const [num,   setNum]   = useState('')
   const [name,  setName]  = useState('')
-  const [city,  setCity]  = useState('')
+  const [city,  setCity]  = useState('Charlotte')
   const [state, setState] = useState('NC')
-  const [zip,   setZip]   = useState('')
+  const [zip,   setZip]   = useState('28226')
   const [photoBlob, setPhotoBlob] = useState<Blob | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [saving,   setSaving] = useState(false)
@@ -37,7 +37,7 @@ export function HomesiteAdder({ onSave }: AddProps) {
       const res = await fetch('/api/homesites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim(), state: state.trim(), zip_code: zip.trim() }),
+        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city || 'Charlotte', state: state || 'NC', zip_code: zip || '28226' }),
       })
       if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Save failed') }
       const home = await res.json()
