@@ -170,7 +170,9 @@ async function initDatabase() {
 
 // Auth middleware
 function authMiddleware(req, res, next) {
-  const token = req.cookies.token
+  // Support both cookie (browser sessions) and Bearer header (API clients)
+  const token = req.cookies.token || (req.headers.authorization?.startsWith('Bearer ')
+    ? req.headers.authorization.slice(7) : null)
   if (!token) return res.status(401).json({ error: 'Unauthorized' })
   try {
     req.user = jwt.verify(token, JWT_SECRET)
@@ -218,7 +220,7 @@ app.post('/api/auth/login', (req, res) => {
   )
 
   res.cookie('token', token, { httpOnly: true, sameSite: 'lax' })
-  res.json({ id: user.id, email: user.email, role: user.role })
+  res.json({ id: user.id, email: user.email, role: user.role, token })
 })
 
 // Logout
@@ -234,12 +236,35 @@ app.get('/api/auth/me', authMiddleware, (req, res) => {
 })
 
 // Get all homesites (admin)
+// List all residents (admin only)
+app.get('/api/residents', authMiddleware, (req, res) => {
+  const residents = queryAll(`
+    SELECT r.*,
+      h.street_number || ' ' || h.street_name as homesite_address
+    FROM residents r
+    JOIN homesites h ON h.id = r.homesite_id
+    ORDER BY r.name
+  `)
+  res.json(residents)
+})
+
+// Get homesites with resident array (not just names string)
 app.get('/api/homesites', authMiddleware, (req, res) => {
   const homes = queryAll(`
-    SELECT h.*,
-      (SELECT GROUP_CONCAT(r.name, ', ') FROM residents r WHERE r.homesite_id = h.id) as resident_names
-    FROM homesites h ORDER BY h.street_number, h.street_name
+    SELECT h.* FROM homesites h ORDER BY h.street_number, h.street_name
   `)
+  const residents = queryAll('SELECT id, name, homesite_id FROM residents')
+
+  // Attach resident array to each homesite
+  const byHome = {}  
+  for (const r of residents) {
+    if (!byHome[r.homesite_id]) byHome[r.homesite_id] = []
+    byHome[r.homesite_id].push({ id: r.id, name: r.name })
+  }
+  for (const h of homes) {
+    h.residents = byHome[h.id] || []
+  }
+
   res.json(homes)
 })
 
@@ -306,6 +331,47 @@ app.put('/api/users/:id/password', authMiddleware, (req, res) => {
   }
 
   db.run('UPDATE users SET password_hash = ? WHERE id = ?', [bcrypt.hashSync(newPassword, 10), userId])
+  res.json({ ok: true })
+})
+
+// ── Homesite photo endpoints ───────────────────────────────────────────────
+const defaultPhotoPath = path.join(__dirname, 'public', 'default-home.jpg')
+
+// GET: return photo blob, or default image (public — <img> tags can't send auth headers)
+app.get('/api/homesites/:id/photo', (req, res) => {
+  const id = parseInt(req.params.id)
+  if (isNaN(id)) return res.status(400).end()
+  const row = queryOne('SELECT photo FROM homesites WHERE id = ?', [id])
+  if (!row) return res.status(404).end()
+  if (row.photo) {
+    res.set('Content-Type', 'image/jpeg')
+    return res.send(row.photo)
+  }
+  res.set('Content-Type', 'image/jpeg')
+  res.sendFile(defaultPhotoPath)
+})
+
+// PUT: upload a new photo (blob body, admin only)
+app.put('/api/homesites/:id/photo', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const id = parseInt(req.params.id)
+  if (!queryOne('SELECT 1 FROM homesites WHERE id = ?', [id])) {
+    return res.status(404).json({ error: 'Homesite not found' })
+  }
+  const chunks = []
+  req.on('data', (chunk) => chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)))
+  req.on('end', () => {
+    const photo = Buffer.concat(chunks)
+    db.run('UPDATE homesites SET photo = ? WHERE id = ?', [photo, id])
+    res.json({ ok: true })
+  })
+})
+
+// DELETE: remove photo (revert to default, admin only)
+app.delete('/api/homesites/:id/photo', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const id = parseInt(req.params.id)
+  db.run('UPDATE homesites SET photo = NULL WHERE id = ?', [id])
   res.json({ ok: true })
 })
 
