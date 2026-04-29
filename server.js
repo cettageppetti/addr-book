@@ -415,6 +415,46 @@ app.get('/api/residents', authRequired, (req, res) => {
   res.json(residents)
 })
 
+app.post('/api/residents', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const { name, homesite_id } = req.body
+  if (!name?.trim() || !homesite_id) {
+    return res.status(400).json({ error: 'name and homesite_id required' })
+  }
+  const info = db.prepare(
+    'INSERT INTO residents (homesite_id, name) VALUES (?, ?)'
+  ).run(homesite_id, name.trim())
+  const resident = db.prepare(`
+    SELECT r.id, r.name, r.homesite_id,
+           h.street_number || ' ' || h.street_name as homesite_address
+    FROM residents r JOIN homesites h ON r.homesite_id = h.id WHERE r.id = ?
+  `).get(info.lastInsertRowid)
+  res.status(201).json(resident)
+})
+
+app.put('/api/residents/:id', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const id = parseInt(req.params.id)
+  const { name, homesite_id } = req.body
+  if (!name?.trim() || !homesite_id) {
+    return res.status(400).json({ error: 'name and homesite_id required' })
+  }
+  db.prepare('UPDATE residents SET name = ?, homesite_id = ? WHERE id = ?').run(name.trim(), homesite_id, id)
+  const resident = db.prepare(`
+    SELECT r.id, r.name, r.homesite_id,
+           h.street_number || ' ' || h.street_name as homesite_address
+    FROM residents r JOIN homesites h ON r.homesite_id = h.id WHERE r.id = ?
+  `).get(id)
+  res.json(resident)
+})
+
+app.delete('/api/residents/:id', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const id = parseInt(req.params.id)
+  db.prepare('DELETE FROM residents WHERE id = ?').run(id)
+  res.json({ ok: true })
+})
+
 app.get('/api/residents/:id', authRequired, (req, res) => {
 
   const residentId = parseInt(req.params.id)
