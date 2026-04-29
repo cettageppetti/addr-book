@@ -101,7 +101,7 @@ export default function Home({ user }: { user: any }) {
               placeholder="Search by name or address..."
               value={homesiteSearch}
               onChange={(e) => setHomesiteSearch(e.target.value)}
-className="max-w-sm px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500"
+className="w-full sm:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500"
             />
             <button
               onClick={() => setShowCreate(true)}
@@ -209,7 +209,7 @@ function ResidentAdminPanel({ residents, homesites, onDelete }: {
           placeholder="Search by name or address..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-className="max-w-sm px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500"
+className="w-full sm:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500"
         />
         <button
           onClick={() => { setShowAdd(true); setAddHomesite(homesites[0]?.id || 0) }}
