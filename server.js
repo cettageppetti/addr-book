@@ -661,16 +661,20 @@ app.put('/api/users/:id', authRequired, (req, res) => {
 // ── Homesite photo endpoints ───────────────────────────────────────────────
 
 // GET: return photo blob, or redirect to default image so <img> never breaks
-app.get('/api/homesites/:id/photo', authRequired, (req, res) => {
+// GET: public (no auth needed — <img> tags can't send headers)
+const defaultPhotoPath = path.join(__dirname, 'public', 'default-home.jpg')
+app.get('/api/homesites/:id/photo', (req, res) => {
   const id = parseInt(req.params.id)
+  if (isNaN(id)) return res.status(400).end()
   const row = db.prepare('SELECT photo FROM homesites WHERE id = ?').get(id)
-  if (!row) return res.status(404).json({ error: 'Not found' })
-  if (!row.photo) {
-    // Redirect to the default image so <img src> never shows a broken icon
-    return res.redirect('/default-home.jpg')
+  if (!row) return res.status(404).end()
+  if (row.photo) {
+    res.set('Content-Type', 'image/jpeg')
+    return res.send(row.photo)
   }
+  // No photo set — serve the default image directly (no redirect, single response)
   res.set('Content-Type', 'image/jpeg')
-  res.send(row.photo)
+  res.sendFile(defaultPhotoPath)
 })
 
 // PUT: upload a new photo (blob body — no JSON)
