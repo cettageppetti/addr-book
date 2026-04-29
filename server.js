@@ -32,6 +32,9 @@ db.exec(`
     street_number TEXT NOT NULL,
     street_name TEXT NOT NULL,
     zip_code TEXT DEFAULT '28226',
+    city TEXT DEFAULT 'Charlotte',
+    state TEXT DEFAULT 'NC',
+    photo BLOB,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 
@@ -146,7 +149,8 @@ function seedAddresses() {
     const lastName = lastNames[idx % lastNames.length]
     const residentName = `${firstName} ${lastName}`
     
-    const resId = residentInsert.run(home.id, residentName).lastRowID
+    residentInsert.run(home.id, residentName)
+    const resId = Number(db.prepare('SELECT last_insert_rowid() as id').get().id)
 
     // Add 1-3 phone numbers
     const numPhones = (idx % 3) + 1
@@ -179,6 +183,11 @@ function seedAddresses() {
 
   console.log(`Seeded ${homesites.length} homesites with residents`)
 }
+
+// Add missing columns to existing dbs (idempotent)
+;['city','state','photo'].forEach(col => {
+  try { db.exec(`ALTER TABLE homesites ADD COLUMN ${col} TEXT`) } catch {}
+})
 
 // Initialize
 seedAdmin()
@@ -311,6 +320,29 @@ app.put('/api/auth/profile', authRequired, (req, res) => {
 
   const updated = db.prepare('SELECT id, email, role FROM users WHERE id = ?').get(userId)
   res.json({ user: updated })
+})
+
+app.get('/api/homesites/:id', authRequired, (req, res) => {
+  const row = db.prepare('SELECT * FROM homesites WHERE id = ?').get(req.params.id)
+  if (!row) return res.status(404).json({ error: 'Not found' })
+  const residents = db.prepare(`
+    SELECT id, name FROM residents WHERE homesite_id = ?
+  `).all(row.id)
+  res.json({ ...row, residents })
+})
+
+app.put('/api/homesites/:id', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const { street_number, street_name, zip_code } = req.body
+  if (!street_number || !street_name) return res.status(400).json({ error: 'street_number and street_name required' })
+  const existing = db.prepare('SELECT id FROM homesites WHERE id = ?').get(req.params.id)
+  if (!existing) return res.status(404).json({ error: 'Not found' })
+  db.prepare(`
+    UPDATE homesites SET street_number = ?, street_name = ?, zip_code = ? WHERE id = ?
+  `).run(street_number.trim(), street_name.trim(), (zip_code || '').trim(), req.params.id)
+  const updated = db.prepare('SELECT * FROM homesites WHERE id = ?').get(req.params.id)
+  const residents = db.prepare('SELECT id, name FROM residents WHERE homesite_id = ?').all(updated.id)
+  res.json({ ...updated, residents })
 })
 
 app.get('/api/homesites', authRequired, (req, res) => {
@@ -625,6 +657,48 @@ app.put('/api/users/:id', authRequired, (req, res) => {
 
   res.json({ success: true })
 })
+
+// ── Homesite photo endpoints ───────────────────────────────────────────────
+
+// GET: return photo blob, or redirect to default image so <img> never breaks
+app.get('/api/homesites/:id/photo', authRequired, (req, res) => {
+  const id = parseInt(req.params.id)
+  const row = db.prepare('SELECT photo FROM homesites WHERE id = ?').get(id)
+  if (!row) return res.status(404).json({ error: 'Not found' })
+  if (!row.photo) {
+    // Redirect to the default image so <img src> never shows a broken icon
+    return res.redirect('/default-home.jpg')
+  }
+  res.set('Content-Type', 'image/jpeg')
+  res.send(row.photo)
+})
+
+// PUT: upload a new photo (blob body — no JSON)
+app.put('/api/homesites/:id/photo', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const id = parseInt(req.params.id)
+  if (!db.prepare('SELECT 1 FROM homesites WHERE id = ?').get(id)) {
+    return res.status(404).json({ error: 'Homesite not found' })
+  }
+  const chunks = []
+  req.on('data', (chunk) => chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)))
+  req.on('end', () => {
+    const photo = Buffer.concat(chunks)
+    db.prepare('UPDATE homesites SET photo = ? WHERE id = ?').run(photo, id)
+    res.json({ ok: true })
+  })
+})
+
+// DELETE: remove photo (revert to default)
+app.delete('/api/homesites/:id/photo', authRequired, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const id = parseInt(req.params.id)
+  db.prepare('UPDATE homesites SET photo = NULL WHERE id = ?').run(id)
+  res.json({ ok: true })
+})
+
+// Serve public assets (default home image, etc.)
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Serve static files from frontend build
 app.use(express.static(path.join(__dirname, 'dist')))

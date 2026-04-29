@@ -4,6 +4,7 @@ import { getAuthHeaders } from '../lib/auth'
 import { fileToJpegBlob, isImage, blobSize } from '../lib/photo'
 
 const PHOTO_ENDPOINT = (id: number) => `/api/homesites/${id}/photo`
+const DEFAULT_PHOTO = '/default-home.jpg'
 
 // ── Standalone "Add Homesite" form (used in Home.tsx) ────────────────────────
 interface AddProps { onSave: (h: any) => void }
@@ -195,10 +196,11 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       </div>
 
       {/* Photo thumbnail */}
-      {previewSrc && (
-        <img src={previewSrc} alt="Homesite"
-          className="w-full h-32 object-cover rounded mb-3 border" />
-      )}
+      <img
+        src={previewSrc || DEFAULT_PHOTO}
+        alt="Homesite"
+        className="w-full h-32 object-cover rounded mb-3 border"
+      />
 
       <h3 className="text-xl font-semibold text-gray-900 pr-20">
         {homesite.street_number} {homesite.street_name}
