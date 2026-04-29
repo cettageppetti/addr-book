@@ -115,8 +115,9 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
   const [emailVals, setEmailVals] = useState(resident.emails.map(e => e.address))
   const [addrStreetNum, setAddrStreetNum]   = useState(resident.address_street_number || '')
   const [addrStreetName, setAddrStreetName] = useState(resident.address_street_name || '')
-  const [city, setCity]     = useState(resident.city   || '')
-  const [state, setState]   = useState(resident.state  || '')
+  const [city, setCity]     = useState(resident.city   || 'Charlotte')
+  const [state, setState]   = useState(resident.state  || 'NC')
+  const [zip, setZip]       = useState(resident.zip_code || '')
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState('')
 
@@ -156,7 +157,8 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
           address_street_number: addrStreetNum.trim(),
           address_street_name:   addrStreetName.trim(),
           city,
-          state
+          state,
+          zip_code: zip.trim()
         })
       })
       if (!res.ok) throw new Error('Save failed')
@@ -253,7 +255,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 mb-4">
+        <div className="grid grid-cols-4 gap-3 mb-4">
           <div>
             <label className="block text-xs text-gray-500 mb-1">City</label>
             <input
@@ -264,7 +266,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
               placeholder="Charlotte"
             />
           </div>
-          <div>
+          <div className="w-20">
             <label className="block text-xs text-gray-500 mb-1">State</label>
             <input
               type="text"
@@ -272,6 +274,16 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
               onChange={(e) => setState(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
               placeholder="NC"
+            />
+          </div>
+          <div className="col-span-2">
+            <label className="block text-xs text-gray-500 mb-1">ZIP</label>
+            <input
+              type="text"
+              value={zip}
+              onChange={(e) => setZip(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              placeholder="28226"
             />
           </div>
         </div>

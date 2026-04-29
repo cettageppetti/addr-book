@@ -480,6 +480,85 @@ app.get('/api/residents/:id', authRequired, (req, res) => {
   res.json({ ...resident, phones: phones || [], emails: emails || [] })
 })
 
+// ── Resident alternate address ───────────────────────────────────────────────
+app.patch('/api/residents/:id/address', authRequired, (req, res) => {
+  const residentId = parseInt(req.params.id)
+
+  // Check permissions — residents can only edit their own address
+  if (req.user.role !== 'admin' && req.user.resident_id !== residentId) {
+    return res.status(403).json({ error: 'Permission denied' })
+  }
+
+  const { address_street_number, address_street_name, city, state, zip_code } = req.body
+  const resident = db.prepare('SELECT * FROM residents WHERE id = ?').get(residentId)
+  if (!resident) return res.status(404).json({ error: 'Resident not found' })
+
+  // Check if columns exist — add them via ALTER TABLE if needed (idempotent)
+  const alterIfNeeded = (col, type) => {
+    try { db.exec(`ALTER TABLE residents ADD COLUMN ${col} ${type}`) } catch {}
+  }
+  alterIfNeeded('address_street_number', 'TEXT')
+  alterIfNeeded('address_street_name',   'TEXT')
+  alterIfNeeded('city',                  'TEXT DEFAULT "Charlotte"')
+  alterIfNeeded('state',                 'TEXT DEFAULT "NC"')
+  alterIfNeeded('zip_code',              'TEXT')
+
+  db.prepare(`
+    UPDATE residents SET
+      address_street_number = ?,
+      address_street_name   = ?,
+      city  = ?,
+      state = ?,
+      zip_code = ?
+    WHERE id = ?
+  `).run(
+    address_street_number ?? null,
+    address_street_name   ?? null,
+    city  || 'Charlotte',
+    state || 'NC',
+    zip_code ?? null,
+    residentId
+  )
+
+  const updated = db.prepare('SELECT * FROM residents WHERE id = ?').get(residentId)
+  res.json(updated)
+})
+
+app.put('/api/residents/:id/contacts', authRequired, (req, res) => {
+  const residentId = parseInt(req.params.id)
+
+  // Check permissions — residents can only edit their own contacts
+  if (req.user.role !== 'admin' && req.user.resident_id !== residentId) {
+    return res.status(403).json({ error: 'Permission denied' })
+  }
+
+  const { phones, emails } = req.body
+
+  // Update phones: replace all for this resident
+  if (phones) {
+    db.prepare('DELETE FROM phones WHERE resident_id = ?').run(residentId)
+    const insertPhone = db.prepare('INSERT INTO phones (resident_id, number) VALUES (?, ?)')
+    ;(Array.isArray(phones) ? phones : []).forEach(p => {
+      if (typeof p === 'string' && p.trim()) insertPhone.run(residentId, p.trim())
+      else if (p?.number) insertPhone.run(residentId, String(p.number).trim())
+    })
+  }
+
+  // Update emails: replace all for this resident
+  if (emails) {
+    db.prepare('DELETE FROM emails WHERE resident_id = ?').run(residentId)
+    const insertEmail = db.prepare('INSERT INTO emails (resident_id, address) VALUES (?, ?)')
+    ;(Array.isArray(emails) ? emails : []).forEach(e => {
+      if (typeof e === 'string' && e.trim()) insertEmail.run(residentId, e.trim())
+      else if (e?.address) insertEmail.run(residentId, String(e.address).trim())
+    })
+  }
+
+  const updatedPhones = db.prepare('SELECT * FROM phones WHERE resident_id = ?').all(residentId)
+  const updatedEmails = db.prepare('SELECT * FROM emails WHERE resident_id = ?').all(residentId)
+  res.json({ phones: updatedPhones, emails: updatedEmails })
+})
+
 app.get('/api/residents/:id/contacts', authRequired, (req, res) => {
   const residentId = parseInt(req.params.id)
 
