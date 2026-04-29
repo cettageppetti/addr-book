@@ -66,15 +66,15 @@ export function HomesiteAdder({ onSave }: AddProps) {
         <div className="flex gap-3">
           <div className="flex-1">
             <label className="block text-xs font-medium text-gray-500 mb-1">City</label>
-            <input type="text" value={city} onChange={e => setCity(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="Charlotte" />
+            <input type="text" value={city} onChange={e => setCity(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="Charlotte" required />
           </div>
           <div className="w-24">
             <label className="block text-xs font-medium text-gray-500 mb-1">State</label>
-            <input type="text" value={state} onChange={e => setState(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="NC" maxLength={2} />
+            <input type="text" value={state} onChange={e => setState(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="NC" maxLength={2} required />
           </div>
           <div className="w-28">
             <label className="block text-xs font-medium text-gray-500 mb-1">ZIP</label>
-            <input type="text" value={zip} onChange={e => setZip(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="28226" />
+            <input type="text" value={zip} onChange={e => setZip(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="28226" required />
           </div>
         </div>
 

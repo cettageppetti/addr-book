@@ -273,6 +273,9 @@ app.post('/api/homesites', authMiddleware, (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
   const { street_number, street_name, city, state, zip_code } = req.body
   if (!street_number || !street_name) return res.status(400).json({ error: 'street_number and street_name required' })
+  if (!city) return res.status(400).json({ error: 'city required' })
+  if (!state) return res.status(400).json({ error: 'state required' })
+  if (!zip_code) return res.status(400).json({ error: 'zip_code required' })
   db.run(`
     INSERT INTO homesites (street_number, street_name, city, state, zip_code)
     VALUES (?, ?, ?, ?, ?)
@@ -288,6 +291,9 @@ app.put('/api/homesites/:id', authMiddleware, (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
   const { street_number, street_name, city, state, zip_code } = req.body
   if (!street_number || !street_name) return res.status(400).json({ error: 'street_number and street_name required' })
+  if (!city) return res.status(400).json({ error: 'city required' })
+  if (!state) return res.status(400).json({ error: 'state required' })
+  if (!zip_code) return res.status(400).json({ error: 'zip_code required' })
   if (!queryOne('SELECT 1 FROM homesites WHERE id = ?', [parseInt(req.params.id)])) {
     return res.status(404).json({ error: 'Not found' })
   }
