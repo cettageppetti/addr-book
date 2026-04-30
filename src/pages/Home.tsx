@@ -161,7 +161,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
           fetchResidents={fetchResidents}
           onDelete={async (id) => {
             await fetch(`/api/residents/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
-            fetchResidents()
+            fetchResidents(); fetchHomesites()
           }}
         />
       )}
@@ -210,7 +210,7 @@ function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents }: 
         // Build homesite_address for the new row
         const home = homesites.find(h => h.id === addHomesite)
         r.homesite_address = home ? `${home.street_number} ${home.street_name}` : `Homesite #${addHomesite}`
-        fetchResidents()
+        fetchResidents(); fetchHomesites()
         setAddName('')
         setShowAdd(false)
       }
