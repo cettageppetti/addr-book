@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { getAuthHeaders } from '../lib/auth'
 
 interface Props {
@@ -28,6 +28,20 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const [newResidentId, setNewResidentId] = useState<string>('')
   const [residents, setResidents] = useState<any[]>([])
   const [addingUser, setAddingUser] = useState(false)
+
+  // Reset add-user form fields whenever it opens
+  useEffect(() => {
+    if (showAddUserForm) {
+      setNewEmail('')
+      setNewPassword('')
+      setNewResidentId('')
+    }
+  }, [showAddUserForm])
+
+  // Uncontrolled refs for add-user form (avoids any React re-render issues)
+  const newEmailRef      = useRef<HTMLInputElement>(null)
+  const newPasswordRef   = useRef<HTMLInputElement>(null)
+  const newResidentRef   = useRef<HTMLSelectElement>(null)
 
   // Resident-only state
   const [phones, setPhones] = useState<string[]>([])
@@ -253,7 +267,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
       const res = await fetch('/api/admin/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ email: newEmail, password: newPassword, resident_id: parseInt(newResidentId) }),
+        body: JSON.stringify({ email: newEmailRef.current?.value ?? '', password: newPasswordRef.current?.value ?? '', resident_id: parseInt(newResidentRef.current?.value ?? '0') }),
       })
       if (res.ok) {
         const newUser = await res.json()
@@ -425,9 +439,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
                     Email <span className="text-red-500">*</span>
                   </label>
                   <input
+                    ref={newEmailRef}
                     type="email"
-                    value={newEmail}
-                    onChange={(e) => setNewEmail(e.target.value)}
+                    defaultValue=""
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                     placeholder="user@example.com"
                   />
@@ -437,9 +451,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
                     Password <span className="text-red-500">*</span>
                   </label>
                   <input
+                    ref={newPasswordRef}
                     type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
+                    defaultValue=""
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                     placeholder="Min. 8 characters"
                   />
@@ -450,8 +464,8 @@ export default function Settings({ user, onUserUpdate }: Props) {
                   Resident <span className="text-red-500">*</span>
                 </label>
                 <select
-                  value={newResidentId}
-                  onChange={(e) => setNewResidentId(e.target.value)}
+                  ref={newResidentRef}
+                  defaultValue=""
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                 >
                   <option value="">Select resident...</option>
