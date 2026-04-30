@@ -44,6 +44,12 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const newResidentRef   = useRef<HTMLSelectElement>(null)
   const newRoleRef       = useRef<HTMLSelectElement>(null)
 
+  // Account settings refs (uncontrolled — avoids React re-render issues with controlled inputs)
+  const emailRef           = useRef<HTMLInputElement>(null)
+  const currentPasswordRef = useRef<HTMLInputElement>(null)
+  const passwordRef        = useRef<HTMLInputElement>(null)
+  const confirmPasswordRef = useRef<HTMLInputElement>(null)
+
   // Resident-only state
   const [phones, setPhones] = useState<string[]>([])
   const [newPhone, setNewPhone] = useState('')
@@ -96,17 +102,22 @@ export default function Settings({ user, onUserUpdate }: Props) {
     setError('')
     setSuccess('')
 
-    if (password || confirmPassword) {
-      if (password !== confirmPassword) {
+    const em   = emailRef.current?.value ?? ''
+    const cur  = currentPasswordRef.current?.value ?? ''
+    const pw   = passwordRef.current?.value ?? ''
+    const cpw  = confirmPasswordRef.current?.value ?? ''
+
+    if (pw || cpw) {
+      if (pw !== cpw) {
         setError('New passwords do not match')
         return
       }
     }
 
     const body: any = {}
-    if (email !== user.email)  body.email           = email
-    if (password)              body.password         = password
-    if (password)              body.currentPassword  = currentPassword
+    if (em !== user.email)  body.email           = em
+    if (pw)                 body.password         = pw
+    if (pw)                 body.currentPassword  = cur
 
     if (Object.keys(body).length === 0) {
       setError('Nothing to update')
@@ -128,15 +139,15 @@ export default function Settings({ user, onUserUpdate }: Props) {
       
       const updatedUser = { ...user, email: data.user.email }
       if (onUserUpdate) onUserUpdate(updatedUser)
-      
+
       // Update localStorage
       window.localStorage.setItem('user', JSON.stringify(updatedUser))
-      
+
       setSuccess('Profile updated successfully')
-      setEmail(data.user.email)
-      setCurrentPassword('')
-      setPassword('')
-      setConfirmPassword('')
+      emailRef.current!.value           = ''
+      currentPasswordRef.current!.value = ''
+      passwordRef.current!.value        = ''
+      confirmPasswordRef.current!.value = ''
     } catch (err: any) {
       setError(err.message || 'Network error')
     } finally {
@@ -313,14 +324,14 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const AdminAccountSection = () => (
     <div className="space-y-6">
       <h3 className="text-lg font-medium text-gray-900">Account</h3>
-      
+
       <div className="bg-white shadow rounded-xl p-6 space-y-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
           <input
+            ref={emailRef}
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            defaultValue={user.email}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
             placeholder="admin@example.com"
           />
@@ -337,9 +348,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
             Current password <span className="text-red-500">*</span>
           </label>
           <input
+            ref={currentPasswordRef}
             type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
+            defaultValue=""
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
             placeholder="••••••••"
           />
@@ -348,9 +359,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">New password</label>
           <input
+            ref={passwordRef}
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            defaultValue=""
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
             placeholder="Min. 8 characters"
           />
@@ -359,9 +370,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Confirm new password</label>
           <input
+            ref={confirmPasswordRef}
             type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            defaultValue=""
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
             placeholder="Repeat new password"
           />
@@ -635,14 +646,14 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const ResidentAccountSection = () => (
     <div className="space-y-6">
       <h3 className="text-lg font-medium text-gray-900">My Account</h3>
-      
+
       <div className="bg-white shadow rounded-xl p-6 space-y-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
           <input
+            ref={emailRef}
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            defaultValue={user.email}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
             placeholder="resident@example.com"
           />
@@ -698,9 +709,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
             Current password <span className="text-red-500">*</span>
           </label>
           <input
+            ref={currentPasswordRef}
             type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
+            defaultValue=""
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
             placeholder="••••••••"
           />
@@ -709,9 +720,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">New password</label>
           <input
+            ref={passwordRef}
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            defaultValue=""
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
             placeholder="Min. 8 characters"
           />
@@ -720,9 +731,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Confirm new password</label>
           <input
+            ref={confirmPasswordRef}
             type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            defaultValue=""
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
             placeholder="Repeat new password"
           />
