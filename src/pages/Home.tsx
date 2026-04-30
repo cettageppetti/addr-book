@@ -4,7 +4,7 @@ import ResidentProfile from '../components/ResidentProfile'
 import { HomesiteAdder, HomesiteAdminCard } from '../components/HomesiteEditor'
 import { getAuthHeaders } from '../lib/auth'
 
-type Tab = 'homesites' | 'residents'
+type Tab = 'homesites' | 'residents' | 'profile'
 
 interface Homesite {
   id: number; street_number: string; street_name: string
@@ -19,6 +19,7 @@ interface Resident {
 export default function Home({ user }: { user: any }) {
   const [loading, setLoading] = useState(true)
   const [tab,       setTab]   = useState<Tab>(() => {
+    if (user?.role === 'resident') return 'profile'
     const p = new URLSearchParams(window.location.search).get('tab')
     if (p === 'homesites' || p === 'residents') return p
     return (localStorage.getItem('addrtab') || 'homesites') as Tab
@@ -63,18 +64,8 @@ export default function Home({ user }: { user: any }) {
   if (!user) return <Navigate to="/login" replace />
   if (loading) return <div className="text-center py-12">Loading...</div>
 
-  // ── Resident view ─────────────────────────────────────────────────────────
-  if (user.role === 'resident') {
-    const myHome = homesites[0]
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">My Profile</h2>
-        {myHome ? <ResidentProfile residentId={String(user.resident_id)} user={user} activeTab={tab} onTabChange={setTab} /> : <p className="text-gray-500">No profile found.</p>}
-      </div>
-    )
-  }
 
-  // ── Admin view ────────────────────────────────────────────────────────────
+
   const isAdmin = user.role === 'admin'
 
   return (
@@ -83,10 +74,20 @@ export default function Home({ user }: { user: any }) {
       <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
         {isAdmin && <h2 className="text-2xl font-bold text-gray-900">Administration</h2>}
         <div className="flex justify-end gap-1 bg-gray-100 rounded-lg p-1">
+          {!isAdmin && (
+            <button
+              onClick={() => { localStorage.setItem('addrtab', 'profile'); setTab('profile') }}
+              className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+                tab === 'profile' ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              My Profile
+            </button>
+          )}
           {(['homesites', 'residents'] as Tab[]).map(t => (
             <button
               key={t}
-              onClick={() => { localStorage.setItem('addrtab', t); setTab(t); setShowCreate(false); setHomesiteSearch('') }}
+              onClick={() => { localStorage.setItem('addrtab', t); setTab(t as Tab); setShowCreate(false); setHomesiteSearch('') }}
               className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
                 tab === t ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
               }`}
@@ -122,15 +123,17 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
                 </button>
               )}
             </div>
-            <button
-              onClick={() => setShowCreate(true)}
-              className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
-            >
-              + Add Homesite
-            </button>
+            {isAdmin && (
+              <button
+                onClick={() => setShowCreate(true)}
+                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
+              >
+                + Add Homesite
+              </button>
+            )}
           </div>
 
-          {showCreateHomesite && (
+          {isAdmin && showCreateHomesite && (
             <div className="mb-6">
               <HomesiteAdder onSave={() => { setShowCreate(false); fetchHomesites() }} />
             </div>
@@ -169,6 +172,11 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
       ) : (
         <ResidentReadOnlyList residents={residents} homesites={homesites} />
       ))}
+
+      {/* ── My Profile tab (resident only) ─────────────────────────────── */}
+      {tab === 'profile' && user?.resident_id && (
+        <ResidentProfile user={user} propResidentId={String(user.resident_id)} activeTab={tab} onTabChange={(t) => { localStorage.setItem('addrtab', t); setTab(t as Tab) }} />
+      )}
     </div>
   )
 }

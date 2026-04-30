@@ -1,4 +1,4 @@
-const initSqlJs = require('sql.js')
+const Database = require('better-sqlite3')
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const bcrypt = require('bcryptjs')
@@ -12,17 +12,11 @@ const DB_PATH = path.join(__dirname, 'addr-book.db')
 
 let db
 
-async function initDatabase() {
-  const SQL = await initSqlJs()
+function initDatabase() {
+  db = new Database(DB_PATH)
+  db.pragma('journal_mode = WAL')
 
-  if (fs.existsSync(DB_PATH)) {
-    const buf = fs.readFileSync(DB_PATH)
-    db = new SQL.Database(buf)
-  } else {
-    db = new SQL.Database()
-  }
-
-  db.run(`
+  db.exec(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       email TEXT UNIQUE NOT NULL,
@@ -62,13 +56,9 @@ async function initDatabase() {
     );
   `)
 
-  function save() {
-    const data = db.export()
-    fs.writeFileSync(DB_PATH, Buffer.from(data))
-  }
-
   function seed() {
-    const count = db.exec('SELECT COUNT(*) as c FROM homesites')[0]?.values[0][0] || 0
+    const row = db.prepare('SELECT COUNT(*) as c FROM homesites').get()
+    const count = row.c || 0
     if (count >= 120) {
       console.log(`DB has ${count} homesites, skipping seed`)
       return
@@ -117,7 +107,7 @@ async function initDatabase() {
     }
 
     const homes = db.exec('SELECT id FROM homesites')
-    const homeIds = homes[0]?.values.map(r => r[0]) || []
+    const homeIds = (homes[0] && homes[0].values) ? homes[0].values.map(r => r[0]) : []
 
     for (let i = 0; i < homeIds.length; i++) {
       const firstName = firstNames[i % firstNames.length]
@@ -126,8 +116,7 @@ async function initDatabase() {
       db.run('INSERT INTO residents (homesite_id, name) VALUES (?, ?)', [
         homeIds[i], `${firstName} ${lastName}`
       ])
-      const resResult = db.exec('SELECT last_insert_rowid()')
-      const residentId = resResult[0]?.values[0][0]
+      const residentId = db.prepare('SELECT last_insert_rowid() as id').get().id
 
       const numPhones = (i % 3) + 1
       for (let p = 0; p < numPhones; p++) {
@@ -160,12 +149,11 @@ async function initDatabase() {
       ])
     } catch (e) { /* already exists */ }
 
-    save()
   }
 
   seed()
 
-  return { db, save }
+  return db
 }
 
 // Auth middleware
@@ -185,16 +173,12 @@ function authMiddleware(req, res, next) {
 // Helper to run query and return results as array of objects
 function queryAll(sql, params = []) {
   const stmt = db.prepare(sql)
-  if (params.length) stmt.bind(params)
-  const rows = []
-  while (stmt.step()) rows.push(stmt.getAsObject())
-  stmt.free()
-  return rows
+  return params.length ? stmt.all(...params) : stmt.all()
 }
 
 function queryOne(sql, params = []) {
-  const rows = queryAll(sql, params)
-  return rows[0] || null
+  const stmt = db.prepare(sql)
+  return params.length ? stmt.get(...params) : stmt.get()
 }
 
 // --- Routes ---
@@ -220,7 +204,7 @@ app.post('/api/auth/login', (req, res) => {
   )
 
   res.cookie('token', token, { httpOnly: true, sameSite: 'lax' })
-  res.json({ id: user.id, email: user.email, role: user.role, token })
+  res.json({ id: user.id, email: user.email, role: user.role, resident_id: user.resident_id, token })
 })
 
 // Logout
@@ -373,9 +357,7 @@ app.put('/api/homesites/:id', authMiddleware, (req, res) => {
 // Get resident detail with contact info (admin or own record)
 app.get('/api/residents/:id', authMiddleware, (req, res) => {
   const residentId = parseInt(req.params.id)
-  if (req.user.role !== 'admin' && req.user.resident_id !== residentId) {
-    return res.status(403).json({ error: 'Forbidden' })
-  }
+  // Allow any authenticated user to view a profile (read-only for non-admins/non-owners)
 
   const resident = queryOne(`
     SELECT r.*, h.street_number, h.street_name
@@ -529,16 +511,9 @@ app.delete('/api/homesites/:id/photo', authMiddleware, (req, res) => {
 })
 
 // Start server
-async function main() {
-  try {
-    const result = await initDatabase()
-    global._saveDb = result.save
-
-    app.listen(3000, () => console.log('Server running on http://localhost:3000'))
-  } catch (err) {
-    console.error('Failed to start:', err)
-    process.exit(1)
-  }
+function main() {
+  initDatabase()
+  app.listen(3000, () => console.log('Server running on http://localhost:3000'))
 }
 
 // Serve frontend static files (Vite build or dev)
