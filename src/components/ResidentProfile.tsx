@@ -27,7 +27,10 @@ export default function ResidentProfile({ residentId: propResidentId, user, acti
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const urlParams = useParams()
-  const residentId = propResidentId || urlParams.id
+  // Prefer prop, fall back to URL param, then localStorage (for profile tab)
+  const residentId = propResidentId || urlParams.id || (() => {
+    try { return JSON.parse(localStorage.getItem('user') || '{}').resident_id?.toString() } catch { return undefined }
+  })()
   const [resident, setResident] = useState<Resident | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -35,9 +38,8 @@ export default function ResidentProfile({ residentId: propResidentId, user, acti
   const canEdit = user?.role === 'admin' || String(user?.resident_id) === residentId
 
   useEffect(() => {
-    console.log('[DEBUG] ResidentProfile mounted, residentId:', residentId)
-    if (!residentId) { console.log('[DEBUG] residentId is falsy, skipping fetch'); return }
-    const fetchResident = async () => {
+    if (!residentId) return
+    ;(async () => {
       try {
         const res = await fetch(`/api/residents/${residentId}`, { headers: getAuthHeaders() })
         if (!res.ok) {
@@ -50,9 +52,7 @@ export default function ResidentProfile({ residentId: propResidentId, user, acti
       } finally {
         setLoading(false)
       }
-    }
-
-    fetchResident()
+    })()
   }, [residentId])
 
   if (loading) return <div className="text-center py-12">Loading...</div>
