@@ -231,8 +231,8 @@ app.post('/api/auth/logout', (req, res) => {
 
 // Get current user
 app.get('/api/auth/me', authMiddleware, (req, res) => {
-  const { id, email, role } = req.user
-  res.json({ id, email, role })
+  const { id, email, role, resident_id } = req.user
+  res.json({ id, email, role, resident_id })
 })
 
 app.put('/api/auth/profile', authMiddleware, (req, res) => {
