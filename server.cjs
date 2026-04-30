@@ -235,6 +235,26 @@ app.get('/api/auth/me', authMiddleware, (req, res) => {
   res.json({ id, email, role })
 })
 
+app.put('/api/auth/profile', authMiddleware, (req, res) => {
+  const { email, password, currentPassword } = req.body
+  const userId = req.user.id
+
+  if (email) {
+    db.run('UPDATE users SET email = ? WHERE id = ?', [email, userId])
+  }
+
+  if (password) {
+    const user = queryOne('SELECT password_hash FROM users WHERE id = ?', [userId])
+    if (!bcrypt.compareSync(currentPassword, user.password_hash)) {
+      return res.status(400).json({ error: 'Current password incorrect' })
+    }
+    db.run('UPDATE users SET password_hash = ? WHERE id = ?', [bcrypt.hashSync(password, 10), userId])
+  }
+
+  const updated = queryOne('SELECT id, email, role FROM users WHERE id = ?', [userId])
+  res.json({ user: updated })
+})
+
 // Get all homesites (admin)
 // List all residents (admin only)
 app.get('/api/residents', authMiddleware, (req, res) => {
