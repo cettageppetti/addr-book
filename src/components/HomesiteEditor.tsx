@@ -191,31 +191,32 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
   }
 
   return (
-    <div className="block bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow relative">
-      <div className="absolute top-4 right-4 flex gap-2 z-10">
-        {!editing && (
-          <button onClick={() => setEditing(true)}
-            className="text-xs text-gray-500 hover:text-indigo-600 font-medium">
-            Edit
+    <div className="block bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+      {/* Photo + edit/delete overlay */}
+      <div className="relative mb-3">
+        <img
+          src={previewSrc || DEFAULT_PHOTO}
+          alt="Homesite"
+          className="w-full h-32 object-cover rounded border"
+        />
+        <div className="absolute top-2 right-2 flex gap-1">
+          {!editing && (
+            <button onClick={() => setEditing(true)}
+              className="text-xs bg-white/90 hover:bg-white text-gray-600 hover:text-indigo-600 font-medium px-2 py-1 rounded shadow">
+              Edit
+            </button>
+          )}
+          <button onClick={handleDelete}
+            className={`text-xs px-2 py-1 rounded shadow font-medium ${confirming ? 'bg-red-100 hover:bg-red-200 text-red-600' : 'bg-white/90 hover:bg-white text-gray-400 hover:text-red-500'}`}>
+            {confirming ? 'Confirm Delete?' : 'Delete'}
           </button>
-        )}
-        <button onClick={handleDelete}
-          className={`text-xs font-medium ${confirming ? 'text-red-600' : 'text-gray-400 hover:text-red-500'}`}>
-          {confirming ? 'Confirm Delete?' : 'Delete'}
-        </button>
-        {confirming && (
-          <button onClick={() => setConfirming(false)} className="text-xs text-gray-400 hover:text-gray-600">
-            Cancel
-          </button>
-        )}
+          {confirming && (
+            <button onClick={() => setConfirming(false)} className="text-xs bg-white/90 hover:bg-white text-gray-400 hover:text-gray-600 px-2 py-1 rounded shadow">
+              Cancel
+            </button>
+          )}
+        </div>
       </div>
-
-      {/* Photo thumbnail */}
-      <img
-        src={previewSrc || DEFAULT_PHOTO}
-        alt="Homesite"
-        className="w-full h-32 object-cover rounded mb-3 border"
-      />
 
       <h3 className="text-xl font-semibold text-gray-900 pr-20">
         {homesite.street_number} {homesite.street_name}
