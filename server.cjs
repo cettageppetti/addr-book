@@ -282,6 +282,14 @@ app.put('/api/residents/:id', authMiddleware, (req, res) => {
   res.json(resident)
 })
 
+// Delete a resident (admin only)
+app.delete('/api/residents/:id', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const id = parseInt(req.params.id)
+  db.run('DELETE FROM residents WHERE id = ?', [id])
+  res.json({ ok: true })
+})
+
 // Get resident detail with contact info (admin or own record)
 
 // Get homesites with resident array (not just names string)
