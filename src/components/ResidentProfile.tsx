@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getAuthHeaders } from '../lib/auth'
 
 interface Resident {
@@ -24,6 +24,7 @@ interface Props {
 }
 
 export default function ResidentProfile({ residentId: propResidentId, user, activeTab, onTabChange }: Props) {
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const urlParams = useParams()
   const residentId = propResidentId || urlParams.id
@@ -75,13 +76,13 @@ export default function ResidentProfile({ residentId: propResidentId, user, acti
         {(['homesites', 'residents'] as const).map(t => {
           const isActive = activeTab === t || searchParams.get('tab') === t
           return (
-            <Link key={t} to={`/?tab=${t}`}
-              className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize no-underline ${
+            <button key={t} onClick={() => { if (onTabChange) onTabChange(t); navigate(`/?tab=${t}`) }}
+              className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
                 isActive ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               {t}
-            </Link>
+            </button>
           )
         })}
       </div>
