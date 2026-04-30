@@ -72,7 +72,7 @@ export default function ResidentProfile({ residentId: propResidentId, user, acti
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="flex gap-1 bg-gray-100 rounded-lg p-1 mb-4">
+      <div className="flex justify-end gap-1 bg-gray-100 rounded-lg p-1 mb-4">
         {(['homesites', 'residents'] as const).map(t => {
           const isActive = activeTab === t || searchParams.get('tab') === t || localStorage.getItem('addrtab') === t
           return (
