@@ -59,7 +59,6 @@ export default function Home({ user }: { user: any }) {
         return addrMatch || residentMatch
       })
     : homesites
-  console.log('filteredHomesites:', typeof filteredHomesites, Array.isArray(filteredHomesites), 'homesites type:', typeof homesites, Array.isArray(homesites))
 
   if (!user) return <Navigate to="/login" replace />
   if (loading) return <div className="text-center py-12">Loading...</div>
@@ -76,11 +75,13 @@ export default function Home({ user }: { user: any }) {
   }
 
   // ── Admin view ────────────────────────────────────────────────────────────
+  const isAdmin = user.role === 'admin'
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
       {/* Tab bar */}
       <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
-        <h2 className="text-2xl font-bold text-gray-900">Administration</h2>
+        {isAdmin && <h2 className="text-2xl font-bold text-gray-900">Administration</h2>}
         <div className="flex justify-end gap-1 bg-gray-100 rounded-lg p-1">
           {(['homesites', 'residents'] as Tab[]).map(t => (
             <button
@@ -137,38 +138,37 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
 
           {filteredHomesites.length > 0 || homesiteSearch === ''
             ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredHomesites.map(h => (
-                  <HomesiteAdminCard
-                    key={h.id}
-                    homesite={h}
-                    onDelete={async (id) => {
-                      await fetch(`/api/homesites/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
-                      setHomesites(prev => prev.filter(x => x.id !== id))
-                    }}
-                  />
-                ))}
+                {filteredHomesites.map(h => isAdmin
+                  ? <HomesiteAdminCard key={h.id} homesite={h}
+                      onDelete={async (id) => {
+                        await fetch(`/api/homesites/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
+                        setHomesites(prev => prev.filter(x => x.id !== id))
+                      }}
+                    />
+                  : <HomesiteCard key={h.id} homesite={h} />
+                )}
               </div>
             : <div className="text-center py-12 text-gray-500">No matching homesites found.</div>
           }
 
           {homesites.length === 0 && (
-            <div className="text-center py-12 text-gray-500">No homesites yet. Add one above.</div>
+            <div className="text-center py-12 text-gray-500">No homesites yet.</div>
           )}
         </>
       )}
 
       {/* ── Residents tab ─────────────────────────────────────────────── */}
-      {tab === 'residents' && (
-        <ResidentAdminPanel
-          residents={residents}
-          homesites={homesites}
+      {tab === 'residents' && (isAdmin ? (
+        <ResidentAdminPanel residents={residents} homesites={homesites}
           fetchResidents={fetchResidents}
           onDelete={async (id) => {
             await fetch(`/api/residents/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
             fetchResidents(); fetchHomesites()
           }}
         />
-      )}
+      ) : (
+        <ResidentReadOnlyList residents={residents} homesites={homesites} />
+      ))}
     </div>
   )
 }
@@ -442,5 +442,105 @@ function ResidentRow({ resident, homesites, onDelete }: {
         </tr>
       )}
     </>
+  )
+}
+
+// ── Read-only homesite card for residents ─────────────────────────────────────
+function HomesiteCard({ homesite }: { homesite: Homesite }) {
+  const residents = homesite.residents || []
+  return (
+    <div className="bg-white border rounded-xl p-4 shadow-sm">
+      {homesite.photo !== undefined && (
+        <img
+          src={`/api/homesites/${homesite.id}/photo?${Date.now()}`}
+          alt="Homesite"
+          className="w-full h-32 object-cover rounded border mb-3"
+        />
+      )}
+      <h3 className="text-xl font-semibold text-gray-900">
+        {homesite.street_number} {homesite.street_name}
+      </h3>
+      <p className="text-gray-400 text-sm mt-1">
+        {homesite.city || 'Charlotte'}, {(homesite.state || homesite.state_code) || 'NC'} {((homesite.zip_code || '') + '').replace(/\s/g, '')}
+      </p>
+      <p className="text-gray-400 text-sm">
+        {residents.length} resident{residents.length !== 1 ? 's' : ''}
+      </p>
+      <div className="mt-2 space-y-1">
+        {residents.map(r => (
+          <Link key={r.id} to={`/residents/${r.id}`}
+            className="block text-gray-500 text-sm hover:text-indigo-600">
+            {r.name}
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── Read-only resident list for residents ─────────────────────────────────────
+function ResidentReadOnlyList({ residents, homesites }: {
+  residents: Resident[]; homesites: Homesite[]
+}) {
+  const [search, setSearch] = useState('')
+  const filtered = residents.filter(r =>
+    r.name.toLowerCase().includes(search.toLowerCase()) ||
+    (r.homesite_address || '').toLowerCase().includes(search.toLowerCase())
+  )
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
+        <div className="relative flex-1 min-w-0">
+          <input
+            type="text"
+            placeholder="Search by name or address..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-indigo-500"
+          />
+          {search && (
+            <button
+              type="button"
+              onClick={() => setSearch('')}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              tabIndex={-1}
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="overflow-x-auto">
+        {filtered.length > 0 ? (
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr className="text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2">Address</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {filtered.map(r => (
+                <tr key={r.id}>
+                  <td className="px-4 py-2">
+                    <Link to={`/residents/${r.id}`}
+                      className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
+                      {r.name}
+                    </Link>
+                  </td>
+                  <td className="px-4 py-2 text-sm text-gray-500">
+                    {r.homesite_address || '-'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="text-center py-8 text-gray-500">No matching residents found.</p>
+        )}
+      </div>
+    </div>
   )
 }
