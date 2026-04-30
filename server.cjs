@@ -237,6 +237,17 @@ app.get('/api/auth/me', authMiddleware, (req, res) => {
 
 // Get all homesites (admin)
 // List all residents (admin only)
+app.get('/api/residents', authMiddleware, (req, res) => {
+  const residents = queryAll(`
+    SELECT r.*,
+      h.street_number || ' ' || h.street_name as homesite_address
+    FROM residents r
+    JOIN homesites h ON h.id = r.homesite_id
+    ORDER BY r.name
+  `)
+  res.json(residents)
+})
+
 // Create a new resident (admin only)
 app.post('/api/residents', authMiddleware, (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
@@ -272,15 +283,6 @@ app.put('/api/residents/:id', authMiddleware, (req, res) => {
 })
 
 // Get resident detail with contact info (admin or own record)
-  const residents = queryAll(`
-    SELECT r.*,
-      h.street_number || ' ' || h.street_name as homesite_address
-    FROM residents r
-    JOIN homesites h ON h.id = r.homesite_id
-    ORDER BY r.name
-  `)
-  res.json(residents)
-})
 
 // Get homesites with resident array (not just names string)
 app.get('/api/homesites', authMiddleware, (req, res) => {
