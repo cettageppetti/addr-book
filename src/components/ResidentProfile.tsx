@@ -74,9 +74,9 @@ export default function ResidentProfile({ residentId: propResidentId, user, acti
     <div className="max-w-3xl mx-auto">
       <div className="flex gap-1 bg-gray-100 rounded-lg p-1 mb-4">
         {(['homesites', 'residents'] as const).map(t => {
-          const isActive = activeTab === t || searchParams.get('tab') === t
+          const isActive = activeTab === t || searchParams.get('tab') === t || localStorage.getItem('addrtab') === t
           return (
-            <button key={t} onClick={() => { if (onTabChange) onTabChange(t); navigate(`/?tab=${t}`) }}
+            <button key={t} onClick={() => { if (onTabChange) onTabChange(t); localStorage.setItem('addrtab', t); navigate(`/?tab=${t}`) }}
               className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
                 isActive ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
               }`}
