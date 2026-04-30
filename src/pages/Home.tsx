@@ -269,9 +269,11 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
               onChange={(e) => setAddHomesite(Number(e.target.value))}
               className="px-3 py-1.5 border border-gray-300 rounded text-sm"
             >
-              {homesites.map(h => (
-                <option key={h.id} value={h.id}>{h.street_number} {h.street_name}</option>
-              ))}
+              {[...homesites]
+                .sort((a, b) => a.street_name.localeCompare(b.street_name) || +a.street_number - +b.street_number)
+                .map(h => (
+                  <option key={h.id} value={h.id}>{h.street_number} {h.street_name}</option>
+                ))}
             </select>
           </div>
           <button type="submit" disabled={addSaving}
@@ -415,9 +417,11 @@ function ResidentRow({ resident, homesites, onDelete }: {
                   onChange={(e) => setHomesiteId(Number(e.target.value))}
                   className="px-3 py-1.5 border border-gray-300 rounded text-sm"
                 >
-                  {homesites.map(h => (
-                    <option key={h.id} value={h.id}>{h.street_number} {h.street_name}</option>
-                  ))}
+                  {[...homesites]
+                    .sort((a, b) => a.street_name.localeCompare(b.street_name) || +a.street_number - +b.street_number)
+                    .map(h => (
+                      <option key={h.id} value={h.id}>{h.street_number} {h.street_name}</option>
+                    ))}
                 </select>
               </div>
               <button type="submit" disabled={saving}
