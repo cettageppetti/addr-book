@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { Navigate, Link, useSearchParams } from 'react-router-dom'
 import ResidentProfile from '../components/ResidentProfile'
 import { HomesiteAdder, HomesiteAdminCard } from '../components/HomesiteEditor'
 import { getAuthHeaders } from '../lib/auth'
@@ -18,7 +18,10 @@ interface Resident {
 
 export default function Home({ user }: { user: any }) {
   const [loading, setLoading] = useState(true)
-  const [tab,       setTab]   = useState<Tab>('homesites')
+  const [tab,       setTab]   = useState<Tab>(() => {
+    const p = new URLSearchParams(window.location.search).get('tab')
+    return (p === 'homesites' || p === 'residents') ? p : 'homesites'
+  })
 
   const [homesites, setHomesites]           = useState<Homesite[]>([])
   const [homesiteSearch, setHomesiteSearch] = useState('')
@@ -66,7 +69,7 @@ export default function Home({ user }: { user: any }) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">My Profile</h2>
-        {myHome ? <ResidentProfile residentId={String(user.resident_id)} user={user} /> : <p className="text-gray-500">No profile found.</p>}
+        {myHome ? <ResidentProfile residentId={String(user.resident_id)} user={user} activeTab={tab} onTabChange={setTab} /> : <p className="text-gray-500">No profile found.</p>}
       </div>
     )
   }
