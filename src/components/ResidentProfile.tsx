@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getAuthHeaders } from '../lib/auth'
 
 interface Resident {
@@ -23,12 +22,9 @@ interface Props {
   onTabChange?: (tab: 'homesites' | 'residents') => void
 }
 
-export default function ResidentProfile({ residentId: propResidentId, user, activeTab, onTabChange }: Props) {
-  const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const urlParams = useParams()
-  // Prefer prop, fall back to URL param, then localStorage (for profile tab)
-  const residentId = propResidentId || urlParams.id || (() => {
+export default function ResidentProfile({ residentId: propResidentId, user }: Props) {
+  // Prefer prop, fall back to localStorage (for profile tab)
+  const residentId = propResidentId || (() => {
     try { return JSON.parse(localStorage.getItem('user') || '{}').resident_id?.toString() } catch { return undefined }
   })()
   const [resident, setResident] = useState<Resident | null>(null)
@@ -72,29 +68,6 @@ export default function ResidentProfile({ residentId: propResidentId, user, acti
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="flex justify-end gap-1 bg-gray-100 rounded-lg p-1 mb-4">
-        {(['homesites', 'residents'] as const).map(t => {
-          const isActive = activeTab === t || searchParams.get('tab') === t || localStorage.getItem('addrtab') === t
-          return (
-            <button key={t} onClick={() => { if (onTabChange) onTabChange(t); localStorage.setItem('addrtab', t); navigate(`/?tab=${t}`) }}
-              className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
-                isActive ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              {t}
-            </button>
-          )
-        })}
-        <button
-          onClick={() => { localStorage.setItem('addrtab', 'profile'); navigate('/?tab=profile') }}
-          className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
-            activeTab === 'profile' ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
-          }`}
-        >
-          My Profile
-        </button>
-      </div>
-
       <div className="bg-white rounded-lg shadow p-6 mb-4">
         <h2 className="text-2xl font-bold text-gray-900 mb-1">{resident.name}</h2>
         <p className="text-gray-600">
