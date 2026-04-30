@@ -42,6 +42,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const newEmailRef      = useRef<HTMLInputElement>(null)
   const newPasswordRef   = useRef<HTMLInputElement>(null)
   const newResidentRef   = useRef<HTMLSelectElement>(null)
+  const newRoleRef       = useRef<HTMLSelectElement>(null)
 
   // Resident-only state
   const [phones, setPhones] = useState<string[]>([])
@@ -271,12 +272,11 @@ export default function Settings({ user, onUserUpdate }: Props) {
       const res = await fetch('/api/admin/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ email, password, resident_id: residentId }),
+        body: JSON.stringify({ email, password, role: newRoleRef.current?.value ?? 'resident', resident_id: residentId }),
       })
       if (res.ok) {
-        const newUser = await res.json()
-        setUsers([...users, newUser])
         setShowAddUserForm(false)
+        fetchUsers()
         setNewEmail('')
         setNewPassword('')
         setNewResidentId('')
@@ -463,6 +463,21 @@ export default function Settings({ user, onUserUpdate }: Props) {
                   />
                 </div>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Role <span className="text-red-500">*</span>
+                </label>
+                <select
+                  ref={newRoleRef}
+                  defaultValue="resident"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                >
+                  <option value="resident">Resident</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Resident <span className="text-red-500">*</span>
