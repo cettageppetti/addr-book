@@ -251,23 +251,27 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const handleAddUserSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    
-    if (!newEmail || !newPassword || !newResidentId) {
+
+    const email      = newEmailRef.current?.value ?? ''
+    const password   = newPasswordRef.current?.value ?? ''
+    const residentId = parseInt(newResidentRef.current?.value ?? '0')
+
+    if (!email || !password || !residentId) {
       setError('All fields are required')
       return
     }
-    
-    if (newPassword.length < 8) {
+
+    if (password.length < 8) {
       setError('Password must be at least 8 characters')
       return
     }
-    
+
     setAddingUser(true)
     try {
       const res = await fetch('/api/admin/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ email: newEmailRef.current?.value ?? '', password: newPasswordRef.current?.value ?? '', resident_id: parseInt(newResidentRef.current?.value ?? '0') }),
+        body: JSON.stringify({ email, password, resident_id: residentId }),
       })
       if (res.ok) {
         const newUser = await res.json()
