@@ -416,6 +416,57 @@ app.put('/api/users/:id/password', authMiddleware, (req, res) => {
   res.json({ ok: true })
 })
 
+// ── Admin user management ───────────────────────────────────────────────────
+app.get('/api/admin/users', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const users = queryAll(`
+    SELECT u.id, u.email, u.role, u.resident_id,
+           r.name as resident_name
+    FROM users u
+    LEFT JOIN residents r ON u.resident_id = r.id
+    ORDER BY u.role, u.email
+  `)
+  res.json(users)
+})
+
+app.post('/api/admin/users', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const { email, password, role = 'resident', resident_id } = req.body
+  if (!email || !password || !resident_id) {
+    return res.status(400).json({ error: 'email, password, and resident_id required' })
+  }
+  if (password.length < 8) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters' })
+  }
+  const resident = queryOne('SELECT id FROM residents WHERE id = ?', [resident_id])
+  if (!resident) return res.status(404).json({ error: 'Resident not found' })
+  const existing = queryOne('SELECT id FROM users WHERE email = ?', [email])
+  if (existing) return res.status(409).json({ error: 'Email already in use' })
+  const password_hash = bcrypt.hashSync(password, 10)
+  db.run('INSERT INTO users (email, password_hash, role, resident_id) VALUES (?, ?, ?, ?)', [email, password_hash, role, resident_id])
+  const newId = queryOne('SELECT last_insert_rowid() as id').id
+  res.status(201).json({ id: newId, email, role, resident_id })
+})
+
+app.delete('/api/admin/users/:id', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const id = parseInt(req.params.id)
+  if (id === req.user.id) return res.status(400).json({ error: 'Cannot delete your own account' })
+  db.run('DELETE FROM users WHERE id = ?', [id])
+  res.json({ ok: true })
+})
+
+app.post('/api/admin/users/:id/reset-password', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const id = parseInt(req.params.id)
+  const { password } = req.body
+  if (!password || password.length < 8) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters' })
+  }
+  db.run('UPDATE users SET password_hash = ? WHERE id = ?', [bcrypt.hashSync(password, 10), id])
+  res.json({ ok: true })
+})
+
 // ── Homesite photo endpoints ───────────────────────────────────────────────
 const defaultPhotoPath = path.join(__dirname, 'public', 'default-home.jpg')
 
