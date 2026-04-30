@@ -402,7 +402,7 @@ app.post('/api/admin/users/:id/reset-password', authRequired, (req, res) => {
 app.post('/api/admin/users', authRequired, (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
   
-  const { email, password, resident_id } = req.body
+  const { email, password, role = 'resident', resident_id } = req.body
   if (!email || !password || !resident_id) {
     return res.status(400).json({ error: 'email, password, and resident_id required' })
   }
@@ -419,7 +419,7 @@ app.post('/api/admin/users', authRequired, (req, res) => {
   const password_hash = bcrypt.hashSync(password, 10)
   const result = db.prepare(
     'INSERT INTO users (email, password_hash, role, resident_id) VALUES (?, ?, ?, ?)'
-  ).run(email, password_hash, 'resident', resident_id)
+  ).run(email, password_hash, role, resident_id)
 
   res.status(201).json({ id: result.lastInsertRowid, email, role: 'resident', resident_id })
 })
