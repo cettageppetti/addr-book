@@ -19,7 +19,7 @@ interface Resident {
 interface Props {
   residentId?: string
   user: { role: string; resident_id?: number } | null
-  activeTab?: 'homesites' | 'residents'
+  activeTab?: 'homesites' | 'residents' | 'profile'
   onTabChange?: (tab: 'homesites' | 'residents') => void
 }
 
@@ -35,12 +35,12 @@ export default function ResidentProfile({ residentId: propResidentId, user, acti
   const canEdit = user?.role === 'admin' || String(user?.resident_id) === residentId
 
   useEffect(() => {
-    if (!residentId) return
+    console.log('[DEBUG] ResidentProfile mounted, residentId:', residentId)
+    if (!residentId) { console.log('[DEBUG] residentId is falsy, skipping fetch'); return }
     const fetchResident = async () => {
       try {
         const res = await fetch(`/api/residents/${residentId}`, { headers: getAuthHeaders() })
         if (!res.ok) {
-          if (res.status === 403) { window.location.href = '/'; return }
           throw new Error('Failed to load profile')
         }
         const data: Resident = await res.json()
@@ -85,6 +85,14 @@ export default function ResidentProfile({ residentId: propResidentId, user, acti
             </button>
           )
         })}
+        <button
+          onClick={() => { localStorage.setItem('addrtab', 'profile'); navigate('/?tab=profile') }}
+          className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+            activeTab === 'profile' ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          My Profile
+        </button>
       </div>
 
       <div className="bg-white rounded-lg shadow p-6 mb-4">
