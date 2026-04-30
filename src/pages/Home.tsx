@@ -169,7 +169,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
   )
 }
 
-function ResidentAdminPanel({ residents, homesites, onDelete }: {
+function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents }: {
   residents: Resident[]; homesites: Homesite[]
   onDelete: (id: number) => void; fetchResidents: () => void
 }) {
@@ -177,6 +177,8 @@ function ResidentAdminPanel({ residents, homesites, onDelete }: {
   const [showAdd,    setShowAdd]   = useState(false)
   const [addName,     setAddName]     = useState('')
   const [addHomesite, setAddHomesite] = useState(homesites[0]?.id || 0)
+
+
   const [addSaving,   setAddSaving]   = useState(false)
 
   // Sort state
