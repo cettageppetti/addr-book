@@ -20,7 +20,8 @@ export default function Home({ user }: { user: any }) {
   const [loading, setLoading] = useState(true)
   const [tab,       setTab]   = useState<Tab>(() => {
     const p = new URLSearchParams(window.location.search).get('tab')
-    return (p === 'homesites' || p === 'residents') ? p : 'homesites'
+    if (p === 'homesites' || p === 'residents') return p
+    return (localStorage.getItem('addrtab') || 'homesites') as Tab
   })
 
   const [homesites, setHomesites]           = useState<Homesite[]>([])
@@ -84,7 +85,7 @@ export default function Home({ user }: { user: any }) {
           {(['homesites', 'residents'] as Tab[]).map(t => (
             <button
               key={t}
-              onClick={() => { setTab(t); setShowCreate(false); setHomesiteSearch('') }}
+              onClick={() => { localStorage.setItem('addrtab', t); setTab(t); setShowCreate(false); setHomesiteSearch('') }}
               className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
                 tab === t ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
               }`}
