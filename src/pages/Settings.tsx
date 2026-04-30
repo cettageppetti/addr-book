@@ -47,12 +47,12 @@ export default function Settings({ user, onUserUpdate }: Props) {
   // Account settings refs (uncontrolled — avoids React re-render issues with controlled inputs)
   const emailRef           = useRef<HTMLInputElement>(null)
   const currentPasswordRef = useRef<HTMLInputElement>(null)
+  const newPhoneRef        = useRef<HTMLInputElement>(null)
   const passwordRef        = useRef<HTMLInputElement>(null)
   const confirmPasswordRef = useRef<HTMLInputElement>(null)
 
   // Resident-only state
   const [phones, setPhones] = useState<string[]>([])
-  const [newPhone, setNewPhone] = useState('')
   const [loadingPhones, setLoadingPhones] = useState(false)
 
   // Load resident phones on mount if resident
@@ -159,9 +159,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
     e.preventDefault()
     setError('')
     
-    if (!newPhone.trim()) return
-    
-    const updatedPhones = [...phones, newPhone.trim()]
+    if (!newPhoneRef.current?.value.trim()) return
+
+    const updatedPhones = [...phones, newPhoneRef.current.value.trim()]
     
     try {
       const res = await fetch(`/api/users/${user.id}`, {
@@ -171,8 +171,6 @@ export default function Settings({ user, onUserUpdate }: Props) {
       })
       if (res.ok) {
         setPhones(updatedPhones)
-        setNewPhone('')
-        setSuccess('Phone number added')
       } else {
         const data = await res.json()
         setError(data.error || 'Failed to add phone')
@@ -665,9 +663,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
         
         <form onSubmit={handlePhoneSubmit} className="flex gap-2 mb-4">
           <input
+            ref={newPhoneRef}
             type="text"
-            value={newPhone}
-            onChange={(e) => setNewPhone(e.target.value)}
+            defaultValue=""
             placeholder="Add phone number"
             className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
           />
