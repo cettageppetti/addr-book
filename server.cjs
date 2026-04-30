@@ -237,7 +237,41 @@ app.get('/api/auth/me', authMiddleware, (req, res) => {
 
 // Get all homesites (admin)
 // List all residents (admin only)
-app.get('/api/residents', authMiddleware, (req, res) => {
+// Create a new resident (admin only)
+app.post('/api/residents', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const { name, homesite_id } = req.body
+  if (!name?.trim() || !homesite_id) {
+    return res.status(400).json({ error: 'name and homesite_id required' })
+  }
+  db.run('INSERT INTO residents (homesite_id, name) VALUES (?, ?)', [homesite_id, name.trim()])
+  const newId = queryOne('SELECT last_insert_rowid() as id').id
+  const resident = queryOne(`
+    SELECT r.id, r.name, r.homesite_id,
+           h.street_number || ' ' || h.street_name as homesite_address
+    FROM residents r JOIN homesites h ON r.homesite_id = h.id WHERE r.id = ?
+  `, [newId])
+  res.status(201).json(resident)
+})
+
+// Update a resident (admin only)
+app.put('/api/residents/:id', authMiddleware, (req, res) => {
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
+  const id = parseInt(req.params.id)
+  const { name, homesite_id } = req.body
+  if (!name?.trim() || !homesite_id) {
+    return res.status(400).json({ error: 'name and homesite_id required' })
+  }
+  db.run('UPDATE residents SET name = ?, homesite_id = ? WHERE id = ?', [name.trim(), homesite_id, id])
+  const resident = queryOne(`
+    SELECT r.id, r.name, r.homesite_id,
+           h.street_number || ' ' || h.street_name as homesite_address
+    FROM residents r JOIN homesites h ON r.homesite_id = h.id WHERE r.id = ?
+  `, [id])
+  res.json(resident)
+})
+
+// Get resident detail with contact info (admin or own record)
   const residents = queryAll(`
     SELECT r.*,
       h.street_number || ' ' || h.street_name as homesite_address
