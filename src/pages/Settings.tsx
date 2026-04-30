@@ -418,7 +418,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
       <div className="bg-white shadow rounded-xl overflow-hidden">
         {showAddUserForm ? (
           <div className="p-6 border-b border-gray-200">
-            <form onSubmit={handleAddUserSubmit} className="space-y-4">
+            <form key={`add-user-form-${showAddUserForm}`} onSubmit={handleAddUserSubmit} className="space-y-4">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
