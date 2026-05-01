@@ -101,7 +101,7 @@ function initDatabase() {
 
     for (let i = 0; i < 120; i++) {
       const streetNum = Math.floor(Math.random() * 9000) + 100
-      db.run('INSERT INTO homesites (street_number, street_name, city, state) VALUES (?, ?, ?, ?)', [
+      db.prepare('INSERT INTO homesites (street_number, street_name, city, state) VALUES (?, ?, ?, ?)').run([
         streetNum.toString(), streets[i % streets.length], 'Charlotte', 'NC'
       ])
     }
@@ -113,7 +113,7 @@ function initDatabase() {
       const firstName = firstNames[i % firstNames.length]
       const lastName = lastNames[i % lastNames.length]
 
-      db.run('INSERT INTO residents (homesite_id, name) VALUES (?, ?)', [
+      db.prepare('INSERT INTO residents (homesite_id, name) VALUES (?, ?)').run([
         homeIds[i], `${firstName} ${lastName}`
       ])
       const residentId = db.prepare('SELECT last_insert_rowid() as id').get().id
@@ -123,7 +123,7 @@ function initDatabase() {
         const areaCode = areaCodes[p % areaCodes.length]
         const prefix = prefixes[Math.floor(Math.random() * prefixes.length)]
         const suffix = Math.floor(Math.random() * 9000) + 1000
-        db.run('INSERT INTO phones (resident_id, number) VALUES (?, ?)', [
+        db.prepare('INSERT INTO phones (resident_id, number) VALUES (?, ?)').run([
           residentId, `(${areaCode}) ${prefix}-${suffix}`
         ])
       }
@@ -132,19 +132,16 @@ function initDatabase() {
       for (let e = 0; e < numEmails; e++) {
         const domain = e === 0 ? 'gmail.com' : (e === 1 ? 'yahoo.com' : 'outlook.com')
         const suffix = e > 0 ? e.toString() : ''
-        db.run('INSERT INTO emails (resident_id, address) VALUES (?, ?)', [
+        db.prepare('INSERT INTO emails (resident_id, address) VALUES (?, ?)').run([
           residentId, `${firstName.toLowerCase()}.${lastName.toLowerCase()}${suffix}@${domain}`
         ])
       }
 
-      db.run(
-        'INSERT INTO users (email, password_hash, role, resident_id) VALUES (?, ?, ?, ?)',
-        [`resident${i + 1}@addrbook.local`, bcrypt.hashSync('Resident123!', 10), 'resident', residentId]
-      )
+      db.prepare('INSERT INTO users (email, password_hash, role, resident_id) VALUES (?, ?, ?, ?)').run([`resident${i + 1}@addrbook.local`, bcrypt.hashSync('Resident123!', 10), 'resident', residentId])
     }
 
     try {
-      db.run('INSERT INTO users (email, password_hash, role) VALUES (?, ?, ?)', [
+      db.prepare('INSERT INTO users (email, password_hash, role) VALUES (?, ?, ?)').run([
         'admin@addrbook.local', bcrypt.hashSync('ChangeThis123!', 10), 'admin'
       ])
     } catch (e) { /* already exists */ }
@@ -224,7 +221,7 @@ app.put('/api/auth/profile', authMiddleware, (req, res) => {
   const userId = req.user.id
 
   if (email) {
-    db.run('UPDATE users SET email = ? WHERE id = ?', [email, userId])
+    db.prepare('UPDATE users SET email = ? WHERE id = ?').run([email, userId])
   }
 
   if (password) {
@@ -232,7 +229,7 @@ app.put('/api/auth/profile', authMiddleware, (req, res) => {
     if (!bcrypt.compareSync(currentPassword, user.password_hash)) {
       return res.status(400).json({ error: 'Current password incorrect' })
     }
-    db.run('UPDATE users SET password_hash = ? WHERE id = ?', [bcrypt.hashSync(password, 10), userId])
+    db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run([bcrypt.hashSync(password, 10), userId])
   }
 
   const updated = queryOne('SELECT id, email, role FROM users WHERE id = ?', [userId])
@@ -259,7 +256,7 @@ app.post('/api/residents', authMiddleware, (req, res) => {
   if (!name?.trim() || !homesite_id) {
     return res.status(400).json({ error: 'name and homesite_id required' })
   }
-  db.run('INSERT INTO residents (homesite_id, name) VALUES (?, ?)', [homesite_id, name.trim()])
+  db.prepare('INSERT INTO residents (homesite_id, name) VALUES (?, ?)').run([homesite_id, name.trim()])
   const newId = queryOne('SELECT last_insert_rowid() as id').id
   const resident = queryOne(`
     SELECT r.id, r.name, r.homesite_id,
@@ -277,7 +274,7 @@ app.put('/api/residents/:id', authMiddleware, (req, res) => {
   if (!name?.trim() || !homesite_id) {
     return res.status(400).json({ error: 'name and homesite_id required' })
   }
-  db.run('UPDATE residents SET name = ?, homesite_id = ? WHERE id = ?', [name.trim(), homesite_id, id])
+  db.prepare('UPDATE residents SET name = ?, homesite_id = ? WHERE id = ?').run([name.trim(), homesite_id, id])
   const resident = queryOne(`
     SELECT r.id, r.name, r.homesite_id,
            h.street_number || ' ' || h.street_name as homesite_address
@@ -290,7 +287,7 @@ app.put('/api/residents/:id', authMiddleware, (req, res) => {
 app.delete('/api/residents/:id', authMiddleware, (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
   const id = parseInt(req.params.id)
-  db.run('DELETE FROM residents WHERE id = ?', [id])
+  db.prepare('DELETE FROM residents WHERE id = ?').run([id])
   res.json({ ok: true })
 })
 
@@ -324,10 +321,10 @@ app.post('/api/homesites', authMiddleware, (req, res) => {
   if (!city) return res.status(400).json({ error: 'city required' })
   if (!state) return res.status(400).json({ error: 'state required' })
   if (!zip_code) return res.status(400).json({ error: 'zip_code required' })
-  db.run(`
+  db.prepare(`
     INSERT INTO homesites (street_number, street_name, city, state, zip_code)
     VALUES (?, ?, ?, ?, ?)
-  `, [street_number.trim(), street_name.trim(), (city || '').trim(), (state || '').trim(), (zip_code || '').trim()])
+  `).run([street_number.trim(), street_name.trim(), (city || '').trim(), (state || '').trim(), (zip_code || '').trim()])
   const newId = queryOne('SELECT last_insert_rowid() as id').id
   const home = queryOne('SELECT * FROM homesites WHERE id = ?', [newId])
   home.residents = []
@@ -345,10 +342,10 @@ app.put('/api/homesites/:id', authMiddleware, (req, res) => {
   if (!queryOne('SELECT 1 FROM homesites WHERE id = ?', [parseInt(req.params.id)])) {
     return res.status(404).json({ error: 'Not found' })
   }
-  db.run(`
+  db.prepare(`
     UPDATE homesites SET street_number = ?, street_name = ?, city = ?, state = ?, zip_code = ?
     WHERE id = ?
-  `, [street_number.trim(), street_name.trim(), (city || '').trim(), (state || '').trim(), (zip_code || '').trim(), parseInt(req.params.id)])
+  `).run([street_number.trim(), street_name.trim(), (city || '').trim(), (state || '').trim(), (zip_code || '').trim(), parseInt(req.params.id)])
   const updated = queryOne('SELECT * FROM homesites WHERE id = ?', [parseInt(req.params.id)])
   updated.residents = (queryAll('SELECT id, name FROM residents WHERE homesite_id = ?', [updated.id]))
   res.json(updated)
@@ -382,15 +379,15 @@ app.put('/api/residents/:id/contacts', authMiddleware, (req, res) => {
 
   const { phones, emails } = req.body
   if (phones) {
-    db.run('DELETE FROM phones WHERE resident_id = ?', [residentId])
+    db.prepare('DELETE FROM phones WHERE resident_id = ?').run([residentId])
     ;(Array.isArray(phones) ? phones : []).forEach(num => {
-      if (num && num.trim()) db.run('INSERT INTO phones (resident_id, number) VALUES (?, ?)', [residentId, num.trim()])
+      if (num && num.trim()) db.prepare('INSERT INTO phones (resident_id, number) VALUES (?, ?)').run([residentId, num.trim()])
     })
   }
   if (emails) {
-    db.run('DELETE FROM emails WHERE resident_id = ?', [residentId])
+    db.prepare('DELETE FROM emails WHERE resident_id = ?').run([residentId])
     ;(Array.isArray(emails) ? emails : []).forEach(addr => {
-      if (addr && addr.trim()) db.run('INSERT INTO emails (resident_id, address) VALUES (?, ?)', [residentId, addr.trim()])
+      if (addr && addr.trim()) db.prepare('INSERT INTO emails (resident_id, address) VALUES (?, ?)').run([residentId, addr.trim()])
     })
   }
 
@@ -414,7 +411,7 @@ app.put('/api/users/:id/password', authMiddleware, (req, res) => {
     }
   }
 
-  db.run('UPDATE users SET password_hash = ? WHERE id = ?', [bcrypt.hashSync(newPassword, 10), userId])
+  db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run([bcrypt.hashSync(newPassword, 10), userId])
   res.json({ ok: true })
 })
 
@@ -445,7 +442,7 @@ app.post('/api/admin/users', authMiddleware, (req, res) => {
   const existing = queryOne('SELECT id FROM users WHERE email = ?', [email])
   if (existing) return res.status(409).json({ error: 'Email already in use' })
   const password_hash = bcrypt.hashSync(password, 10)
-  db.run('INSERT INTO users (email, password_hash, role, resident_id) VALUES (?, ?, ?, ?)', [email, password_hash, role, resident_id])
+  db.prepare('INSERT INTO users (email, password_hash, role, resident_id) VALUES (?, ?, ?, ?)').run([email, password_hash, role, resident_id])
   const newId = queryOne('SELECT last_insert_rowid() as id').id
   res.status(201).json({ id: newId, email, role, resident_id })
 })
@@ -454,7 +451,7 @@ app.delete('/api/admin/users/:id', authMiddleware, (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
   const id = parseInt(req.params.id)
   if (id === req.user.id) return res.status(400).json({ error: 'Cannot delete your own account' })
-  db.run('DELETE FROM users WHERE id = ?', [id])
+  db.prepare('DELETE FROM users WHERE id = ?').run([id])
   res.json({ ok: true })
 })
 
@@ -497,7 +494,7 @@ app.put('/api/homesites/:id/photo', authMiddleware, (req, res) => {
   req.on('data', (chunk) => chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)))
   req.on('end', () => {
     const photo = Buffer.concat(chunks)
-    db.run('UPDATE homesites SET photo = ? WHERE id = ?', [photo, id])
+    db.prepare('UPDATE homesites SET photo = ? WHERE id = ?').run([photo, id])
     res.json({ ok: true })
   })
 })
@@ -506,7 +503,7 @@ app.put('/api/homesites/:id/photo', authMiddleware, (req, res) => {
 app.delete('/api/homesites/:id/photo', authMiddleware, (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
   const id = parseInt(req.params.id)
-  db.run('UPDATE homesites SET photo = NULL WHERE id = ?', [id])
+  db.prepare('UPDATE homesites SET photo = NULL WHERE id = ?').run([id])
   res.json({ ok: true })
 })
 

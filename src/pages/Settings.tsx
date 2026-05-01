@@ -51,6 +51,10 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const passwordRef        = useRef<HTMLInputElement>(null)
   const confirmPasswordRef = useRef<HTMLInputElement>(null)
 
+  // Admin password reset refs (uncontrolled — avoids controlled-input re-render conflicts)
+  const resetPasswordRef    = useRef<HTMLInputElement>(null)
+  const confirmResetRef     = useRef<HTMLInputElement>(null)
+
   // Resident-only state
   const [phones, setPhones] = useState<string[]>([])
   const [loadingPhones, setLoadingPhones] = useState(false)
@@ -226,29 +230,32 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const handleResetPassword = async (e: React.FormEvent, userId: number) => {
     e.preventDefault()
     setError('')
-    
-    if (resetPassword !== confirmReset) {
+
+    const pw  = resetPasswordRef.current?.value ?? ''
+    const cpw = confirmResetRef.current?.value ?? ''
+
+    if (pw !== cpw) {
       setError('Passwords do not match')
       return
     }
-    
-    if (resetPassword.length < 8) {
+
+    if (pw.length < 8) {
       setError('Password must be at least 8 characters')
       return
     }
-    
+
     setResetting(true)
     try {
       const res = await fetch(`/api/admin/users/${userId}/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-        body: JSON.stringify({ newPassword: resetPassword }),
+        body: JSON.stringify({ newPassword: pw }),
       })
       if (res.ok) {
         setSuccess(`Password reset for user ${userId}`)
         setResetTarget(null)
-        setResetPassword('')
-        setConfirmReset('')
+        resetPasswordRef.current!.value = ''
+        confirmResetRef.current!.value  = ''
       } else {
         const data = await res.json()
         setError(data.error || 'Failed to reset password')
@@ -405,9 +412,8 @@ export default function Settings({ user, onUserUpdate }: Props) {
               <div>
                 <label className="block text-xs text-gray-500 mb-1">New password</label>
                 <input
+                  ref={resetPasswordRef}
                   type="password"
-                  value={resetPassword}
-                  onChange={(e) => setResetPassword(e.target.value)}
                   placeholder="Min. 8 characters"
                   className="px-3 py-2 border border-gray-300 rounded-lg text-sm w-48"
                   autoFocus
@@ -416,9 +422,8 @@ export default function Settings({ user, onUserUpdate }: Props) {
               <div>
                 <label className="block text-xs text-gray-500 mb-1">Confirm</label>
                 <input
+                  ref={confirmResetRef}
                   type="password"
-                  value={confirmReset}
-                  onChange={(e) => setConfirmReset(e.target.value)}
                   placeholder="Repeat password"
                   className="px-3 py-2 border border-gray-300 rounded-lg text-sm w-48"
                 />
