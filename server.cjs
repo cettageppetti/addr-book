@@ -461,11 +461,11 @@ app.delete('/api/admin/users/:id', authMiddleware, (req, res) => {
 app.post('/api/admin/users/:id/reset-password', authMiddleware, (req, res) => {
   if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin only' })
   const id = parseInt(req.params.id)
-  const { password } = req.body
+  const { newPassword: password } = req.body
   if (!password || password.length < 8) {
     return res.status(400).json({ error: 'Password must be at least 8 characters' })
   }
-  db.run('UPDATE users SET password_hash = ? WHERE id = ?', [bcrypt.hashSync(password, 10), id])
+  db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run([bcrypt.hashSync(password, 10), id])
   res.json({ ok: true })
 })
 
