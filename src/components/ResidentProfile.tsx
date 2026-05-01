@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { getAuthHeaders } from '../lib/auth'
 
 interface Resident {
@@ -23,8 +24,9 @@ interface Props {
 }
 
 export default function ResidentProfile({ residentId: propResidentId, user }: Props) {
-  // Prefer prop, fall back to localStorage (for profile tab)
-  const residentId = propResidentId || (() => {
+  const urlParams = useParams()
+  // Priority: prop > URL param > localStorage (localStorage only for "My Profile" tab, which has no prop or URL)
+  const residentId = propResidentId || urlParams.id || (() => {
     try { return JSON.parse(localStorage.getItem('user') || '{}').resident_id?.toString() } catch { return undefined }
   })()
   const [resident, setResident] = useState<Resident | null>(null)
