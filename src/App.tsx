@@ -43,10 +43,12 @@ function App() {
   const handleLogin = (userData) => {
     setUser(userData)
     window.localStorage.setItem('user', JSON.stringify(userData))
+    window.localStorage.setItem('addrtab', 'homesites')
   }
 
   const handleLogout = () => {
     window.localStorage.removeItem('user')
+    window.localStorage.removeItem('addrtab')
     clearToken()
     setUser(null)
   }
