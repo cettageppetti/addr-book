@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 import ResidentProfile from '../components/ResidentProfile'
-import { HomesiteAdder, HomesiteAdminCard } from '../components/HomesiteEditor'
+import { HomesiteAdder, HomesiteAdminCard, DEFAULT_PHOTO } from '../components/HomesiteEditor'
 
 type Tab = 'homesites' | 'residents' | 'profile'
 
 interface Homesite {
   id: number; street_number: string; street_name: string
   city?: string; state?: string; zip_code?: string
-  photo?: string
   residents?: { id: number; name: string }[]
 }
 
@@ -459,13 +458,12 @@ function HomesiteCard({ homesite }: { homesite: Homesite }) {
   const residents = homesite.residents || []
   return (
     <div className="bg-white border rounded-xl p-4 shadow-sm">
-      {homesite.photo !== undefined && (
-        <img
-          src={`/api/homesites/${homesite.id}/photo?${Date.now()}`}
-          alt="Homesite"
-          className="w-full h-32 object-cover rounded border mb-3"
-        />
-      )}
+      <img
+        src={`/api/homesites/${homesite.id}/photo`}
+        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = DEFAULT_PHOTO }}
+        alt="Homesite"
+        className="w-full h-32 object-cover rounded border mb-3"
+      />
       <h3 className="text-xl font-semibold text-gray-900">
         {homesite.street_number} {homesite.street_name}
       </h3>

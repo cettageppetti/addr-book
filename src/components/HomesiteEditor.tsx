@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { fileToJpegBlob, isImage, blobSize } from '../lib/photo'
 
 const PHOTO_ENDPOINT = (id: number) => `/api/homesites/${id}/photo`
-const DEFAULT_PHOTO = '/default-home.jpg'
+export const DEFAULT_PHOTO = '/default-home.svg'
 
 // ── Standalone "Add Homesite" form (used in Home.tsx) ────────────────────────
 interface AddProps { onSave: (h: any) => void }
@@ -192,6 +192,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       {/* Photo + edit/delete overlay */}
       <img
         src={previewSrc || DEFAULT_PHOTO}
+        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = DEFAULT_PHOTO }}
         alt="Homesite"
         className="w-full h-32 object-cover rounded border mb-3"
       />

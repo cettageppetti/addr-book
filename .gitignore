@@ -24,4 +24,3 @@ playwright-report/
 .playwright/
 # Local artifacts
 addr-book.db.broken
-public/default-home.jpg
