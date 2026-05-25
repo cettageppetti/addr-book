@@ -8,6 +8,7 @@ type Tab = 'homesites' | 'residents' | 'profile'
 interface Homesite {
   id: number; street_number: string; street_name: string
   city?: string; state?: string; zip_code?: string
+  has_photo?: number
   residents?: { id: number; name: string }[]
 }
 
@@ -459,7 +460,7 @@ function HomesiteCard({ homesite }: { homesite: Homesite }) {
   return (
     <div className="bg-white border rounded-xl p-4 shadow-sm">
       <img
-        src={`/api/homesites/${homesite.id}/photo`}
+        src={homesite.has_photo ? `/api/homesites/${homesite.id}/photo` : DEFAULT_PHOTO}
         onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = DEFAULT_PHOTO }}
         alt="Homesite"
         className="w-full h-32 object-cover rounded border mb-3"

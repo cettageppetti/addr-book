@@ -339,4 +339,20 @@ test.describe('homesite photo', () => {
     // Removed → no photo.
     expect((await request.get(`/api/homesites/${homesiteId}/photo`, { headers: auth(admin.token) })).status()).toBe(404)
   })
+
+  test('the homesites list reports has_photo', async ({ request }) => {
+    const findHasPhoto = async () => {
+      const list = await (await request.get('/api/homesites', { headers: auth(admin.token) })).json()
+      return list.find((h: any) => h.id === homesiteId)?.has_photo
+    }
+
+    expect(await findHasPhoto()).toBeFalsy()
+    await request.put(`/api/homesites/${homesiteId}/photo`, {
+      headers: { ...auth(admin.token), 'Content-Type': 'image/jpeg' },
+      data: Buffer.from('not-a-real-jpeg'),
+    })
+    expect(await findHasPhoto()).toBeTruthy()
+    await request.delete(`/api/homesites/${homesiteId}/photo`, { headers: auth(admin.token) })
+    expect(await findHasPhoto()).toBeFalsy()
+  })
 })
