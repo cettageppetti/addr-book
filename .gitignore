@@ -14,6 +14,11 @@ node_modules/.vite/
 
 # Wrangler dev cache (local D1 state + tmp bundles)
 worker/.wrangler/
+
+# Playwright
+test-results/
+playwright-report/
+.playwright/
 # Local artifacts
 addr-book.db.broken
 public/default-home.jpg
