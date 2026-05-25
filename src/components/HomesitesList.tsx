@@ -1,10 +1,17 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-export default function HomesitesList({ homesites }) {
+interface Homesite {
+  id: number
+  street_number?: string
+  street_name?: string
+  residents?: { id: number; name: string }[]
+}
+
+export default function HomesitesList({ homesites }: { homesites: Homesite[] }) {
   const [search, setSearch] = useState('')
 
-  const filtered = (homesites || []).filter(h =>
+  const filtered = (homesites || []).filter((h) =>
     h.street_number?.toLowerCase().includes(search.toLowerCase()) ||
     h.street_name?.toLowerCase().includes(search.toLowerCase())
   )

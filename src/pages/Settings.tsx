@@ -6,10 +6,6 @@ interface Props {
 }
 
 export default function Settings({ user, onUserUpdate }: Props) {
-  const [email,           setEmail]           = useState(user.email)
-  const [currentPassword, setCurrentPassword] = useState('')
-  const [password,        setPassword]        = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
   const [loading,         setLoading]         = useState(false)
   const [success,         setSuccess]         = useState('')
   const [error,           setError]           = useState('')
@@ -18,13 +14,13 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const isAdmin = user.role === 'admin'
   const [users, setUsers] = useState<any[]>([])
   const [resetTarget, setResetTarget] = useState<number | null>(null)
-  const [resetPassword, setResetPassword] = useState('')
-  const [confirmReset, setConfirmReset] = useState('')
+  const [, setResetPassword] = useState('')
+  const [, setConfirmReset] = useState('')
   const [resetting, setResetting] = useState(false)
   const [showAddUserForm, setShowAddUserForm] = useState(false)
-  const [newEmail, setNewEmail] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [newResidentId, setNewResidentId] = useState<string>('')
+  const [, setNewEmail] = useState('')
+  const [, setNewPassword] = useState('')
+  const [, setNewResidentId] = useState<string>('')
   const [residents, setResidents] = useState<any[]>([])
   const [addingUser, setAddingUser] = useState(false)
 

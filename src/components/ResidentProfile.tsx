@@ -60,7 +60,6 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
   const emails = resident.emails ?? []
 
   // Per-resident address overrides the shared homesite address
-  const hasAddress = !!(resident.address_street_number || resident.address_street_name)
   const displayNum  = resident.address_street_number || resident.street_number
   const displayName = resident.address_street_name    || resident.street_name
   const city        = resident.city   || 'Charlotte'

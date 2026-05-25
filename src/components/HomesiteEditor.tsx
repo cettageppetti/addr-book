@@ -209,7 +209,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
             {residents.length} resident{residents.length !== 1 ? 's' : ''}
           </p>
           <div className="mt-2 space-y-1">
-            {residents.map(r => (
+            {residents.map((r: { id: number; name: string }) => (
               <Link key={r.id} to={`/residents/${r.id}`}
                 className="block text-gray-500 text-sm hover:text-indigo-600">
                 {r.name}

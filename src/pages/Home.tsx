@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate, Link, useSearchParams } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 import ResidentProfile from '../components/ResidentProfile'
 import { HomesiteAdder, HomesiteAdminCard } from '../components/HomesiteEditor'
 
@@ -8,6 +8,7 @@ type Tab = 'homesites' | 'residents' | 'profile'
 interface Homesite {
   id: number; street_number: string; street_name: string
   city?: string; state?: string; zip_code?: string
+  photo?: string
   residents?: { id: number; name: string }[]
 }
 
@@ -170,12 +171,12 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
           }}
         />
       ) : (
-        <ResidentReadOnlyList residents={residents} homesites={homesites} />
+        <ResidentReadOnlyList residents={residents} />
       ))}
 
       {/* ── My Profile tab (resident only) ─────────────────────────────── */}
       {tab === 'profile' && user?.resident_id && (
-        <ResidentProfile user={user} propResidentId={String(user.resident_id)} activeTab={tab} onTabChange={(t) => { localStorage.setItem('addrtab', t); setTab(t as Tab) }} />
+        <ResidentProfile user={user} residentId={String(user.resident_id)} activeTab={tab} onTabChange={(t) => { localStorage.setItem('addrtab', t); setTab(t as Tab) }} />
       )}
     </div>
   )
@@ -469,7 +470,7 @@ function HomesiteCard({ homesite }: { homesite: Homesite }) {
         {homesite.street_number} {homesite.street_name}
       </h3>
       <p className="text-gray-400 text-sm mt-1">
-        {homesite.city || 'Charlotte'}, {(homesite.state || homesite.state_code) || 'NC'} {((homesite.zip_code || '') + '').replace(/\s/g, '')}
+        {homesite.city || 'Charlotte'}, {homesite.state || 'NC'} {((homesite.zip_code || '') + '').replace(/\s/g, '')}
       </p>
       <p className="text-gray-400 text-sm">
         {residents.length} resident{residents.length !== 1 ? 's' : ''}
@@ -487,8 +488,8 @@ function HomesiteCard({ homesite }: { homesite: Homesite }) {
 }
 
 // ── Read-only resident list for residents ─────────────────────────────────────
-function ResidentReadOnlyList({ residents, homesites }: {
-  residents: Resident[]; homesites: Homesite[]
+function ResidentReadOnlyList({ residents }: {
+  residents: Resident[]
 }) {
   const [search, setSearch] = useState('')
   const filtered = residents.filter(r =>

@@ -38,7 +38,7 @@ function App() {
     checkAuthStatus()
   }, [])
 
-  const handleLogin = (userData) => {
+  const handleLogin = (userData: { id: number; email: string; role: string; resident_id: number | null; token?: string }) => {
     // Persist only display fields — auth itself lives in the httpOnly cookie.
     const info = { id: userData.id, email: userData.email, role: userData.role, resident_id: userData.resident_id }
     setUser(info)

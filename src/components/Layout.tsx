@@ -1,6 +1,13 @@
+import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
-export default function Layout({ user, onLogout, children }) {
+interface LayoutProps {
+  user: { role: string; email: string } | null
+  onLogout: () => void
+  children: ReactNode
+}
+
+export default function Layout({ user, onLogout, children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
