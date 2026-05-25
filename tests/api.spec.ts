@@ -4,7 +4,7 @@ import { test, expect, type APIRequestContext } from '@playwright/test'
 const ADMIN = { email: 'admin@addrbook.local', password: 'ChangeThis123!' }
 const RESIDENT = { email: 'resident1@addrbook.local', password: 'Resident123!' }
 
-type Session = { id: number; email: string; role: string; token: string }
+type Session = { id: number; email: string; role: string; resident_id: number | null; token: string }
 
 async function login(request: APIRequestContext, creds: { email: string; password: string }): Promise<Session> {
   const res = await request.post('/api/auth/login', { data: creds })
@@ -57,6 +57,15 @@ test.describe('resident authorization', () => {
   test.beforeAll(async ({ request }) => {
     resident = await login(request, RESIDENT)
     ownResidentId = residentIdFromToken(resident.token)
+  })
+
+  test('login and /api/auth/me expose resident_id', async ({ request }) => {
+    // The frontend needs resident_id for self-service features (profile,
+    // phone editor). It must be present and consistent with the JWT.
+    expect(typeof resident.resident_id).toBe('number')
+    expect(resident.resident_id).toBe(ownResidentId)
+    const me = await (await request.get('/api/auth/me', { headers: auth(resident.token) })).json()
+    expect(me.resident_id).toBe(ownResidentId)
   })
 
   test('cannot access the admin user list', async ({ request }) => {

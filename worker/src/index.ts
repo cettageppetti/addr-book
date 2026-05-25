@@ -81,7 +81,7 @@ app.post('/api/auth/login', async (c) => {
     path: '/',
   })
 
-  return c.json({ id: user.id, email: user.email, role: user.role, token })
+  return c.json({ id: user.id, email: user.email, role: user.role, resident_id: user.resident_id, token })
 })
 
 // POST /api/auth/logout
@@ -94,7 +94,7 @@ app.post('/api/auth/logout', async (c) => {
 app.get('/api/auth/me', async (c) => {
   const user = await getUserFromCookie(c)
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
-  return c.json({ id: user.id, email: user.email, role: user.role })
+  return c.json({ id: user.id, email: user.email, role: user.role, resident_id: user.resident_id })
 })
 
 // POST /api/homesites  (admin only)
