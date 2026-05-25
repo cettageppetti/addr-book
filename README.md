@@ -102,10 +102,14 @@ wrangler d1 execute addr-book --remote --file=d1/migrations/00004_homesite_photo
 # 3. Seed production data
 wrangler d1 execute addr-book --remote --file=d1/seed.sql
 
-# 4. Deploy worker
-cd worker && wrangler deploy
+# 4. Set the JWT signing secret (prompts for the value — not stored in the repo)
+cd worker && wrangler secret put JWT_SECRET
 
-# 5. Add pages project and configure route to worker
+# 5. Set ALLOWED_ORIGINS to your frontend origin(s) in worker/wrangler.toml [vars]
+#    (comma-separated), then deploy the worker
+wrangler deploy
+
+# 6. Add pages project and configure route to worker
 ```
 
 ## Resetting Local D1
@@ -119,8 +123,11 @@ bash d1/setup.sh
 ## Security
 
 - Passwords hashed with bcrypt (cost 10)
-- JWT tokens expire after 24h, stored in httpOnly cookies
+- Auth is a JWT in an httpOnly cookie (24h expiry) — the client never stores the token
 - SameSite=Lax — change to Strict in production with HTTPS
+- `JWT_SECRET` is a Wrangler secret (`wrangler secret put JWT_SECRET`); for local dev
+  it's loaded from `worker/.dev.vars` (copy `worker/.dev.vars.example`, gitignored)
+- CORS is restricted to an allowlist via `ALLOWED_ORIGINS` (worker/wrangler.toml `[vars]`)
 
 ## License
 

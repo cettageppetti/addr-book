@@ -7,6 +7,12 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 WORKER_DIR="$PROJECT_DIR/worker"
 
+# Seed local-only secrets for `wrangler dev` (e.g. JWT_SECRET) if not present.
+if [ ! -f "$WORKER_DIR/.dev.vars" ] && [ -f "$WORKER_DIR/.dev.vars.example" ]; then
+  cp "$WORKER_DIR/.dev.vars.example" "$WORKER_DIR/.dev.vars"
+  echo "Created worker/.dev.vars from .dev.vars.example"
+fi
+
 echo "Starting wrangler dev (local D1) in background..."
 cd "$WORKER_DIR"
 wrangler dev --local --port 8787 > /tmp/wrangler-dev.log 2>&1 &

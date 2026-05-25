@@ -7,12 +7,24 @@ import bcrypt from 'bcryptjs'
 type Env = {
   DB: D1Database
   JWT_SECRET: string
+  // Comma-separated list of origins allowed to make credentialed requests.
+  ALLOWED_ORIGINS?: string
 }
 
 const app = new Hono<{ Bindings: Env }>()
 
+// Restrict CORS to an explicit allowlist. Reflecting an arbitrary origin with
+// credentials:true would let any website make authenticated requests on a
+// logged-in user's behalf. Same-origin app traffic is unaffected (browsers
+// don't apply CORS to it).
 app.use('*', cors({
-  origin: (origin) => origin,
+  origin: (origin, c) => {
+    const allowed = (c.env.ALLOWED_ORIGINS ?? 'http://localhost:5173')
+      .split(',')
+      .map((o) => o.trim())
+      .filter(Boolean)
+    return allowed.includes(origin) ? origin : null
+  },
   credentials: true,
 }))
 

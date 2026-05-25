@@ -7,5 +7,8 @@ binding = "DB"
 database_name = "addr-book-local"
 database_id = "local"
 
+# Non-secret config. JWT_SECRET is intentionally NOT here — it's a Wrangler
+# secret: `wrangler secret put JWT_SECRET` for deployed envs, and worker/.dev.vars
+# for local `wrangler dev`.
 [vars]
-JWT_SECRET = "addr-book-dev-secret-2024"
+ALLOWED_ORIGINS = "http://localhost:5173"

@@ -15,6 +15,9 @@ node_modules/.vite/
 # Wrangler dev cache (local D1 state + tmp bundles)
 worker/.wrangler/
 
+# Local Worker secrets for `wrangler dev` (use .dev.vars.example as a template)
+worker/.dev.vars
+
 # Playwright
 test-results/
 playwright-report/

@@ -1,0 +1,4 @@
+# Local-only secrets for `wrangler dev`, loaded automatically from worker/.dev.vars.
+# Copy this file to .dev.vars (gitignored). For deployed environments set the
+# real value with: wrangler secret put JWT_SECRET
+JWT_SECRET=addr-book-dev-secret-2024
