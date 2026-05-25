@@ -36,15 +36,12 @@ done
 sleep 3
 
 echo ""
-echo "Applying schema migrations..."
-for mig in "$PROJECT_DIR"/d1/migrations/*.sql; do
-  echo "  - $(basename "$mig")"
-  wrangler d1 execute addr-book-local --local --file="$mig" 2>&1 || {
-    echo "Migration failed ($(basename "$mig")). Check /tmp/wrangler-dev.log:"
-    tail -20 /tmp/wrangler-dev.log
-    kill $WRANGLER_PID 2>/dev/null; exit 1
-  }
-done
+echo "Applying schema..."
+wrangler d1 execute addr-book-local --local --file="$PROJECT_DIR/d1/schema.sql" 2>&1 || {
+  echo "Schema failed. Check /tmp/wrangler-dev.log:"
+  tail -20 /tmp/wrangler-dev.log
+  kill $WRANGLER_PID 2>/dev/null; exit 1
+}
 
 echo ""
 echo "Seeding data (this takes ~30s)..."

@@ -10,7 +10,7 @@ Runs the actual Worker + D1 runtime locally — mirrors production.
 # One-time setup: install deps and seed local D1
 npm install                                   # frontend deps
 npm --prefix worker install --ignore-scripts  # Worker deps
-bash d1/setup.sh                              # spins up local D1, runs migrations + seed
+bash d1/setup.sh                              # spins up local D1, applies schema + seed
 
 # Start developing — Worker (:8787) + Vite (:5173) together
 npm run dev
@@ -69,9 +69,8 @@ addr-book/
 │   ├── src/index.ts         # Hono app with all routes
 │   ├── wrangler.toml        # Worker config (D1 binding)
 │   └── package.json
-├── d1/                      # D1 migrations + seed
-│   ├── migrations/
-│   │   └── 00001_initial.sql
+├── d1/                      # D1 schema + seed
+│   ├── schema.sql           # Full schema (apply once to a fresh DB)
 │   ├── seed.sql             # Pre-generated INSERT statements
 │   └── setup.sh             # One-time local D1 setup script
 └── src/                     # React frontend
@@ -94,10 +93,8 @@ Homesites support an optional photo stored as a binary JPEG BLOB in D1.
 wrangler d1 create addr-book
 # Copy the database_id into worker/wrangler.toml
 
-# 2. Apply schema migrations (in order)
-wrangler d1 execute addr-book --remote --file=d1/migrations/00001_initial.sql
-wrangler d1 execute addr-book --remote --file=d1/migrations/00004_homesite_photo.sql
-# ↑ Run 00004 even with no photos — it changes the column type from TEXT to BLOB.
+# 2. Apply the schema
+wrangler d1 execute addr-book --remote --file=d1/schema.sql
 
 # 3. Seed production data
 wrangler d1 execute addr-book --remote --file=d1/seed.sql
