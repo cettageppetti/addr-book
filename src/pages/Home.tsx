@@ -163,6 +163,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
       {tab === 'residents' && (isAdmin ? (
         <ResidentAdminPanel residents={residents} homesites={homesites}
           fetchResidents={fetchResidents}
+          fetchHomesites={fetchHomesites}
           onDelete={async (id) => {
             await fetch(`/api/residents/${id}`, { method: 'DELETE' })
             fetchResidents(); fetchHomesites()
@@ -180,9 +181,9 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
   )
 }
 
-function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents }: {
+function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents, fetchHomesites }: {
   residents: Resident[]; homesites: Homesite[]
-  onDelete: (id: number) => void; fetchResidents: () => void
+  onDelete: (id: number) => void; fetchResidents: () => void; fetchHomesites: () => void
 }) {
   const [search,     setSearch]    = useState('')
   const [showAdd,    setShowAdd]   = useState(false)
