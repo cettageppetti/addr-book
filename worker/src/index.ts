@@ -70,17 +70,49 @@ async function queryOne(db: D1Database, sql: string, bindings?: (string | number
 
 // ── Routes ─────────────────────────────────────────
 
+// Login rate limiting: after MAX failures within WINDOW for a given email,
+// reject further attempts until the window passes. Keyed by email (per-account)
+// so one attacker can't lock out unrelated users; a successful login clears it.
+const LOGIN_MAX_ATTEMPTS = 5
+const LOGIN_WINDOW_MS = 15 * 60 * 1000
+
 // POST /api/auth/login
 app.post('/api/auth/login', async (c) => {
   const { email, password } = await c.req.json()
   if (!email || !password) return c.json({ error: 'Email and password required' }, 400)
 
+  const key = String(email).toLowerCase()
+  const now = Date.now()
+  const rec = (await queryOne(c.env.DB,
+    'SELECT failed_count, window_start FROM login_attempts WHERE email = ?', [key])) as
+    { failed_count: number; window_start: number } | null
+  const inWindow = !!rec && now - rec.window_start < LOGIN_WINDOW_MS
+
+  if (inWindow && rec!.failed_count >= LOGIN_MAX_ATTEMPTS) {
+    const retryAfter = Math.ceil((LOGIN_WINDOW_MS - (now - rec!.window_start)) / 1000)
+    return c.json({ error: 'Too many failed attempts. Try again later.' }, 429, {
+      'Retry-After': String(retryAfter),
+    })
+  }
+
   const user = await queryOne(c.env.DB,
     'SELECT * FROM users WHERE email = ?', [email])
 
   if (!user || !bcrypt.compareSync(password, user.password_hash as string)) {
+    // Record the failure (start a fresh window if there isn't an active one).
+    if (inWindow) {
+      await c.env.DB.prepare('UPDATE login_attempts SET failed_count = failed_count + 1 WHERE email = ?').bind(key).run()
+    } else {
+      await c.env.DB.prepare(
+        'INSERT INTO login_attempts (email, failed_count, window_start) VALUES (?, 1, ?) ' +
+        'ON CONFLICT(email) DO UPDATE SET failed_count = 1, window_start = excluded.window_start'
+      ).bind(key, now).run()
+    }
     return c.json({ error: 'Invalid credentials' }, 401)
   }
+
+  // Successful login clears the failure counter for this email.
+  await c.env.DB.prepare('DELETE FROM login_attempts WHERE email = ?').bind(key).run()
 
   const token = await signToken(
     { id: user.id, email: user.email, role: user.role, resident_id: user.resident_id },

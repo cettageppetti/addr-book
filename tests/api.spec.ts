@@ -40,6 +40,27 @@ test.describe('login', () => {
   })
 })
 
+test.describe('login rate limiting', () => {
+  test('blocks after repeated failures, scoped per email', async ({ request }) => {
+    const email = uniqueEmail('ratelimit')
+    const bad = { email, password: 'wrong-password' }
+
+    // The first 5 failures (LOGIN_MAX_ATTEMPTS) return 401.
+    for (let i = 0; i < 5; i++) {
+      expect((await request.post('/api/auth/login', { data: bad })).status(), `attempt ${i + 1}`).toBe(401)
+    }
+
+    // The next attempt is rate-limited, with a Retry-After hint.
+    const blocked = await request.post('/api/auth/login', { data: bad })
+    expect(blocked.status()).toBe(429)
+    expect(blocked.headers()['retry-after']).toBeTruthy()
+
+    // A different email is unaffected — the limit is per-account.
+    const other = await request.post('/api/auth/login', { data: { email: uniqueEmail('other'), password: 'wrong' } })
+    expect(other.status()).toBe(401)
+  })
+})
+
 test.describe('authentication required', () => {
   test('admin user list rejects anonymous', async ({ request }) => {
     expect((await request.get('/api/admin/users')).status()).toBe(401)
