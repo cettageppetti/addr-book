@@ -111,19 +111,28 @@ test.describe('resident authorization', () => {
     expect(res.status()).toBe(403)
   })
 
-  test('can read own profile but not another resident', async ({ request }) => {
+  test('can list all residents (directory)', async ({ request }) => {
+    const res = await request.get('/api/residents', { headers: auth(resident.token) })
+    expect(res.status()).toBe(200)
+    expect((await res.json()).length, 'resident sees the whole directory').toBeGreaterThan(1)
+  })
+
+  test('can read any resident profile, own and a neighbor', async ({ request }) => {
     const own = await request.get(`/api/residents/${ownResidentId}`, { headers: auth(resident.token) })
     expect(own.status()).toBe(200)
     expect((await own.json()).id).toBe(ownResidentId)
 
     const other = await request.get(`/api/residents/${ownResidentId + 1}`, { headers: auth(resident.token) })
-    expect(other.status(), 'reading another resident is forbidden').toBe(403)
+    expect(other.status(), 'a resident can view a neighbor').toBe(200)
+    const body = await other.json()
+    expect(Array.isArray(body.phones)).toBe(true)
+    expect(Array.isArray(body.emails)).toBe(true)
   })
 
-  test('homesites are scoped to the resident', async ({ request }) => {
+  test('sees all homesites (full directory)', async ({ request }) => {
     const res = await request.get('/api/homesites', { headers: auth(resident.token) })
     expect(res.status()).toBe(200)
-    expect((await res.json()).length, 'resident sees only their own homesite').toBe(1)
+    expect((await res.json()).length, 'resident sees the whole neighborhood').toBeGreaterThan(1)
   })
 })
 

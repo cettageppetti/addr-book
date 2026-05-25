@@ -247,11 +247,10 @@ app.put('/api/homesites/:id/photo', async (c) => {
 
 // ── Residents CRUD (admin only) ─────────────────────────────────────────────
 
-// GET /api/residents — all residents with homesite info (admin only)
+// GET /api/residents — neighborhood directory, visible to any logged-in user
 app.get('/api/residents', async (c) => {
   const user = await getUserFromCookie(c)
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
-  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
 
   const rows = await queryAll(c.env.DB, `
     SELECT r.id, r.name, r.homesite_id,
@@ -372,28 +371,19 @@ app.get('/api/homesites', async (c) => {
   const user = await getUserFromCookie(c)
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
 
-  let sql = `
+  // Full neighborhood directory — every logged-in user sees all homesites.
+  const sql = `
     SELECT h.id, h.street_number, h.street_name, h.city, h.state,
       (h.photo IS NOT NULL) AS has_photo,
       json_group_array(json_object('id', r.id, 'name', r.name)) FILTER (WHERE r.id IS NOT NULL) as residents_json,
       (SELECT MIN(r2.id) FROM residents r2 WHERE r2.homesite_id = h.id) as first_resident_id
     FROM homesites h
     LEFT JOIN residents r ON r.homesite_id = h.id
+    GROUP BY h.id
+    ORDER BY CAST(h.street_number AS INTEGER), h.street_name
   `
-  const bindings: (string | number)[] = []
 
-  // Residents see only their own homesite. The filter must precede GROUP BY.
-  if (user.role !== 'admin' && user.resident_id) {
-    const res = await queryOne(c.env.DB,
-      'SELECT homesite_id FROM residents WHERE id = ?', [user.resident_id])
-    if (!res) return c.json([])
-    sql += ' WHERE h.id = ?'
-    bindings.push(Number(res.homesite_id))
-  }
-
-  sql += ' GROUP BY h.id ORDER BY CAST(h.street_number AS INTEGER), h.street_name'
-
-  const homes = await queryAll(c.env.DB, sql, bindings)
+  const homes = await queryAll(c.env.DB, sql)
 
   // Parse residents JSON array and pick first resident for backward compat
   const result = (homes.results || []).map((h: any) => {
@@ -418,10 +408,8 @@ app.get('/api/residents/:id', async (c) => {
   const id = parseInt(c.req.param('id'))
   if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
 
-  if (user.role !== 'admin' && user.resident_id !== id) {
-    return c.json({ error: 'Forbidden' }, 403)
-  }
-
+  // Any logged-in user may view a resident profile (directory). Editing
+  // contacts/address stays restricted in those endpoints.
   const resident = await queryOne(c.env.DB, `
     SELECT r.*, h.street_number, h.street_name
     FROM residents r
