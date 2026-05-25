@@ -9,7 +9,7 @@ export default defineConfig({
     hmr: false,  // Disable HMR — known to cause controlled-input issues in StrictMode
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:8787',
         changeOrigin: true,
       },
     },

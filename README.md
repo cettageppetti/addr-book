@@ -2,50 +2,34 @@
 
 A React + Cloudflare Workers web application for managing neighborhood homesites and resident contact information.
 
-## Two Ways to Run
+## Running Locally
 
-### Option A — Cloudflare Stack (local dev, mirrors production)
-This is the recommended workflow. Runs the actual Worker + D1 runtime locally.
+Runs the actual Worker + D1 runtime locally — mirrors production.
 
 ```bash
-# One-time setup: install worker deps and seed local D1
-cd ~/Code/addr-book
-npm install                           # project deps (frontend)
-cd worker && npm install --ignore-scripts  # Worker deps
-cd ..
-bash d1/setup.sh                      # spins up local D1, runs migrations + seed
+# One-time setup: install deps and seed local D1
+npm install                                   # frontend deps
+npm --prefix worker install --ignore-scripts  # Worker deps
+bash d1/setup.sh                              # spins up local D1, runs migrations + seed
 
-# Start developing
-# Terminal 1: Worker API (port 8787)
-cd ~/Code/addr-book/worker && npm run dev
-
-# Terminal 2: Frontend (port 5173)
-cd ~/Code/addr-book && npx vite
+# Start developing — Worker (:8787) + Vite (:5173) together
+npm run dev
 ```
 
 **URLs:**
 - Frontend: http://localhost:5173
 - API (Worker): http://localhost:8787
 
-### Option B — Express + SQLite fallback
-No Cloudflare account required. Pure local.
-```bash
-cd ~/Code/addr-book
-npm install --ignore-scripts
-node server.cjs              # seeds DB and starts on :3000
-# Open http://localhost:3000 directly (Express serves the built frontend)
-```
-
----
+The Vite dev server proxies `/api` → `http://localhost:8787`, so develop against the frontend URL.
 
 ## Tech Stack
 
-| Layer | Option A (Cloudflare) | Option B (Express) |
-|-------|----------------------|-------------------|
-| Frontend | React + Vite | Same |
-| API | Cloudflare Worker (Hono) | Express.js |
-| Database | D1 (SQLite, local via Wrangler) | SQLite (sql.js / better-sqlite3) |
-| Auth | JWT in httpOnly cookies | Same |
+| Layer | Stack |
+|-------|-------|
+| Frontend | React + Vite |
+| API | Cloudflare Worker (Hono) |
+| Database | D1 (SQLite, local via Wrangler) |
+| Auth | JWT in httpOnly cookies |
 
 ## Default Credentials
 
@@ -90,10 +74,10 @@ addr-book/
 │   │   └── 00001_initial.sql
 │   ├── seed.sql             # Pre-generated INSERT statements
 │   └── setup.sh             # One-time local D1 setup script
-├── src/                     # React frontend
-│   ├── App.tsx
-│   └── components/
-└── server.cjs               # Express fallback (Option B)
+└── src/                     # React frontend
+    ├── App.tsx
+    ├── pages/
+    └── components/
 ```
 
 ## Homesite Photos
