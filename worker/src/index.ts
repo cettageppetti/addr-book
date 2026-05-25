@@ -125,7 +125,11 @@ app.post('/api/auth/login', async (c) => {
     path: '/',
   })
 
-  return c.json({ id: user.id, email: user.email, role: user.role, resident_id: user.resident_id, token })
+  return c.json({
+    id: user.id, email: user.email, role: user.role, resident_id: user.resident_id,
+    must_change_password: user.must_change_password ? 1 : 0,
+    token,
+  })
 })
 
 // POST /api/auth/logout
@@ -138,7 +142,12 @@ app.post('/api/auth/logout', async (c) => {
 app.get('/api/auth/me', async (c) => {
   const user = await getUserFromCookie(c)
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
-  return c.json({ id: user.id, email: user.email, role: user.role, resident_id: user.resident_id })
+  // Read the flag live so it reflects a password change made this session.
+  const row = await queryOne(c.env.DB, 'SELECT must_change_password FROM users WHERE id = ?', [user.id])
+  return c.json({
+    id: user.id, email: user.email, role: user.role, resident_id: user.resident_id,
+    must_change_password: row && (row as any).must_change_password ? 1 : 0,
+  })
 })
 
 // POST /api/homesites  (admin only)
@@ -519,6 +528,9 @@ app.put('/api/users/:id/password', async (c) => {
   }
 
   const { currentPassword, newPassword } = await c.req.json()
+  if (!newPassword || newPassword.length < 8) {
+    return c.json({ error: 'Password must be at least 8 characters' }, 400)
+  }
 
   if (user.role !== 'admin') {
     const u = await queryOne(c.env.DB, 'SELECT password_hash FROM users WHERE id = ?', [id])
@@ -528,7 +540,8 @@ app.put('/api/users/:id/password', async (c) => {
   }
 
   const hash = bcrypt.hashSync(newPassword, 10)
-  await c.env.DB.prepare('UPDATE users SET password_hash = ? WHERE id = ?').bind(hash, id).run()
+  // Changing the password also clears any forced-change flag.
+  await c.env.DB.prepare('UPDATE users SET password_hash = ?, must_change_password = 0 WHERE id = ?').bind(hash, id).run()
   return c.json({ ok: true })
 })
 

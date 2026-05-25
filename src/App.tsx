@@ -5,6 +5,7 @@ import Login from './components/Login'
 import Home from './pages/Home'
 import Settings from './pages/Settings'
 import ResidentProfile from './components/ResidentProfile'
+import ChangePasswordGate from './components/ChangePasswordGate'
 import { logout } from './lib/auth'
 
 function App() {
@@ -38,9 +39,9 @@ function App() {
     checkAuthStatus()
   }, [])
 
-  const handleLogin = (userData: { id: number; email: string; role: string; resident_id: number | null; token?: string }) => {
+  const handleLogin = (userData: { id: number; email: string; role: string; resident_id: number | null; must_change_password?: number; token?: string }) => {
     // Persist only display fields — auth itself lives in the httpOnly cookie.
-    const info = { id: userData.id, email: userData.email, role: userData.role, resident_id: userData.resident_id }
+    const info = { id: userData.id, email: userData.email, role: userData.role, resident_id: userData.resident_id, must_change_password: userData.must_change_password ?? 0 }
     setUser(info)
     window.localStorage.setItem('user', JSON.stringify(info))
     window.localStorage.setItem('addrtab', 'homesites')
@@ -51,6 +52,20 @@ function App() {
     window.localStorage.removeItem('user')
     window.localStorage.removeItem('addrtab')
     setUser(null)
+  }
+
+  // Block the app until a forced password change is completed.
+  if (user && user.must_change_password) {
+    return (
+      <ChangePasswordGate
+        user={user}
+        onDone={() => {
+          const updated = { ...user, must_change_password: 0 }
+          setUser(updated)
+          window.localStorage.setItem('user', JSON.stringify(updated))
+        }}
+      />
+    )
   }
 
   return (

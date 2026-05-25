@@ -1,5 +1,5 @@
 -- Admin
-INSERT INTO users (email, password_hash, role) VALUES ('admin@addrbook.local', '$2a$10$cy2vZGr7DuM/zcnQ422EVedbYJhCg3sicgf0m3y3tx.VoVHS06N8e', 'admin');
+INSERT INTO users (email, password_hash, role, must_change_password) VALUES ('admin@addrbook.local', '$2a$10$cy2vZGr7DuM/zcnQ422EVedbYJhCg3sicgf0m3y3tx.VoVHS06N8e', 'admin', 1);
 
 -- 120 Homesites
 INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7248', 'Oak Street', '28226');

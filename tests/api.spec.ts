@@ -4,7 +4,7 @@ import { test, expect, type APIRequestContext } from '@playwright/test'
 const ADMIN = { email: 'admin@addrbook.local', password: 'ChangeThis123!' }
 const RESIDENT = { email: 'resident1@addrbook.local', password: 'Resident123!' }
 
-type Session = { id: number; email: string; role: string; resident_id: number | null; token: string }
+type Session = { id: number; email: string; role: string; resident_id: number | null; must_change_password?: number; token: string }
 
 async function login(request: APIRequestContext, creds: { email: string; password: string }): Promise<Session> {
   const res = await request.post('/api/auth/login', { data: creds })
@@ -37,6 +37,16 @@ test.describe('login', () => {
   test('admin can log in', async ({ request }) => {
     const s = await login(request, ADMIN)
     expect(s.role).toBe('admin')
+  })
+
+  test('admin must change password on first login; a resident need not', async ({ request }) => {
+    const admin = await login(request, ADMIN)
+    expect(admin.must_change_password).toBeTruthy()
+    const me = await (await request.get('/api/auth/me', { headers: auth(admin.token) })).json()
+    expect(me.must_change_password).toBeTruthy()
+
+    const resident = await login(request, RESIDENT)
+    expect(resident.must_change_password).toBeFalsy()
   })
 })
 

@@ -89,9 +89,6 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
-        <div className="text-center text-sm text-gray-600">
-          <p>Admin: admin@addrbook.local / ChangeThis123!</p>
-        </div>
       </div>
     </div>
   )

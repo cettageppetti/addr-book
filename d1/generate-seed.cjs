@@ -51,7 +51,7 @@ const hashAdmin    = bcrypt.hashSync('ChangeThis123!', 10)
 const hashResident = bcrypt.hashSync('Resident123!', 10)
 
 process.stdout.write(`-- Admin\n`)
-process.stdout.write(`INSERT INTO users (email, password_hash, role) VALUES ('admin@addrbook.local', '${hashAdmin}', 'admin');\n\n`)
+process.stdout.write(`INSERT INTO users (email, password_hash, role, must_change_password) VALUES ('admin@addrbook.local', '${hashAdmin}', 'admin', 1);\n\n`)
 
 process.stdout.write(`-- 120 Homesites\n`)
 for (let i = 0; i < 120; i++) {
