@@ -46,8 +46,9 @@ wrangler d1 execute addr-book-local --local \
   --file="$PROJECT_DIR/d1/seed.sql" 2>&1
 
 echo ""
-COUNT=$(wrangler d1 execute addr-book-local --local \
-  --query="SELECT COUNT(*) FROM homesites" 2>&1 | grep -Eo '[0-9]+' | tail -1)
+COUNT=$(wrangler d1 execute addr-book-local --local --json \
+  --command="SELECT COUNT(*) AS n FROM homesites" 2>/dev/null \
+  | grep -Eo '"n":[[:space:]]*[0-9]+' | grep -Eo '[0-9]+')
 echo "✓ Done: $COUNT homesites seeded in local D1"
 
 kill $WRANGLER_PID 2>/dev/null
