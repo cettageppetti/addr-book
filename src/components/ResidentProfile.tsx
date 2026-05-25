@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getAuthHeaders } from '../lib/auth'
 
 interface Resident {
   id: number
@@ -39,7 +38,7 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
     if (!residentId) return
     ;(async () => {
       try {
-        const res = await fetch(`/api/residents/${residentId}`, { headers: getAuthHeaders() })
+        const res = await fetch(`/api/residents/${residentId}`)
         if (!res.ok) {
           throw new Error('Failed to load profile')
         }
@@ -124,7 +123,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
     try {
       const res = await fetch(`/api/residents/${resident.id}/contacts`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           phones: phoneVals.filter(p => p.trim()),
           emails: emailVals.filter(e => e.trim())
@@ -148,7 +147,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
     try {
       const res = await fetch(`/api/residents/${resident.id}/address`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           address_street_number: addrStreetNum.trim(),
           address_street_name:   addrStreetName.trim(),

@@ -5,7 +5,7 @@ import Login from './components/Login'
 import Home from './pages/Home'
 import Settings from './pages/Settings'
 import ResidentProfile from './components/ResidentProfile'
-import { getAuthHeaders, clearToken } from './lib/auth'
+import { logout } from './lib/auth'
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -17,39 +17,39 @@ function App() {
     }
   })
 
-  // Check auth status on mount (works even if page was refreshed)
+  // Validate the session cookie on mount (works even after a page refresh).
   useEffect(() => {
-    const token = window.localStorage.getItem('token')
-    if (!token) return  // Not logged in
-
     const checkAuthStatus = async () => {
       try {
-        const res = await fetch('/api/auth/me', {
-          headers: getAuthHeaders()
-        })
+        const res = await fetch('/api/auth/me')
         if (res.ok) {
           const data = await res.json()
           setUser(data)
-          // Rehydrate user into localStorage if missing (e.g. after hard refresh where only token exists)
-          try { window.localStorage.setItem('user', JSON.stringify({ ...data, resident_id: data.resident_id })) } catch {}
+          try { window.localStorage.setItem('user', JSON.stringify(data)) } catch {}
+        } else {
+          // Cookie missing or expired — drop stale UI state.
+          setUser(null)
+          window.localStorage.removeItem('user')
         }
       } catch {
-        // No session
+        // Network error — keep any cached user.
       }
     }
     checkAuthStatus()
   }, [])
 
   const handleLogin = (userData) => {
-    setUser(userData)
-    window.localStorage.setItem('user', JSON.stringify(userData))
+    // Persist only display fields — auth itself lives in the httpOnly cookie.
+    const info = { id: userData.id, email: userData.email, role: userData.role, resident_id: userData.resident_id }
+    setUser(info)
+    window.localStorage.setItem('user', JSON.stringify(info))
     window.localStorage.setItem('addrtab', 'homesites')
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logout()
     window.localStorage.removeItem('user')
     window.localStorage.removeItem('addrtab')
-    clearToken()
     setUser(null)
   }
 

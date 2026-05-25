@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { setToken } from '../lib/auth'
 
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState('')
@@ -26,7 +25,6 @@ export default function Login({ onLogin }) {
         throw new Error(data.error || 'Login failed')
       }
 
-      setToken(data.token || '')
       onLogin(data)
       navigate('/')
     } catch (err) {

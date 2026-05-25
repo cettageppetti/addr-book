@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { getAuthHeaders } from '../lib/auth'
 import { fileToJpegBlob, isImage, blobSize } from '../lib/photo'
 
 const PHOTO_ENDPOINT = (id: number) => `/api/homesites/${id}/photo`
@@ -24,7 +23,6 @@ export function HomesiteAdder({ onSave }: AddProps) {
   const uploadPhoto = async (id: number, blob: Blob) => {
     await fetch(PHOTO_ENDPOINT(id), {
       method: 'PUT',
-      headers: getAuthHeaders(),
       body: blob,
     })
   }
@@ -36,7 +34,7 @@ export function HomesiteAdder({ onSave }: AddProps) {
     try {
       const res = await fetch('/api/homesites', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city || 'Charlotte', state: state || 'NC', zip_code: zip || '28226' }),
       })
       if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Save failed') }
@@ -152,7 +150,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
     try {
       const res = await fetch(`/api/homesites/${homesite.id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim(), state: state.trim(), zip_code: zip.trim() }),
       })
       if (!res.ok) { throw new Error('Save failed') }
@@ -165,12 +163,11 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
 
       // Upload new photo, remove existing, or leave as-is
       if (deletePhoto) {
-        await fetch(PHOTO_ENDPOINT(homesite.id), { method: 'DELETE', headers: getAuthHeaders() })
+        await fetch(PHOTO_ENDPOINT(homesite.id), { method: 'DELETE' })
       }
       if (pendingBlob) {
         await fetch(PHOTO_ENDPOINT(homesite.id), {
           method: 'PUT',
-          headers: getAuthHeaders(),
           body: pendingBlob,
         })
       }

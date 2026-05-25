@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { getAuthHeaders } from '../lib/auth'
 
 interface Props {
   user: { id: number; email: string; role: string; resident_id: number | null }
@@ -77,9 +76,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     if (!user.resident_id) return
     setLoadingPhones(true)
     try {
-      const res = await fetch(`/api/residents/${user.resident_id}`, {
-        headers: getAuthHeaders()
-      })
+      const res = await fetch(`/api/residents/${user.resident_id}`)
       if (res.ok) {
         const data = await res.json()
         setPhones(data.phones.map((p: any) => p.number))
@@ -91,7 +88,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
 
   const fetchResidents = async () => {
     try {
-      const res = await fetch('/api/residents', { headers: getAuthHeaders() })
+      const res = await fetch('/api/residents')
       if (res.ok) {
         const data = await res.json()
         setResidents(data)
@@ -132,7 +129,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     try {
       const res = await fetch('/api/auth/profile', {
         method:  'PUT',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(body),
       })
       const data = await res.json()
@@ -170,7 +167,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     try {
       const res = await fetch(`/api/residents/${user.resident_id}/contacts`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phones: updatedPhones }),
       })
       if (res.ok) {
@@ -191,7 +188,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     try {
       const res = await fetch(`/api/residents/${user.resident_id}/contacts`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phones: updatedPhones }),
       })
       if (res.ok) {
@@ -213,7 +210,6 @@ export default function Settings({ user, onUserUpdate }: Props) {
     try {
       const res = await fetch(`/api/admin/users/${userId}`, {
         method: 'DELETE',
-        headers: getAuthHeaders(),
       })
       if (res.ok) {
         setUsers(users.filter(u => u.id !== userId))
@@ -248,7 +244,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     try {
       const res = await fetch(`/api/admin/users/${userId}/reset-password`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ newPassword: pw }),
       })
       if (res.ok) {
@@ -287,7 +283,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     try {
       const res = await fetch('/api/admin/users', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, role: newRoleRef.current?.value ?? 'resident', resident_id: residentId }),
       })
       if (res.ok) {
@@ -315,7 +311,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch('/api/admin/users', { headers: getAuthHeaders() })
+      const res = await fetch('/api/admin/users')
       if (res.ok) {
         const data = await res.json()
         setUsers(data)

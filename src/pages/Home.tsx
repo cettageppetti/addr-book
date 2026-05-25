@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Navigate, Link, useSearchParams } from 'react-router-dom'
 import ResidentProfile from '../components/ResidentProfile'
 import { HomesiteAdder, HomesiteAdminCard } from '../components/HomesiteEditor'
-import { getAuthHeaders } from '../lib/auth'
 
 type Tab = 'homesites' | 'residents' | 'profile'
 
@@ -36,14 +35,14 @@ export default function Home({ user }: { user: any }) {
 
   const fetchHomesites = async () => {
     try {
-      const res = await fetch('/api/homesites', { headers: getAuthHeaders() })
+      const res = await fetch('/api/homesites')
       if (res.ok) setHomesites(await res.json())
     } finally { setLoading(false) }
   }
 
   const fetchResidents = async () => {
     try {
-      const res = await fetch('/api/residents', { headers: getAuthHeaders() })
+      const res = await fetch('/api/residents')
       if (res.ok) setResidents(await res.json())
     } finally { }
   }
@@ -144,7 +143,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
                 {filteredHomesites.map(h => isAdmin
                   ? <HomesiteAdminCard key={h.id} homesite={h}
                       onDelete={async (id) => {
-                        await fetch(`/api/homesites/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
+                        await fetch(`/api/homesites/${id}`, { method: 'DELETE' })
                         setHomesites(prev => prev.filter(x => x.id !== id))
                       }}
                     />
@@ -165,7 +164,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
         <ResidentAdminPanel residents={residents} homesites={homesites}
           fetchResidents={fetchResidents}
           onDelete={async (id) => {
-            await fetch(`/api/residents/${id}`, { method: 'DELETE', headers: getAuthHeaders() })
+            await fetch(`/api/residents/${id}`, { method: 'DELETE' })
             fetchResidents(); fetchHomesites()
           }}
         />
@@ -214,7 +213,7 @@ function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents }: 
     try {
       const res = await fetch('/api/residents', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: addName.trim(), homesite_id: addHomesite }),
       })
       if (res.ok) {
@@ -364,7 +363,7 @@ function ResidentRow({ resident, homesites, onDelete }: {
     try {
       const res = await fetch(`/api/residents/${resident.id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: name.trim(), homesite_id: Number(homesiteId) }),
       })
       if (res.ok) {
