@@ -77,7 +77,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     if (!user.resident_id) return
     setLoadingPhones(true)
     try {
-      const res = await fetch(`/api/residents/${user.resident_id}/contacts`, {
+      const res = await fetch(`/api/residents/${user.resident_id}`, {
         headers: getAuthHeaders()
       })
       if (res.ok) {
@@ -168,7 +168,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     const updatedPhones = [...phones, newPhoneRef.current.value.trim()]
     
     try {
-      const res = await fetch(`/api/users/${user.id}`, {
+      const res = await fetch(`/api/residents/${user.resident_id}/contacts`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify({ phones: updatedPhones }),
@@ -189,7 +189,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     const updatedPhones = phones.filter((_, i) => i !== index)
     
     try {
-      const res = await fetch(`/api/users/${user.id}`, {
+      const res = await fetch(`/api/residents/${user.resident_id}/contacts`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify({ phones: updatedPhones }),

@@ -242,6 +242,27 @@ test.describe('resident contacts', () => {
     })
     expect(res.status()).toBe(403)
   })
+
+  // The path the Settings phone editor uses: a resident updates their own
+  // contacts. Capture and restore so the seed is left unchanged.
+  test('a resident can edit their own contacts', async ({ request }) => {
+    const ownId = residentIdFromToken(resident.token)
+    const before = await (await request.get(`/api/residents/${ownId}`, { headers: auth(resident.token) })).json()
+    const original: string[] = before.phones.map((p: any) => p.number)
+
+    const updated = await request.put(`/api/residents/${ownId}/contacts`, {
+      headers: auth(resident.token),
+      data: { phones: ['(704) 555-0123'] },
+    })
+    expect(updated.status()).toBe(200)
+    expect((await updated.json()).phones.map((p: any) => p.number)).toEqual(['(704) 555-0123'])
+
+    const restore = await request.put(`/api/residents/${ownId}/contacts`, {
+      headers: auth(resident.token),
+      data: { phones: original },
+    })
+    expect(restore.status()).toBe(200)
+  })
 })
 
 test.describe('homesite photo', () => {
