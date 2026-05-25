@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    name: Typecheck & build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+
+  test:
+    name: API smoke tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Install Worker deps
+        run: cd worker && npm ci
+      - name: Seed local D1 and run the API smoke suite
+        # Put the Worker's local wrangler on PATH so d1/setup.sh (which calls
+        # `wrangler` directly) and the Playwright webServer both find it.
+        run: |
+          export PATH="$PWD/worker/node_modules/.bin:$PATH"
+          bash d1/setup.sh
+          npm test
