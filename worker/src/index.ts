@@ -325,19 +325,21 @@ app.get('/api/homesites', async (c) => {
       (SELECT MIN(r2.id) FROM residents r2 WHERE r2.homesite_id = h.id) as first_resident_id
     FROM homesites h
     LEFT JOIN residents r ON r.homesite_id = h.id
-    GROUP BY h.id
   `
+  const bindings: (string | number)[] = []
 
+  // Residents see only their own homesite. The filter must precede GROUP BY.
   if (user.role !== 'admin' && user.resident_id) {
     const res = await queryOne(c.env.DB,
       'SELECT homesite_id FROM residents WHERE id = ?', [user.resident_id])
     if (!res) return c.json([])
-    sql += ` WHERE h.id = CAST(${res.homesite_id} AS INTEGER)`
+    sql += ' WHERE h.id = ?'
+    bindings.push(Number(res.homesite_id))
   }
 
-  sql += ' ORDER BY CAST(h.street_number AS INTEGER), h.street_name'
+  sql += ' GROUP BY h.id ORDER BY CAST(h.street_number AS INTEGER), h.street_name'
 
-  const homes = await queryAll(c.env.DB, sql)
+  const homes = await queryAll(c.env.DB, sql, bindings)
 
   // Parse residents JSON array and pick first resident for backward compat
   const result = (homes.results || []).map((h: any) => {
