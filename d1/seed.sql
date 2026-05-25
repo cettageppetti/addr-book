@@ -2808,4 +2808,3 @@ INSERT INTO users (email, password_hash, role, resident_id)
   SELECT 'resident119@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=119;
 INSERT INTO users (email, password_hash, role, resident_id)
   SELECT 'resident120@addrbook.local', '$2a$10$29FReZcH/g6PtXiU.uUFc.zu6DtGnM5xwpqAPpnova8Ts1IEQ8wKa', 'resident', MIN(id) FROM residents WHERE homesite_id=120;
-Done — 350 residents across 120 homesites
