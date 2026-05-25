@@ -2,7 +2,9 @@
 # One-time setup for local D1 database.
 set -e
 
-PROJECT_DIR="/Users/cettageppetti/Code/addr-book"
+# Resolve paths relative to this script so it works for any clone
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 WORKER_DIR="$PROJECT_DIR/worker"
 
 echo "Starting wrangler dev (local D1) in background..."
@@ -28,13 +30,15 @@ done
 sleep 3
 
 echo ""
-echo "Applying schema migration..."
-wrangler d1 execute addr-book-local --local \
-  --file="$PROJECT_DIR/d1/migrations/00001_initial.sql" 2>&1 || {
-  echo "Migration failed. Check /tmp/wrangler-dev.log:"
-  tail -20 /tmp/wrangler-dev.log
-  kill $WRANGLER_PID 2>/dev/null; exit 1
-}
+echo "Applying schema migrations..."
+for mig in "$PROJECT_DIR"/d1/migrations/*.sql; do
+  echo "  - $(basename "$mig")"
+  wrangler d1 execute addr-book-local --local --file="$mig" 2>&1 || {
+    echo "Migration failed ($(basename "$mig")). Check /tmp/wrangler-dev.log:"
+    tail -20 /tmp/wrangler-dev.log
+    kill $WRANGLER_PID 2>/dev/null; exit 1
+  }
+done
 
 echo ""
 echo "Seeding data (this takes ~30s)..."
@@ -50,5 +54,4 @@ kill $WRANGLER_PID 2>/dev/null
 echo "wrangler dev stopped."
 echo ""
 echo "To start developing:"
-echo "  Terminal 1: cd ~/Code/addr-book/worker && npm run dev"
-echo "  Terminal 2: cd ~/Code/addr-book && npx vite"
+echo "  npm run dev    # Worker on :8787 + Vite on :5173"
