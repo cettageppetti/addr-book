@@ -485,4 +485,111 @@ app.put('/api/users/:id/password', async (c) => {
   return c.json({ ok: true })
 })
 
+// ── Profile (self-service) ──────────────────────────────────────────────────
+
+// PUT /api/auth/profile — update own email and/or password
+app.put('/api/auth/profile', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+
+  const { email, password, currentPassword } = await c.req.json()
+
+  if (email) {
+    // Guard the UNIQUE(email) constraint so a clash is a 409, not a D1 500
+    const clash = await queryOne(c.env.DB,
+      'SELECT id FROM users WHERE email = ? AND id != ?', [email, user.id])
+    if (clash) return c.json({ error: 'Email already in use' }, 409)
+    await c.env.DB.prepare('UPDATE users SET email = ? WHERE id = ?').bind(email, user.id).run()
+  }
+
+  if (password) {
+    const u = await queryOne(c.env.DB, 'SELECT password_hash FROM users WHERE id = ?', [user.id])
+    if (!u || !bcrypt.compareSync(currentPassword, u.password_hash as string)) {
+      return c.json({ error: 'Current password incorrect' }, 400)
+    }
+    await c.env.DB.prepare('UPDATE users SET password_hash = ? WHERE id = ?')
+      .bind(bcrypt.hashSync(password, 10), user.id).run()
+  }
+
+  const updated = await queryOne(c.env.DB, 'SELECT id, email, role FROM users WHERE id = ?', [user.id])
+  return c.json({ user: updated as any })
+})
+
+// ── Admin user management (admin only) ──────────────────────────────────────
+
+// GET /api/admin/users — list users with their linked resident name
+app.get('/api/admin/users', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const rows = await queryAll(c.env.DB, `
+    SELECT u.id, u.email, u.role, u.resident_id,
+           r.name as resident_name
+    FROM users u
+    LEFT JOIN residents r ON u.resident_id = r.id
+    ORDER BY u.role, u.email
+  `)
+  return c.json(rows.results || [])
+})
+
+// POST /api/admin/users — create a user linked to a resident
+app.post('/api/admin/users', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const { email, password, role = 'resident', resident_id } = await c.req.json()
+  if (!email || !password || !resident_id) {
+    return c.json({ error: 'email, password, and resident_id required' }, 400)
+  }
+  if (password.length < 8) {
+    return c.json({ error: 'Password must be at least 8 characters' }, 400)
+  }
+
+  const resident = await queryOne(c.env.DB, 'SELECT id FROM residents WHERE id = ?', [resident_id])
+  if (!resident) return c.json({ error: 'Resident not found' }, 404)
+  const existing = await queryOne(c.env.DB, 'SELECT id FROM users WHERE email = ?', [email])
+  if (existing) return c.json({ error: 'Email already in use' }, 409)
+
+  const result = await c.env.DB.prepare(
+    'INSERT INTO users (email, password_hash, role, resident_id) VALUES (?, ?, ?, ?)'
+  ).bind(email, bcrypt.hashSync(password, 10), role, resident_id).run()
+
+  return c.json({ id: result.meta.last_row_id, email, role, resident_id }, 201)
+})
+
+// DELETE /api/admin/users/:id — remove a user (never your own account)
+app.delete('/api/admin/users/:id', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+  if (id === user.id) return c.json({ error: 'Cannot delete your own account' }, 400)
+
+  await c.env.DB.prepare('DELETE FROM users WHERE id = ?').bind(id).run()
+  return c.json({ ok: true })
+})
+
+// POST /api/admin/users/:id/reset-password — set a new password for any user
+app.post('/api/admin/users/:id/reset-password', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+
+  const { newPassword } = await c.req.json()
+  if (!newPassword || newPassword.length < 8) {
+    return c.json({ error: 'Password must be at least 8 characters' }, 400)
+  }
+
+  await c.env.DB.prepare('UPDATE users SET password_hash = ? WHERE id = ?')
+    .bind(bcrypt.hashSync(newPassword, 10), id).run()
+  return c.json({ ok: true })
+})
+
 export default app
