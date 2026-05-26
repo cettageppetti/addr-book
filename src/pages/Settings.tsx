@@ -738,13 +738,16 @@ export default function Settings({ user, onUserUpdate }: Props) {
       <div className="space-y-8">
         {isAdmin ? (
           <>
-            <AdminAccountSection />
+            {/* Rendered as function calls, not <Component/>, so these inline
+                sections aren't remounted on every Settings re-render (which
+                would drop focus from controlled inputs after one keystroke). */}
+            {AdminAccountSection()}
             <div className="border-t pt-6">
-              <AdminUserManagement />
+              {AdminUserManagement()}
             </div>
           </>
         ) : (
-          <ResidentAccountSection />
+          ResidentAccountSection()
         )}
       </div>
     </div>
