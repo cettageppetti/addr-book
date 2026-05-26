@@ -88,7 +88,7 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
           {resident.homesite_id ? (
             <Link
               to={`/?homesite=${resident.homesite_id}`}
-              className="text-indigo-600 hover:underline"
+              className="text-brand-600 hover:underline"
               title="View this homesite"
             >
               {homesiteAddress}
@@ -108,7 +108,7 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
           {phones.length
             ? <ul className="space-y-2">{phones.map(p => (
                 <li key={p.id}>
-                  <a href={`tel:${p.number.replace(/[^\d+]/g, '')}`} className="text-indigo-600 hover:underline">{p.number}</a>
+                  <a href={`tel:${p.number.replace(/[^\d+]/g, '')}`} className="text-brand-600 hover:underline">{p.number}</a>
                 </li>
               ))}</ul>
             : <p className="text-gray-400 italic">None on file</p>
@@ -120,7 +120,7 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
           {emails.length
             ? <ul className="space-y-2">{emails.map(e => (
                 <li key={e.id}>
-                  <a href={`mailto:${e.address}`} className="text-indigo-600 hover:underline">{e.address}</a>
+                  <a href={`mailto:${e.address}`} className="text-brand-600 hover:underline">{e.address}</a>
                 </li>
               ))}</ul>
             : <p className="text-gray-400 italic">None on file</p>
@@ -217,11 +217,11 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
                 type="text"
                 value={val}
                 onChange={(e) => updatePhone(i, e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               />
             </div>
           ))}
-          <button type="button" onClick={addPhone} className="text-sm text-indigo-600 hover:text-indigo-800">
+          <button type="button" onClick={addPhone} className="text-sm text-brand-600 hover:text-brand-800">
             + Add Phone
           </button>
         </div>
@@ -233,17 +233,17 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
                 type="text"
                 value={val}
                 onChange={(e) => updateEmail(i, e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               />
             </div>
           ))}
-          <button type="button" onClick={addEmail} className="text-sm text-indigo-600 hover:text-indigo-800">
+          <button type="button" onClick={addEmail} className="text-sm text-brand-600 hover:text-brand-800">
             + Add Email
           </button>
         </div>
 
         <button type="submit" disabled={saving}
-          className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
+          className="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700 disabled:bg-gray-400">
           {saving ? 'Saving...' : 'Save Contacts'}
         </button>
       </form>
@@ -263,7 +263,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
               type="text"
               value={addrStreetNum}
               onChange={(e) => setAddrStreetNum(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               placeholder="123"
             />
           </div>
@@ -273,7 +273,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
               type="text"
               value={addrStreetName}
               onChange={(e) => setAddrStreetName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               placeholder="Oak Street"
             />
           </div>
@@ -286,7 +286,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
               type="text"
               value={addrCity}
               onChange={(e) => setAddrCity(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               placeholder="City"
             />
           </div>
@@ -296,7 +296,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
               type="text"
               value={addrState}
               onChange={(e) => setAddrState(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               placeholder="NC"
             />
           </div>
@@ -306,7 +306,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
               type="text"
               value={addrZip}
               onChange={(e) => setAddrZip(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               placeholder="28226"
             />
           </div>
@@ -314,7 +314,7 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
 
         <div className="flex gap-3">
           <button type="submit" disabled={saving}
-            className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
+            className="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700 disabled:bg-gray-400">
             {saving ? 'Saving...' : 'Save Mailing Address'}
           </button>
           <button type="button"

@@ -381,7 +381,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ref={emailRef}
             type="email"
             defaultValue={user.email}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="admin@example.com"
           />
         </div>
@@ -400,7 +400,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ref={currentPasswordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="••••••••"
           />
         </div>
@@ -411,7 +411,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ref={passwordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="Min. 8 characters"
           />
         </div>
@@ -422,7 +422,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ref={confirmPasswordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="Repeat new password"
           />
         </div>
@@ -431,7 +431,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
           type="button"
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full py-2 bg-indigo-600 text-white rounded-lg font-medium text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-colors"
+          className="w-full py-2 bg-brand-600 text-white rounded-lg font-medium text-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:bg-gray-400 transition-colors"
         >
           {loading ? 'Saving...' : 'Save changes'}
         </button>
@@ -450,13 +450,13 @@ export default function Settings({ user, onUserUpdate }: Props) {
             value={siteName}
             onChange={(e) => setSiteName(e.target.value)}
             maxLength={60}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="e.g. Maple Grove Directory"
           />
           <button
             type="submit"
             disabled={savingSiteName}
-            className="w-full py-2 bg-indigo-600 text-white rounded-lg font-medium text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-colors"
+            className="w-full py-2 bg-brand-600 text-white rounded-lg font-medium text-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:bg-gray-400 transition-colors"
           >
             {savingSiteName ? 'Saving...' : 'Save name'}
           </button>
@@ -478,7 +478,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                 type="text"
                 value={defaults.default_city}
                 onChange={(e) => setDefaults(d => ({ ...d, default_city: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                 placeholder="City"
               />
             </div>
@@ -489,7 +489,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                 value={defaults.default_state}
                 onChange={(e) => setDefaults(d => ({ ...d, default_state: e.target.value }))}
                 maxLength={2}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                 placeholder="State"
               />
             </div>
@@ -499,7 +499,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                 type="text"
                 value={defaults.default_zip_code}
                 onChange={(e) => setDefaults(d => ({ ...d, default_zip_code: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                 placeholder="ZIP"
               />
             </div>
@@ -507,7 +507,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
           <button
             type="submit"
             disabled={savingDefaults}
-            className="w-full py-2 bg-indigo-600 text-white rounded-lg font-medium text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-colors"
+            className="w-full py-2 bg-brand-600 text-white rounded-lg font-medium text-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:bg-gray-400 transition-colors"
           >
             {savingDefaults ? 'Saving...' : 'Save defaults'}
           </button>
@@ -581,7 +581,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                     ref={newEmailRef}
                     type="email"
                     defaultValue=""
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                     placeholder="user@example.com"
                   />
                 </div>
@@ -593,7 +593,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                     ref={newPasswordRef}
                     type="password"
                     defaultValue=""
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                     placeholder="Min. 8 characters"
                   />
                 </div>
@@ -606,7 +606,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                 <select
                   ref={newRoleRef}
                   defaultValue="resident"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                 >
                   <option value="resident">Resident</option>
                   <option value="admin">Admin</option>
@@ -620,7 +620,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                 <select
                   ref={newResidentRef}
                   defaultValue=""
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                 >
                   <option value="">Select resident...</option>
                   {residents.map(res => (
@@ -632,7 +632,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                 <button
                   type="submit"
                   disabled={addingUser}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 disabled:bg-gray-400"
+                  className="px-4 py-2 bg-brand-600 text-white rounded-lg text-sm hover:bg-brand-700 disabled:bg-gray-400"
                 >
                   {addingUser ? 'Creating...' : 'Create User'}
                 </button>
@@ -650,7 +650,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
           <button
             type="button"
             onClick={() => setShowAddUserForm(true)}
-            className="w-full py-3 border-b border-gray-200 text-indigo-600 hover:bg-indigo-50 transition-colors text-sm font-medium"
+            className="w-full py-3 border-b border-gray-200 text-brand-600 hover:bg-brand-50 transition-colors text-sm font-medium"
           >
             + Add User
           </button>
@@ -703,7 +703,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                       <span className="text-gray-300">|</span>
                       <button
                         onClick={() => setResetTarget(u.id)}
-                        className="text-indigo-600 hover:text-indigo-900 text-sm"
+                        className="text-brand-600 hover:text-brand-900 text-sm"
                       >
                         Reset Password
                       </button>
@@ -739,7 +739,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ref={emailRef}
             type="email"
             defaultValue={user.email}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="resident@example.com"
           />
         </div>
@@ -773,7 +773,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ref={currentPasswordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="••••••••"
           />
         </div>
@@ -784,7 +784,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ref={passwordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="Min. 8 characters"
           />
         </div>
@@ -795,7 +795,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ref={confirmPasswordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="Repeat new password"
           />
         </div>
@@ -804,7 +804,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
           type="button"
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full py-2 bg-indigo-600 text-white rounded-lg font-medium text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-colors"
+          className="w-full py-2 bg-brand-600 text-white rounded-lg font-medium text-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:bg-gray-400 transition-colors"
         >
           {loading ? 'Saving...' : 'Save changes'}
         </button>

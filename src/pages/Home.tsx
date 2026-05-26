@@ -142,7 +142,7 @@ export default function Home({ user }: { user: any }) {
             <button
               onClick={() => { localStorage.setItem('addrtab', 'profile'); setTab('profile') }}
               className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
-                tab === 'profile' ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
+                tab === 'profile' ? 'bg-white shadow text-brand-600' : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               My Profile
@@ -153,7 +153,7 @@ export default function Home({ user }: { user: any }) {
               key={t}
               onClick={() => { localStorage.setItem('addrtab', t); setTab(t as Tab); setShowCreate(false); setHomesiteSearch('') }}
               className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
-                tab === t ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'
+                tab === t ? 'bg-white shadow text-brand-600' : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               {t}
@@ -172,7 +172,7 @@ export default function Home({ user }: { user: any }) {
                 placeholder="Search by name or address..."
                 value={homesiteSearch}
                 onChange={(e) => setHomesiteSearch(e.target.value)}
-className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-indigo-500"
+className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-brand-500"
               />
               {homesiteSearch && (
                 <button
@@ -190,7 +190,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
             {isAdmin && (
               <button
                 onClick={() => setShowCreate(true)}
-                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
+                className="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700 text-sm font-medium"
               >
                 + Add Homesite
               </button>
@@ -209,7 +209,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
                   <div
                     key={h.id}
                     id={`homesite-${h.id}`}
-                    className={`rounded-xl transition-shadow ${highlightHomesiteId === h.id ? 'ring-2 ring-indigo-500 ring-offset-2' : ''}`}
+                    className={`rounded-xl transition-shadow ${highlightHomesiteId === h.id ? 'ring-2 ring-brand-500 ring-offset-2' : ''}`}
                   >
                     {isAdmin
                       ? <HomesiteAdminCard homesite={h}
@@ -312,7 +312,7 @@ function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents, fe
             placeholder="Search by name or address..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-indigo-500"
+className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-brand-500"
           />
           {search && (
             <button
@@ -329,7 +329,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
         </div>
         <button
           onClick={() => { setShowAdd(true); setAddHomesite(homesites[0]?.id || 0) }}
-          className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
+          className="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700 text-sm font-medium"
         >
           + Add Resident
         </button>
@@ -338,7 +338,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
       {/* Add row */}
       {showAdd && (
         <form onSubmit={handleAdd}
-          className="bg-indigo-50 rounded-lg p-4 mb-4 flex gap-3 items-end flex-wrap border border-indigo-200">
+          className="bg-brand-50 rounded-lg p-4 mb-4 flex gap-3 items-end flex-wrap border border-brand-200">
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">Full Name</label>
             <input
@@ -363,7 +363,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
             </select>
           </div>
           <button type="submit" disabled={addSaving}
-            className="px-3 py-1.5 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:bg-gray-400">
+            className="px-3 py-1.5 bg-brand-600 text-white rounded text-sm hover:bg-brand-700 disabled:bg-gray-400">
             {addSaving ? 'Adding...' : 'Add Resident'}
           </button>
           <button type="button"
@@ -378,13 +378,13 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
         <thead>
           <tr className="text-left border-b text-gray-500 uppercase tracking-wide text-xs">
             <th
-              className="px-4 py-3 cursor-pointer select-none hover:text-indigo-600"
+              className="px-4 py-3 cursor-pointer select-none hover:text-brand-600"
               onClick={() => handleSort('name')}
             >
               Name {sortField === 'name' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
             </th>
             <th
-              className="px-4 py-3 cursor-pointer select-none hover:text-indigo-600"
+              className="px-4 py-3 cursor-pointer select-none hover:text-brand-600"
               onClick={() => handleSort('address')}
             >
               Homesite {sortField === 'address' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
@@ -456,13 +456,13 @@ function ResidentRow({ resident, homesites, onDelete, onOpenHomesite }: {
     <>
       <tr className="border-b last:border-0 hover:bg-gray-50">
         <td className="px-4 py-3 font-medium text-gray-900">
-          <Link to={`/residents/${resident.id}`} className="text-indigo-600 hover:underline">{resident.name}</Link>
+          <Link to={`/residents/${resident.id}`} className="text-brand-600 hover:underline">{resident.name}</Link>
         </td>
         <td className="px-4 py-3 text-gray-500">
           <button
             type="button"
             onClick={() => onOpenHomesite(resident.homesite_id)}
-            className="text-left text-indigo-600 hover:underline"
+            className="text-left text-brand-600 hover:underline"
             title="View this homesite"
           >
             {resident.homesite_address || `Homesite #${resident.homesite_id}`}
@@ -472,7 +472,7 @@ function ResidentRow({ resident, homesites, onDelete, onOpenHomesite }: {
           {!editing && (
             <button
               onClick={() => { setName(resident.name); setHomesiteId(resident.homesite_id); setEditing(true) }}
-              className="text-xs text-gray-500 hover:text-indigo-600 mr-3"
+              className="text-xs text-gray-500 hover:text-brand-600 mr-3"
             >
               Edit
             </button>
@@ -490,7 +490,7 @@ function ResidentRow({ resident, homesites, onDelete, onOpenHomesite }: {
       </tr>
 
       {editing && (
-        <tr className="bg-indigo-50 border-b last:border-0">
+        <tr className="bg-brand-50 border-b last:border-0">
           <td colSpan={3} className="px-4 py-3">
             <form onSubmit={(e) => { e.preventDefault(); handleSave() }}
               className="flex gap-3 items-end flex-wrap">
@@ -518,7 +518,7 @@ function ResidentRow({ resident, homesites, onDelete, onOpenHomesite }: {
                 </select>
               </div>
               <button type="submit" disabled={saving}
-                className="px-3 py-1.5 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:bg-gray-400">
+                className="px-3 py-1.5 bg-brand-600 text-white rounded text-sm hover:bg-brand-700 disabled:bg-gray-400">
                 {saving ? 'Saving...' : 'Save'}
               </button>
               <button type="button"
@@ -557,7 +557,7 @@ function HomesiteCard({ homesite }: { homesite: Homesite }) {
       <div className="mt-2 space-y-1">
         {residents.map(r => (
           <Link key={r.id} to={`/residents/${r.id}`}
-            className="block text-gray-500 text-sm hover:text-indigo-600">
+            className="block text-gray-500 text-sm hover:text-brand-600">
             {r.name}
           </Link>
         ))}
@@ -597,7 +597,7 @@ function ResidentReadOnlyList({ residents, onOpenHomesite }: {
             placeholder="Search by name or address..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-indigo-500"
+            className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-brand-500"
           />
           {search && (
             <button
@@ -618,13 +618,13 @@ function ResidentReadOnlyList({ residents, onOpenHomesite }: {
             <thead>
               <tr className="text-left text-xs font-medium text-gray-500 uppercase">
                 <th
-                  className="px-4 py-2 cursor-pointer select-none hover:text-indigo-600"
+                  className="px-4 py-2 cursor-pointer select-none hover:text-brand-600"
                   onClick={() => handleSort('name')}
                 >
                   Name {sortField === 'name' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
                 </th>
                 <th
-                  className="px-4 py-2 cursor-pointer select-none hover:text-indigo-600"
+                  className="px-4 py-2 cursor-pointer select-none hover:text-brand-600"
                   onClick={() => handleSort('address')}
                 >
                   Address {sortField === 'address' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
@@ -636,7 +636,7 @@ function ResidentReadOnlyList({ residents, onOpenHomesite }: {
                 <tr key={r.id}>
                   <td className="px-4 py-2">
                     <Link to={`/residents/${r.id}`}
-                      className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
+                      className="text-sm font-medium text-brand-600 hover:text-brand-800">
                       {r.name}
                     </Link>
                   </td>
@@ -644,7 +644,7 @@ function ResidentReadOnlyList({ residents, onOpenHomesite }: {
                     <button
                       type="button"
                       onClick={() => onOpenHomesite(r.homesite_id)}
-                      className="text-left text-indigo-600 hover:underline"
+                      className="text-left text-brand-600 hover:underline"
                       title="View this homesite"
                     >
                       {r.homesite_address || '-'}

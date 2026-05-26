@@ -61,32 +61,32 @@ export function HomesiteAdder({ onSave }: AddProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-6 border-2 border-indigo-200">
+    <div className="bg-white rounded-lg shadow p-6 border-2 border-brand-200">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Add Homesite</h3>
       {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="flex gap-3">
           <div className="w-28">
             <label className="block text-xs font-medium text-gray-500 mb-1">Street #</label>
-            <input type="text" value={num} onChange={e => setNum(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="123" required />
+            <input type="text" value={num} onChange={e => setNum(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500" placeholder="123" required />
           </div>
           <div className="flex-1">
             <label className="block text-xs font-medium text-gray-500 mb-1">Street Name</label>
-            <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="Oak Street" required />
+            <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500" placeholder="Oak Street" required />
           </div>
         </div>
         <div className="flex gap-3">
           <div className="flex-1">
             <label className="block text-xs font-medium text-gray-500 mb-1">City</label>
-            <input type="text" value={city} onChange={e => setCity(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="City" required />
+            <input type="text" value={city} onChange={e => setCity(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500" placeholder="City" required />
           </div>
           <div className="w-24">
             <label className="block text-xs font-medium text-gray-500 mb-1">State</label>
-            <input type="text" value={state} onChange={e => setState(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="State" maxLength={2} required />
+            <input type="text" value={state} onChange={e => setState(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500" placeholder="State" maxLength={2} required />
           </div>
           <div className="w-28">
             <label className="block text-xs font-medium text-gray-500 mb-1">ZIP</label>
-            <input type="text" value={zip} onChange={e => setZip(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="ZIP" required />
+            <input type="text" value={zip} onChange={e => setZip(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500" placeholder="ZIP" required />
           </div>
         </div>
 
@@ -115,7 +115,7 @@ export function HomesiteAdder({ onSave }: AddProps) {
                 }} className="text-xs text-red-500 hover:text-red-700">Remove</button>
               </div>
             : <button type="button" onClick={() => fileRef.current?.click()}
-              className="text-sm text-indigo-600 hover:text-indigo-800 border border-indigo-200 rounded px-3 py-1.5 hover:bg-indigo-50">📷 Add Photo</button>
+              className="text-sm text-brand-600 hover:text-brand-800 border border-brand-200 rounded px-3 py-1.5 hover:bg-brand-50">📷 Add Photo</button>
           }
         </div>
 
@@ -128,15 +128,15 @@ export function HomesiteAdder({ onSave }: AddProps) {
               type="text"
               value={rn}
               onChange={e => setResidentNames(prev => prev.map((v, idx) => idx === i ? e.target.value : v))}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500 mb-2"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500 mb-2"
               placeholder="Resident name"
             />
           ))}
           <button type="button" onClick={() => setResidentNames(prev => [...prev, ''])}
-            className="text-sm text-indigo-600 hover:text-indigo-800">+ Add resident</button>
+            className="text-sm text-brand-600 hover:text-brand-800">+ Add resident</button>
         </div>
 
-        <button type="submit" disabled={saving} className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
+        <button type="submit" disabled={saving} className="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700 disabled:bg-gray-400">
           {saving ? 'Adding...' : 'Add Homesite'}
         </button>
       </form>
@@ -243,7 +243,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
           <div className="mt-2 space-y-1">
             {residents.map((r: { id: number; name: string }) => (
               <Link key={r.id} to={`/residents/${r.id}`}
-                className="block text-gray-500 text-sm hover:text-indigo-600">
+                className="block text-gray-500 text-sm hover:text-brand-600">
                 {r.name}
               </Link>
             ))}
@@ -286,7 +286,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
                   }} className="text-xs text-red-500 hover:text-red-700">Cancel</button>
                 </>
               : <button type="button" onClick={() => fileRef.current?.click()}
-                className="text-xs text-indigo-600 hover:text-indigo-800 border border-indigo-200 rounded px-2 py-1">📷 Add/Replace</button>
+                className="text-xs text-brand-600 hover:text-brand-800 border border-brand-200 rounded px-2 py-1">📷 Add/Replace</button>
             }
             {!deletePhoto && homesite.photo !== undefined && (
               <button type="button" onClick={() => {
@@ -299,7 +299,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
 
           <div className="flex gap-2">
             <button type="submit" disabled={saving}
-              className="px-3 py-1 bg-indigo-600 text-white rounded text-xs hover:bg-indigo-700 disabled:bg-gray-400">
+              className="px-3 py-1 bg-brand-600 text-white rounded text-xs hover:bg-brand-700 disabled:bg-gray-400">
               {saving ? 'Saving...' : 'Save'}
             </button>
             <button type="button" onClick={cancelEdit}
@@ -314,7 +314,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       <div className="flex justify-end gap-1 mt-2">
         {!editing && (
           <button onClick={() => setEditing(true)}
-            className="text-xs text-gray-400 hover:text-indigo-600 font-medium">
+            className="text-xs text-gray-400 hover:text-brand-600 font-medium">
             Edit
           </button>
         )}
