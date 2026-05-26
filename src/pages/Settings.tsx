@@ -604,6 +604,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
           </button>
         )}
         
+        <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -668,6 +669,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ))}
           </tbody>
         </table>
+        </div>
 
       </div>
     </div>
@@ -759,7 +761,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
   )
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Account Settings</h2>
 
       {error && (
