@@ -39,14 +39,31 @@ test.describe('login', () => {
     expect(s.role).toBe('admin')
   })
 
-  test('admin must change password on first login; a resident need not', async ({ request }) => {
+  test('an admin-created user must change password on first login; a resident need not', async ({ request }) => {
     const admin = await login(request, ADMIN)
-    expect(admin.must_change_password).toBeTruthy()
-    const me = await (await request.get('/api/auth/me', { headers: auth(admin.token) })).json()
+
+    // Provision a throwaway account; admin-created users get a temp password.
+    const r = await request.post('/api/residents', { headers: auth(admin.token), data: { name: 'MustChange Temp', homesite_id: 1 } })
+    const residentId = (await r.json()).id
+    const email = uniqueEmail('mustchange')
+    const created = await request.post('/api/admin/users', {
+      headers: auth(admin.token),
+      data: { email, password: 'Temp1234!', resident_id: residentId },
+    })
+    expect(created.status()).toBe(201)
+    const userId = (await created.json()).id
+
+    // First login is flagged to force a password change; /me agrees.
+    const session = await login(request, { email, password: 'Temp1234!' })
+    expect(session.must_change_password).toBeTruthy()
+    const me = await (await request.get('/api/auth/me', { headers: auth(session.token) })).json()
     expect(me.must_change_password).toBeTruthy()
 
-    const resident = await login(request, RESIDENT)
-    expect(resident.must_change_password).toBeFalsy()
+    // A regular resident is not forced.
+    expect((await login(request, RESIDENT)).must_change_password).toBeFalsy()
+
+    await request.delete(`/api/admin/users/${userId}`, { headers: auth(admin.token) })
+    await request.delete(`/api/residents/${residentId}`, { headers: auth(admin.token) })
   })
 })
 

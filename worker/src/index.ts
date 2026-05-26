@@ -687,8 +687,9 @@ app.post('/api/admin/users', async (c) => {
   const linked = await queryOne(c.env.DB, 'SELECT id FROM users WHERE resident_id = ?', [resident_id])
   if (linked) return c.json({ error: 'That resident already has an account' }, 409)
 
+  // Admin-provisioned accounts get a temporary password — force a change on first login.
   const result = await c.env.DB.prepare(
-    'INSERT INTO users (email, password_hash, role, resident_id) VALUES (?, ?, ?, ?)'
+    'INSERT INTO users (email, password_hash, role, resident_id, must_change_password) VALUES (?, ?, ?, ?, 1)'
   ).bind(email, bcrypt.hashSync(password, 10), role, resident_id).run()
 
   return c.json({ id: result.meta.last_row_id, email, role, resident_id }, 201)
