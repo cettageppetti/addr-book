@@ -5,6 +5,13 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Neighborhood Address Book</title>
+    <!-- Apply the cached theme before first paint to avoid a flash on reload. -->
+    <script>
+      try {
+        var t = localStorage.getItem('addr_theme');
+        if (t) document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

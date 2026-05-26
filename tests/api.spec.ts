@@ -384,11 +384,13 @@ test.describe('neighborhood default settings', () => {
     expect(pub.status()).toBe(200)
     expect(typeof (await pub.json()).site_name).toBe('string')
 
-    // Admin sets it; PUT echoes it back and the public endpoint reflects it.
-    const upd = await request.put('/api/settings', { headers: auth(admin.token), data: { site_name: 'Maple Grove' } })
+    // Admin sets name + theme; PUT echoes them back and the public endpoint reflects them.
+    const upd = await request.put('/api/settings', { headers: auth(admin.token), data: { site_name: 'Maple Grove', site_theme: 'civic' } })
     expect(upd.status()).toBe(200)
     expect((await upd.json()).site_name).toBe('Maple Grove')
-    expect((await (await request.get('/api/site-info')).json()).site_name).toBe('Maple Grove')
+    const pubAfter = await (await request.get('/api/site-info')).json()
+    expect(pubAfter.site_name).toBe('Maple Grove')
+    expect(pubAfter.site_theme).toBe('civic')
 
     await request.put('/api/settings', { headers: auth(admin.token), data: original })
   })

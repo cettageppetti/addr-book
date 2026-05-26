@@ -1,12 +1,15 @@
 @import "tailwindcss";
 
 /* ── Design tokens ────────────────────────────────────────────────────────────
-   Single source of truth for the brand/accent color and warm neutrals. Utilities
-   like bg-brand-600, bg-sand, text-ink are generated from these — retheming is
-   editing this block. Current direction: "Warm Neighborly" (terracotta accent on
-   warm-sand neutrals). */
+   Single source of truth for the theme. Utilities (bg-brand-600, text-brand-500,
+   bg-sand, text-ink, …) are generated from these variables, so a theme is just a
+   different set of values — no recompile, no extra stylesheets.
+
+   The :root block below is the default theme ("Warm Neighborly"). The four
+   [data-theme="…"] blocks override the same variables; setting data-theme on
+   <html> (see src/lib/theme.ts) switches the whole app instantly. */
 @theme {
-  /* Warm Neighborly — terracotta */
+  /* Warm Neighborly — terracotta (default) */
   --color-brand-50:  #fcf4ee;
   --color-brand-100: #f8e8dd;
   --color-brand-200: #f1d5c1;
@@ -23,7 +26,75 @@
   --color-ink:  #3d352e;
 }
 
-/* Warm the page surface and default text. */
+/* Fresh Garden — emerald */
+:root[data-theme="garden"] {
+  --color-brand-50:  #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
+  --color-brand-950: #022c22;
+  --color-sand: #f4f7f2;
+  --color-ink:  #1f2a24;
+}
+
+/* Clean Civic — blue */
+:root[data-theme="civic"] {
+  --color-brand-50:  #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #1e3a8a;
+  --color-brand-950: #172554;
+  --color-sand: #f1f5f9;
+  --color-ink:  #0f172a;
+}
+
+/* Coastal — teal/cyan */
+:root[data-theme="coastal"] {
+  --color-brand-50:  #ecfeff;
+  --color-brand-100: #cffafe;
+  --color-brand-200: #a5f3fc;
+  --color-brand-300: #67e8f9;
+  --color-brand-400: #22d3ee;
+  --color-brand-500: #06b6d4;
+  --color-brand-600: #0891b2;
+  --color-brand-700: #0e7490;
+  --color-brand-800: #155e75;
+  --color-brand-900: #164e63;
+  --color-brand-950: #083344;
+  --color-sand: #eef6f8;
+  --color-ink:  #143b42;
+}
+
+/* Dusk — plum/violet */
+:root[data-theme="dusk"] {
+  --color-brand-50:  #f5f3ff;
+  --color-brand-100: #ede9fe;
+  --color-brand-200: #ddd6fe;
+  --color-brand-300: #c4b5fd;
+  --color-brand-400: #a78bfa;
+  --color-brand-500: #8b5cf6;
+  --color-brand-600: #7c3aed;
+  --color-brand-700: #6d28d9;
+  --color-brand-800: #5b21b6;
+  --color-brand-900: #4c1d95;
+  --color-brand-950: #2e1065;
+  --color-sand: #f6f4f8;
+  --color-ink:  #2e2838;
+}
+
+/* Warm the page surface and default text per the active theme. */
 @layer base {
   body {
     background-color: var(--color-sand);

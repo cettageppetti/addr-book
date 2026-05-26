@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { applyTheme } from '../lib/theme'
 
 interface LayoutProps {
   user: { role: string; email: string } | null
@@ -13,7 +14,7 @@ export default function Layout({ user, onLogout, children }: LayoutProps) {
   useEffect(() => {
     fetch('/api/site-info')
       .then(r => (r.ok ? r.json() : null))
-      .then(d => { if (d) setSiteName(d.site_name || '') })
+      .then(d => { if (d) { setSiteName(d.site_name || ''); applyTheme(d.site_theme) } })
       .catch(() => {})
     // Update immediately when an admin saves a new name under Settings.
     const onChange = (e: Event) => setSiteName((e as CustomEvent<string>).detail || '')

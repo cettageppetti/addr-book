@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button, Input, Badge } from '../components/ui'
+import { THEMES, applyTheme } from '../lib/theme'
 
 interface Props {
   user: { id: number; email: string; role: string; resident_id: number | null }
@@ -39,6 +40,9 @@ export default function Settings({ user, onUserUpdate }: Props) {
   // Community display name shown in the page header (blank = "Address Book").
   const [siteName, setSiteName] = useState('')
   const [savingSiteName, setSavingSiteName] = useState(false)
+
+  // Community-wide color theme (admin-set).
+  const [theme, setTheme] = useState('warm')
 
   // Reset add-user form fields whenever it opens
   useEffect(() => {
@@ -324,9 +328,26 @@ export default function Settings({ user, onUserUpdate }: Props) {
     if (!isAdmin) return
     fetch('/api/settings')
       .then(r => (r.ok ? r.json() : null))
-      .then(d => { if (d) { setDefaults({ default_city: d.default_city || '', default_state: d.default_state || '', default_zip_code: d.default_zip_code || '' }); setSiteName(d.site_name || '') } })
+      .then(d => { if (d) { setDefaults({ default_city: d.default_city || '', default_state: d.default_state || '', default_zip_code: d.default_zip_code || '' }); setSiteName(d.site_name || ''); setTheme(d.site_theme || 'warm') } })
       .catch(() => {})
   }, [isAdmin])
+
+  const selectTheme = async (id: string) => {
+    applyTheme(id)        // instant, app-wide preview
+    setTheme(id)
+    setError(''); setSuccess('')
+    try {
+      const res = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ site_theme: id }),
+      })
+      if (!res.ok) { const d = await res.json().catch(() => ({})); throw new Error(d.error || 'Save failed') }
+      setSuccess('Theme saved')
+    } catch (err: any) {
+      setError(err.message || 'Network error')
+    }
+  }
 
   const saveSiteName = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -375,7 +396,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     <div className="space-y-6">
       <h3 className="text-lg font-medium text-gray-900">Account</h3>
 
-      <div className="bg-white shadow rounded-xl p-6 space-y-5">
+      <div className="bg-white shadow-sm rounded-2xl p-6 space-y-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
           <Input
@@ -429,7 +450,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
         </Button>
       </div>
 
-      <div className="bg-white shadow rounded-xl p-6 space-y-4">
+      <div className="bg-white shadow-sm rounded-2xl p-6 space-y-4">
         <div>
           <h4 className="text-md font-medium text-gray-900">Community name</h4>
           <p className="text-xs text-gray-500 mt-1">
@@ -450,7 +471,34 @@ export default function Settings({ user, onUserUpdate }: Props) {
         </form>
       </div>
 
-      <div className="bg-white shadow rounded-xl p-6 space-y-4">
+      <div className="bg-white shadow-sm rounded-2xl p-6 space-y-4">
+        <div>
+          <h4 className="text-md font-medium text-gray-900">Theme</h4>
+          <p className="text-xs text-gray-500 mt-1">
+            Sets the color theme for everyone in your community. Applies instantly.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          {THEMES.map(t => (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => selectTheme(t.id)}
+              aria-pressed={theme === t.id}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm transition-colors ${
+                theme === t.id
+                  ? 'border-brand-600 ring-2 ring-brand-500 text-gray-900'
+                  : 'border-gray-200 text-gray-600 hover:border-gray-300'
+              }`}
+            >
+              <span className="h-4 w-4 rounded-full ring-1 ring-black/10" style={{ backgroundColor: t.accent }} />
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-white shadow-sm rounded-2xl p-6 space-y-4">
         <div>
           <h4 className="text-md font-medium text-gray-900">Neighborhood defaults</h4>
           <p className="text-xs text-gray-500 mt-1">
@@ -548,7 +596,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
         ) : null
       })()}
 
-      <div className="bg-white shadow rounded-xl overflow-hidden">
+      <div className="bg-white shadow-sm rounded-2xl overflow-hidden">
         {showAddUserForm ? (
           <div className="p-6 border-b border-gray-200">
             <form key={`add-user-form-${showAddUserForm}`} onSubmit={handleAddUserSubmit} className="space-y-4">
@@ -698,7 +746,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
     <div className="space-y-6">
       <h3 className="text-lg font-medium text-gray-900">My Account</h3>
 
-      <div className="bg-white shadow rounded-xl p-6 space-y-5">
+      <div className="bg-white shadow-sm rounded-2xl p-6 space-y-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
           <Input
