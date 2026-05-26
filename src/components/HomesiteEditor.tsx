@@ -90,24 +90,7 @@ export function HomesiteAdder({ onSave }: AddProps) {
           </div>
         </div>
 
-        {/* Residents (optional) — name only; contacts can be added later */}
-        <div className="border-t pt-3">
-          <label className="block text-xs font-medium text-gray-500 mb-1">Residents (optional)</label>
-          {residentNames.map((rn, i) => (
-            <input
-              key={i}
-              type="text"
-              value={rn}
-              onChange={e => setResidentNames(prev => prev.map((v, idx) => idx === i ? e.target.value : v))}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500 mb-2"
-              placeholder="Resident name"
-            />
-          ))}
-          <button type="button" onClick={() => setResidentNames(prev => [...prev, ''])}
-            className="text-sm text-indigo-600 hover:text-indigo-800">+ Add resident</button>
-        </div>
-
-        {/* Photo upload */}
+        {/* Photo upload — a homesite attribute, kept with the address fields */}
         <input ref={fileRef} type="file" accept="image/*" className="hidden"
           onChange={async (e) => {
             const file = e.target.files?.[0]
@@ -134,6 +117,23 @@ export function HomesiteAdder({ onSave }: AddProps) {
             : <button type="button" onClick={() => fileRef.current?.click()}
               className="text-sm text-indigo-600 hover:text-indigo-800 border border-indigo-200 rounded px-3 py-1.5 hover:bg-indigo-50">📷 Add Photo</button>
           }
+        </div>
+
+        {/* Residents (optional) — name only; contacts can be added later */}
+        <div className="border-t pt-3">
+          <label className="block text-xs font-medium text-gray-500 mb-1">Residents (optional)</label>
+          {residentNames.map((rn, i) => (
+            <input
+              key={i}
+              type="text"
+              value={rn}
+              onChange={e => setResidentNames(prev => prev.map((v, idx) => idx === i ? e.target.value : v))}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500 mb-2"
+              placeholder="Resident name"
+            />
+          ))}
+          <button type="button" onClick={() => setResidentNames(prev => [...prev, ''])}
+            className="text-sm text-indigo-600 hover:text-indigo-800">+ Add resident</button>
         </div>
 
         <button type="submit" disabled={saving} className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
