@@ -17,7 +17,7 @@ interface Resident {
 
 interface Props {
   residentId?: string
-  user: { role: string; resident_id?: number } | null
+  user: { role: string; resident_id?: number; email?: string } | null
   activeTab?: 'homesites' | 'residents' | 'profile'
   onTabChange?: (tab: 'homesites' | 'residents') => void
 }
@@ -98,13 +98,19 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
           }
         </div>
 
-        {canEdit && <ContactEditor resident={resident} onUpdate={setResident} />}
+        {canEdit && (
+          <ContactEditor
+            resident={resident}
+            onUpdate={setResident}
+            loginEmail={String(user?.resident_id) === String(resident.id) ? user?.email : undefined}
+          />
+        )}
       </div>
     </div>
   )
 }
 
-function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (r: Resident) => void }) {
+function ContactEditor({ resident, onUpdate, loginEmail }: { resident: Resident; onUpdate: (r: Resident) => void; loginEmail?: string }) {
   const [phoneVals, setPhoneVals] = useState(resident.phones.map(p => p.number))
   const [emailVals, setEmailVals] = useState(resident.emails.map(e => e.address))
   const [addrStreetNum, setAddrStreetNum]   = useState(resident.address_street_number || '')
@@ -211,6 +217,22 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
           <button type="button" onClick={addEmail} className="text-sm text-indigo-600 hover:text-indigo-800">
             + Add Email
           </button>
+          {loginEmail && (
+            <label className="flex items-center gap-2 mt-3 text-sm text-gray-600">
+              <input
+                type="checkbox"
+                checked={emailVals.includes(loginEmail)}
+                onChange={(e) =>
+                  setEmailVals(prev =>
+                    e.target.checked
+                      ? (prev.includes(loginEmail) ? prev : [...prev, loginEmail])
+                      : prev.filter(v => v !== loginEmail)
+                  )
+                }
+              />
+              Add my login email ({loginEmail}) to my address book profile
+            </label>
+          )}
         </div>
 
         <button type="submit" disabled={saving}
