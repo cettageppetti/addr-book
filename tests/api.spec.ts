@@ -165,11 +165,14 @@ test.describe('admin user management', () => {
   })
 
   test('create → duplicate → reset → login → delete lifecycle', async ({ request }) => {
+    // A fresh resident, since each resident can have only one account.
+    const r = await request.post('/api/residents', { headers: auth(admin.token), data: { name: 'Lifecycle Temp', homesite_id: 1 } })
+    const rid = (await r.json()).id
     const email = uniqueEmail('smoke')
 
     const created = await request.post('/api/admin/users', {
       headers: auth(admin.token),
-      data: { email, password: 'Smoke123!', role: 'resident', resident_id: 1 },
+      data: { email, password: 'Smoke123!', role: 'resident', resident_id: rid },
     })
     expect(created.status()).toBe(201)
     const id = (await created.json()).id
@@ -177,7 +180,7 @@ test.describe('admin user management', () => {
 
     const dup = await request.post('/api/admin/users', {
       headers: auth(admin.token),
-      data: { email, password: 'Smoke123!', resident_id: 1 },
+      data: { email, password: 'Smoke123!', resident_id: rid },
     })
     expect(dup.status(), 'duplicate email is rejected').toBe(409)
 
@@ -194,12 +197,73 @@ test.describe('admin user management', () => {
 
     // After deletion, login fails.
     expect((await request.post('/api/auth/login', { data: { email, password: 'Reset123!' } })).status()).toBe(401)
+
+    await request.delete(`/api/residents/${rid}`, { headers: auth(admin.token) })
+  })
+})
+
+test.describe('resident/account integrity', () => {
+  let admin: Session
+
+  test.beforeAll(async ({ request }) => {
+    admin = await login(request, ADMIN)
+  })
+
+  test('deleting a resident unlinks its login account (no dangling reference)', async ({ request }) => {
+    const created = await request.post('/api/residents', {
+      headers: auth(admin.token),
+      data: { name: 'Integrity Temp', homesite_id: 1 },
+    })
+    expect(created.status()).toBe(201)
+    const residentId = (await created.json()).id
+
+    const email = uniqueEmail('integrity')
+    const u = await request.post('/api/admin/users', {
+      headers: auth(admin.token),
+      data: { email, password: 'Integrity123!', resident_id: residentId },
+    })
+    expect(u.status()).toBe(201)
+    const userId = (await u.json()).id
+
+    // The account is linked to the resident.
+    expect((await login(request, { email, password: 'Integrity123!' })).resident_id).toBe(residentId)
+
+    // Deleting the resident must unlink the account, not leave it dangling.
+    expect((await request.delete(`/api/residents/${residentId}`, { headers: auth(admin.token) })).status()).toBe(200)
+    expect((await login(request, { email, password: 'Integrity123!' })).resident_id).toBeNull()
+
+    await request.delete(`/api/admin/users/${userId}`, { headers: auth(admin.token) })
+  })
+
+  test('a resident can have at most one account', async ({ request }) => {
+    const created = await request.post('/api/residents', {
+      headers: auth(admin.token),
+      data: { name: 'Integrity Temp 2', homesite_id: 1 },
+    })
+    const residentId = (await created.json()).id
+
+    const first = await request.post('/api/admin/users', {
+      headers: auth(admin.token),
+      data: { email: uniqueEmail('uniq'), password: 'Integrity123!', resident_id: residentId },
+    })
+    expect(first.status()).toBe(201)
+    const userId = (await first.json()).id
+
+    const second = await request.post('/api/admin/users', {
+      headers: auth(admin.token),
+      data: { email: uniqueEmail('uniq'), password: 'Integrity123!', resident_id: residentId },
+    })
+    expect(second.status(), 'second account for the same resident is rejected').toBe(409)
+
+    await request.delete(`/api/admin/users/${userId}`, { headers: auth(admin.token) })
+    await request.delete(`/api/residents/${residentId}`, { headers: auth(admin.token) })
   })
 })
 
 test.describe('profile self-service', () => {
   let admin: Session
   let userId: number
+  let residentId: number
   let session: Session
   const originalEmail = uniqueEmail('profile')
   const originalPassword = 'Profile123!'
@@ -209,9 +273,11 @@ test.describe('profile self-service', () => {
 
   test.beforeAll(async ({ request }) => {
     admin = await login(request, ADMIN)
+    const r = await request.post('/api/residents', { headers: auth(admin.token), data: { name: 'Profile Temp', homesite_id: 1 } })
+    residentId = (await r.json()).id
     const created = await request.post('/api/admin/users', {
       headers: auth(admin.token),
-      data: { email: originalEmail, password: originalPassword, resident_id: 1 },
+      data: { email: originalEmail, password: originalPassword, resident_id: residentId },
     })
     expect(created.status()).toBe(201)
     userId = (await created.json()).id
@@ -220,6 +286,7 @@ test.describe('profile self-service', () => {
 
   test.afterAll(async ({ request }) => {
     await request.delete(`/api/admin/users/${userId}`, { headers: auth(admin.token) })
+    await request.delete(`/api/residents/${residentId}`, { headers: auth(admin.token) })
   })
 
   test('can change own email', async ({ request }) => {

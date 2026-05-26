@@ -335,6 +335,8 @@ app.delete('/api/residents/:id', async (c) => {
   const id = parseInt(c.req.param('id'))
   if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
 
+  // Unlink any login account so it doesn't dangle on a deleted resident.
+  await c.env.DB.prepare('UPDATE users SET resident_id = NULL WHERE resident_id = ?').bind(id).run()
   await c.env.DB.prepare('DELETE FROM phones WHERE resident_id = ?').bind(id).run()
   await c.env.DB.prepare('DELETE FROM emails WHERE resident_id = ?').bind(id).run()
   await c.env.DB.prepare('DELETE FROM residents WHERE id = ?').bind(id).run()
@@ -357,6 +359,7 @@ app.delete('/api/homesites/:id', async (c) => {
   const resRows = await queryAll(c.env.DB, 'SELECT id FROM residents WHERE homesite_id = ?', [id])
   const rids = (resRows.results || []).map((r: any) => r.id)
   for (const rid of rids) {
+    await c.env.DB.prepare('UPDATE users SET resident_id = NULL WHERE resident_id = ?').bind(rid).run()
     await c.env.DB.prepare('DELETE FROM phones WHERE resident_id = ?').bind(rid).run()
     await c.env.DB.prepare('DELETE FROM emails WHERE resident_id = ?').bind(rid).run()
   }
@@ -609,6 +612,8 @@ app.post('/api/admin/users', async (c) => {
   if (!resident) return c.json({ error: 'Resident not found' }, 404)
   const existing = await queryOne(c.env.DB, 'SELECT id FROM users WHERE email = ?', [email])
   if (existing) return c.json({ error: 'Email already in use' }, 409)
+  const linked = await queryOne(c.env.DB, 'SELECT id FROM users WHERE resident_id = ?', [resident_id])
+  if (linked) return c.json({ error: 'That resident already has an account' }, 409)
 
   const result = await c.env.DB.prepare(
     'INSERT INTO users (email, password_hash, role, resident_id) VALUES (?, ?, ?, ?)'
