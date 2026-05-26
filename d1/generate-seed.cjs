@@ -60,9 +60,13 @@ for (let i = 0; i < 120; i++) {
   process.stdout.write(`INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('${num}', '${street}', '28226');\n`)
 }
 
-// Build up all residents so we can assign user accounts to a stable set
+// Assign explicit, sequential resident ids (the table is empty at seed time)
+// so each resident's phones/emails — and the household login account — attach
+// to the right person instead of all piling onto the last resident.
 process.stdout.write(`\n-- Residents\n`)
 const residentRows = []
+const firstResidentIdByHome = {}
+let residentId = 0
 
 for (let h = 1; h <= 120; h++) {
   const numResidents = rand(5) + 1           // 1–5 per homesite
@@ -70,41 +74,37 @@ for (let h = 1; h <= 120; h++) {
     const fName      = firstNames[rand(firstNames.length)]
     const lName      = lastNames[rand(lastNames.length)]
     const nameEscaped = `${fName} ${lName}`.replace(/'/g, "''")
-    process.stdout.write(`INSERT INTO residents (homesite_id, name) VALUES (${h}, '${nameEscaped}');\n`)
-    residentRows.push({ homesiteId: h, name: `${fName} ${lName}`, firstName: fName, lastName: lName })
+    residentId++
+    process.stdout.write(`INSERT INTO residents (id, homesite_id, name) VALUES (${residentId}, ${h}, '${nameEscaped}');\n`)
+    residentRows.push({ id: residentId, homesiteId: h, firstName: fName, lastName: lName })
+    if (firstResidentIdByHome[h] === undefined) firstResidentIdByHome[h] = residentId
   }
 }
 
 process.stdout.write(`\n-- Phones\n`)
-for (let i = 0; i < residentRows.length; i++) {
-  const { homesiteId } = residentRows[i]
-  // Pick the most-recently inserted resident at this homesite
+for (const row of residentRows) {
   const numPhones = rand(3) + 1              // 1–3 phones each
   for (let p = 0; p < numPhones; p++) {
     const ac = areaCodes[rand(areaCodes.length)]
     const px = prefixes[rand(prefixes.length)]
     const sx = rand(9000) + 1000
-    process.stdout.write(`INSERT INTO phones (resident_id, number)\n`)
-    process.stdout.write(`  SELECT id, '(${ac}) ${px}-${sx}' FROM residents WHERE homesite_id=${homesiteId} ORDER BY id DESC LIMIT 1;\n`)
+    process.stdout.write(`INSERT INTO phones (resident_id, number) VALUES (${row.id}, '(${ac}) ${px}-${sx}');\n`)
   }
 }
 
 process.stdout.write(`\n-- Emails\n`)
-for (let i = 0; i < residentRows.length; i++) {
-  const { homesiteId, firstName, lastName } = residentRows[i]
+for (const row of residentRows) {
   const numEmails = rand(2) + 1             // 1–2 emails each
   for (let e = 0; e < numEmails; e++) {
     const domain  = ['gmail.com', 'yahoo.com', 'outlook.com'][rand(3)]
     const suffix  = e > 0 ? e : ''
-    process.stdout.write(`INSERT INTO emails (resident_id, address)\n`)
-    process.stdout.write(`  SELECT id, '${firstName.toLowerCase()}.${lastName.toLowerCase()}${suffix}@${domain}' FROM residents WHERE homesite_id=${homesiteId} ORDER BY id DESC LIMIT 1;\n`)
+    process.stdout.write(`INSERT INTO emails (resident_id, address) VALUES (${row.id}, '${row.firstName.toLowerCase()}.${row.lastName.toLowerCase()}${suffix}@${domain}');\n`)
   }
 }
 
 process.stdout.write(`\n-- Resident user accounts (one per homesite — the first resident)\n`)
 for (let h = 1; h <= 120; h++) {
-  process.stdout.write(`INSERT INTO users (email, password_hash, role, resident_id)\n`)
-  process.stdout.write(`  SELECT 'resident${h}@addrbook.local', '${hashResident}', 'resident', MIN(id) FROM residents WHERE homesite_id=${h};\n`)
+  process.stdout.write(`INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident${h}@addrbook.local', '${hashResident}', 'resident', ${firstResidentIdByHome[h]});\n`)
 }
 
 console.error(`Done — ${residentRows.length} residents across 120 homesites`)
