@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate, Link, useLocation, useNavigate } from 'react-router-dom'
 import ResidentProfile from '../components/ResidentProfile'
 import { HomesiteAdder, HomesiteAdminCard, DEFAULT_PHOTO } from '../components/HomesiteEditor'
-import { Button, Input } from '../components/ui'
+import { Button, Input, Card } from '../components/ui'
 
 type Tab = 'homesites' | 'residents' | 'profile'
 
@@ -527,7 +527,7 @@ function ResidentRow({ resident, homesites, onDelete, onOpenHomesite }: {
 function HomesiteCard({ homesite }: { homesite: Homesite }) {
   const residents = homesite.residents || []
   return (
-    <div className="bg-white border rounded-xl p-4 shadow-sm">
+    <Card className="hover:shadow-lg transition-shadow">
       <img
         src={homesite.has_photo ? `/api/homesites/${homesite.id}/photo` : DEFAULT_PHOTO}
         onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = DEFAULT_PHOTO }}
@@ -551,7 +551,7 @@ function HomesiteCard({ homesite }: { homesite: Homesite }) {
           </Link>
         ))}
       </div>
-    </div>
+    </Card>
   )
 }
 
