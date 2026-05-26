@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { fileToJpegBlob, isImage, blobSize } from '../lib/photo'
+import { Button, Input, Card } from './ui'
 
 const PHOTO_ENDPOINT = (id: number) => `/api/homesites/${id}/photo`
 export const DEFAULT_PHOTO = '/default-home.svg'
@@ -61,32 +62,32 @@ export function HomesiteAdder({ onSave }: AddProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-6 border-2 border-brand-200">
+    <Card className="border-2 border-brand-200">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Add Homesite</h3>
       {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="flex gap-3">
           <div className="w-28">
             <label className="block text-xs font-medium text-gray-500 mb-1">Street #</label>
-            <input type="text" value={num} onChange={e => setNum(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500" placeholder="123" required />
+            <Input type="text" value={num} onChange={e => setNum(e.target.value)} placeholder="123" required />
           </div>
           <div className="flex-1">
             <label className="block text-xs font-medium text-gray-500 mb-1">Street Name</label>
-            <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500" placeholder="Oak Street" required />
+            <Input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Oak Street" required />
           </div>
         </div>
         <div className="flex gap-3">
           <div className="flex-1">
             <label className="block text-xs font-medium text-gray-500 mb-1">City</label>
-            <input type="text" value={city} onChange={e => setCity(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500" placeholder="City" required />
+            <Input type="text" value={city} onChange={e => setCity(e.target.value)} placeholder="City" required />
           </div>
           <div className="w-24">
             <label className="block text-xs font-medium text-gray-500 mb-1">State</label>
-            <input type="text" value={state} onChange={e => setState(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500" placeholder="State" maxLength={2} required />
+            <Input type="text" value={state} onChange={e => setState(e.target.value)} placeholder="State" maxLength={2} required />
           </div>
           <div className="w-28">
             <label className="block text-xs font-medium text-gray-500 mb-1">ZIP</label>
-            <input type="text" value={zip} onChange={e => setZip(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500" placeholder="ZIP" required />
+            <Input type="text" value={zip} onChange={e => setZip(e.target.value)} placeholder="ZIP" required />
           </div>
         </div>
 
@@ -123,12 +124,12 @@ export function HomesiteAdder({ onSave }: AddProps) {
         <div className="border-t pt-3">
           <label className="block text-xs font-medium text-gray-500 mb-1">Residents (optional)</label>
           {residentNames.map((rn, i) => (
-            <input
+            <Input
               key={i}
               type="text"
               value={rn}
               onChange={e => setResidentNames(prev => prev.map((v, idx) => idx === i ? e.target.value : v))}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500 mb-2"
+              className="mb-2"
               placeholder="Resident name"
             />
           ))}
@@ -136,11 +137,11 @@ export function HomesiteAdder({ onSave }: AddProps) {
             className="text-sm text-brand-600 hover:text-brand-800">+ Add resident</button>
         </div>
 
-        <button type="submit" disabled={saving} className="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700 disabled:bg-gray-400">
+        <Button type="submit" disabled={saving}>
           {saving ? 'Adding...' : 'Add Homesite'}
-        </button>
+        </Button>
       </form>
-    </div>
+    </Card>
   )
 }
 
@@ -219,7 +220,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
   }
 
   return (
-    <div className="block bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+    <Card className="hover:shadow-lg transition-shadow">
       {/* Photo + edit/delete overlay */}
       <img
         src={previewSrc || DEFAULT_PHOTO}
@@ -328,6 +329,6 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
           </button>
         )}
       </div>
-    </div>
+    </Card>
   )
 }
