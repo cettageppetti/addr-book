@@ -7,6 +7,7 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [needsSetup, setNeedsSetup] = useState(false)
+  const [siteName, setSiteName] = useState('')
   const navigate = useNavigate()
 
   // Show the first-time credentials hint only while the default admin
@@ -15,6 +16,10 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
     fetch('/api/auth/setup-state')
       .then(r => (r.ok ? r.json() : null))
       .then(d => { if (d) setNeedsSetup(!!d.needs_setup) })
+      .catch(() => {})
+    fetch('/api/site-info')
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (d) setSiteName(d.site_name || '') })
       .catch(() => {})
   }, [])
 
@@ -49,7 +54,7 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
         <div>
           <h2 className="text-center text-3xl font-extrabold text-gray-900">
-            Sign in to Address Book
+            Sign in to {siteName || 'Address Book'}
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

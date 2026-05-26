@@ -69,7 +69,7 @@ async function queryOne(db: D1Database, sql: string, bindings?: (string | number
 }
 
 // Admin-configurable defaults (e.g. neighborhood city/state/zip).
-const SETTINGS_KEYS = ['default_city', 'default_state', 'default_zip_code'] as const
+const SETTINGS_KEYS = ['default_city', 'default_state', 'default_zip_code', 'site_name'] as const
 
 async function getSettings(db: D1Database): Promise<Record<string, string>> {
   const rows = await queryAll(db, 'SELECT key, value FROM settings')
@@ -171,6 +171,13 @@ app.get('/api/auth/setup-state', async (c) => {
   return c.json({ needs_setup: !!row })
 })
 
+// GET /api/site-info — public. The admin-configurable display name shown in the
+// header (and on the login screen). Empty string means "use the default".
+app.get('/api/site-info', async (c) => {
+  const s = await getSettings(c.env.DB)
+  return c.json({ site_name: s.site_name ?? '' })
+})
+
 // POST /api/homesites  (admin only)
 app.post('/api/homesites', async (c) => {
   const user = await getUserFromCookie(c)
@@ -239,6 +246,7 @@ app.get('/api/settings', async (c) => {
     default_city: s.default_city ?? '',
     default_state: s.default_state ?? '',
     default_zip_code: s.default_zip_code ?? '',
+    site_name: s.site_name ?? '',
   })
 })
 
@@ -260,6 +268,7 @@ app.put('/api/settings', async (c) => {
     default_city: s.default_city ?? '',
     default_state: s.default_state ?? '',
     default_zip_code: s.default_zip_code ?? '',
+    site_name: s.site_name ?? '',
   })
 })
 

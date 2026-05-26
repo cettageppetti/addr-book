@@ -35,6 +35,10 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const [defaults, setDefaults] = useState({ default_city: '', default_state: '', default_zip_code: '' })
   const [savingDefaults, setSavingDefaults] = useState(false)
 
+  // Community display name shown in the page header (blank = "Address Book").
+  const [siteName, setSiteName] = useState('')
+  const [savingSiteName, setSavingSiteName] = useState(false)
+
   // Reset add-user form fields whenever it opens
   useEffect(() => {
     if (showAddUserForm) {
@@ -319,9 +323,31 @@ export default function Settings({ user, onUserUpdate }: Props) {
     if (!isAdmin) return
     fetch('/api/settings')
       .then(r => (r.ok ? r.json() : null))
-      .then(d => { if (d) setDefaults({ default_city: d.default_city || '', default_state: d.default_state || '', default_zip_code: d.default_zip_code || '' }) })
+      .then(d => { if (d) { setDefaults({ default_city: d.default_city || '', default_state: d.default_state || '', default_zip_code: d.default_zip_code || '' }); setSiteName(d.site_name || '') } })
       .catch(() => {})
   }, [isAdmin])
+
+  const saveSiteName = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSavingSiteName(true); setError(''); setSuccess('')
+    try {
+      const res = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ site_name: siteName.trim() }),
+      })
+      if (!res.ok) { const d = await res.json().catch(() => ({})); throw new Error(d.error || 'Save failed') }
+      const d = await res.json()
+      setSiteName(d.site_name || '')
+      // Update the header immediately (Layout listens for this).
+      window.dispatchEvent(new CustomEvent('sitename', { detail: d.site_name || '' }))
+      setSuccess('Community name saved')
+    } catch (err: any) {
+      setError(err.message || 'Network error')
+    } finally {
+      setSavingSiteName(false)
+    }
+  }
 
   const saveDefaults = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -409,6 +435,32 @@ export default function Settings({ user, onUserUpdate }: Props) {
         >
           {loading ? 'Saving...' : 'Save changes'}
         </button>
+      </div>
+
+      <div className="bg-white shadow rounded-xl p-6 space-y-4">
+        <div>
+          <h4 className="text-md font-medium text-gray-900">Community name</h4>
+          <p className="text-xs text-gray-500 mt-1">
+            Shown as the title link at the top of every page. Leave blank to use "Address Book".
+          </p>
+        </div>
+        <form onSubmit={saveSiteName} className="space-y-3">
+          <input
+            type="text"
+            value={siteName}
+            onChange={(e) => setSiteName(e.target.value)}
+            maxLength={60}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            placeholder="e.g. Maple Grove Directory"
+          />
+          <button
+            type="submit"
+            disabled={savingSiteName}
+            className="w-full py-2 bg-indigo-600 text-white rounded-lg font-medium text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-colors"
+          >
+            {savingSiteName ? 'Saving...' : 'Save name'}
+          </button>
+        </form>
       </div>
 
       <div className="bg-white shadow rounded-xl p-6 space-y-4">

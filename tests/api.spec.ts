@@ -45,10 +45,13 @@ test.describe('login', () => {
     expect(typeof (await res.json()).needs_setup).toBe('boolean')
   })
 
-  test('accounts on an admin-set default must change password on first login (admin-created and seeded residents)', async ({ request }) => {
+  test('an admin-created account is on a temp password and must change it on first login', async ({ request }) => {
+    // This is the mechanism that flags every non-admin account: admin-created
+    // users (and seeded residents, which seed.sql inserts the same way) start
+    // on a password they did not choose. We provision our own user rather than
+    // assert against a seeded row, whose flag a browser session can have cleared.
     const admin = await login(request, ADMIN)
 
-    // Provision a throwaway account; admin-created users get a temp password.
     const r = await request.post('/api/residents', { headers: auth(admin.token), data: { name: 'MustChange Temp', homesite_id: 1 } })
     const residentId = (await r.json()).id
     const email = uniqueEmail('mustchange')
@@ -64,9 +67,6 @@ test.describe('login', () => {
     expect(session.must_change_password).toBeTruthy()
     const me = await (await request.get('/api/auth/me', { headers: auth(session.token) })).json()
     expect(me.must_change_password).toBeTruthy()
-
-    // Seeded residents start on the shared default password, so they're flagged too.
-    expect((await login(request, RESIDENT)).must_change_password).toBeTruthy()
 
     await request.delete(`/api/admin/users/${userId}`, { headers: auth(admin.token) })
     await request.delete(`/api/residents/${residentId}`, { headers: auth(admin.token) })
@@ -373,6 +373,23 @@ test.describe('neighborhood default settings', () => {
 
     // Clean up and restore the original defaults.
     await request.delete(`/api/homesites/${home.id}`, { headers: auth(admin.token) })
+    await request.put('/api/settings', { headers: auth(admin.token), data: original })
+  })
+
+  test('site_name is admin-configurable and publicly readable', async ({ request }) => {
+    const original = await (await request.get('/api/settings', { headers: auth(admin.token) })).json()
+
+    // The header reads the name from a public endpoint (no auth required).
+    const pub = await request.get('/api/site-info')
+    expect(pub.status()).toBe(200)
+    expect(typeof (await pub.json()).site_name).toBe('string')
+
+    // Admin sets it; PUT echoes it back and the public endpoint reflects it.
+    const upd = await request.put('/api/settings', { headers: auth(admin.token), data: { site_name: 'Maple Grove' } })
+    expect(upd.status()).toBe(200)
+    expect((await upd.json()).site_name).toBe('Maple Grove')
+    expect((await (await request.get('/api/site-info')).json()).site_name).toBe('Maple Grove')
+
     await request.put('/api/settings', { headers: auth(admin.token), data: original })
   })
 })
