@@ -448,7 +448,7 @@ app.get('/api/homesites', async (c) => {
 
   // Full neighborhood directory — every logged-in user sees all homesites.
   const sql = `
-    SELECT h.id, h.street_number, h.street_name, h.city, h.state,
+    SELECT h.id, h.street_number, h.street_name, h.city, h.state, h.zip_code,
       (h.photo IS NOT NULL) AS has_photo,
       json_group_array(json_object('id', r.id, 'name', r.name)) FILTER (WHERE r.id IS NOT NULL) as residents_json,
       (SELECT MIN(r2.id) FROM residents r2 WHERE r2.homesite_id = h.id) as first_resident_id

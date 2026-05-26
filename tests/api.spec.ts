@@ -669,6 +669,11 @@ test.describe('homesite photo', () => {
     expect((await request.get(`/api/homesites/${homesiteId}/photo`, { headers: auth(admin.token) })).status()).toBe(404)
   })
 
+  test('the homesites list returns zip_code', async ({ request }) => {
+    const list = await (await request.get('/api/homesites', { headers: auth(admin.token) })).json()
+    expect(list.find((h: any) => h.id === homesiteId)?.zip_code).toBe('28226')
+  })
+
   test('the homesites list reports has_photo', async ({ request }) => {
     const findHasPhoto = async () => {
       const list = await (await request.get('/api/homesites', { headers: auth(admin.token) })).json()
