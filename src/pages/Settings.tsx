@@ -42,7 +42,6 @@ export default function Settings({ user, onUserUpdate }: Props) {
   // Account settings refs (uncontrolled — avoids React re-render issues with controlled inputs)
   const emailRef           = useRef<HTMLInputElement>(null)
   const currentPasswordRef = useRef<HTMLInputElement>(null)
-  const newPhoneRef        = useRef<HTMLInputElement>(null)
   const passwordRef        = useRef<HTMLInputElement>(null)
   const confirmPasswordRef = useRef<HTMLInputElement>(null)
 
@@ -50,37 +49,12 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const resetPasswordRef    = useRef<HTMLInputElement>(null)
   const confirmResetRef     = useRef<HTMLInputElement>(null)
 
-  // Resident-only state
-  const [phones, setPhones] = useState<string[]>([])
-  const [loadingPhones, setLoadingPhones] = useState(false)
-
-  // Load resident phones on mount if resident
-  useEffect(() => {
-    if (!isAdmin && user.resident_id) {
-      fetchPhones()
-    }
-  }, [user.resident_id, isAdmin])
-
   // Load residents for admin user management on mount
   useEffect(() => {
     if (isAdmin && residents.length === 0) {
       fetchResidents()
     }
   }, [isAdmin, residents.length])
-
-  const fetchPhones = async () => {
-    if (!user.resident_id) return
-    setLoadingPhones(true)
-    try {
-      const res = await fetch(`/api/residents/${user.resident_id}`)
-      if (res.ok) {
-        const data = await res.json()
-        setPhones(data.phones.map((p: any) => p.number))
-      }
-    } finally {
-      setLoadingPhones(false)
-    }
-  }
 
   const fetchResidents = async () => {
     try {
@@ -149,53 +123,6 @@ export default function Settings({ user, onUserUpdate }: Props) {
       setError(err.message || 'Network error')
     } finally {
       setLoading(false)
-    }
-  }
-
-  const handlePhoneSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    
-    if (!newPhoneRef.current?.value.trim()) return
-
-    const updatedPhones = [...phones, newPhoneRef.current.value.trim()]
-    
-    try {
-      const res = await fetch(`/api/residents/${user.resident_id}/contacts`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phones: updatedPhones }),
-      })
-      if (res.ok) {
-        setPhones(updatedPhones)
-      } else {
-        const data = await res.json()
-        setError(data.error || 'Failed to add phone')
-      }
-    } catch (err: any) {
-      setError(err.message || 'Network error')
-    }
-  }
-
-  const removePhone = async (index: number) => {
-    setError('')
-    const updatedPhones = phones.filter((_, i) => i !== index)
-    
-    try {
-      const res = await fetch(`/api/residents/${user.resident_id}/contacts`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phones: updatedPhones }),
-      })
-      if (res.ok) {
-        setPhones(updatedPhones)
-        setSuccess('Phone number removed')
-      } else {
-        const data = await res.json()
-        setError(data.error || 'Failed to remove phone')
-      }
-    } catch (err: any) {
-      setError(err.message || 'Network error')
     }
   }
 
@@ -593,44 +520,6 @@ export default function Settings({ user, onUserUpdate }: Props) {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
             placeholder="resident@example.com"
           />
-        </div>
-
-        <hr className="border-gray-100" />
-
-        <h4 className="text-sm font-medium text-gray-900">Phone Numbers</h4>
-        
-        <form onSubmit={handlePhoneSubmit} className="flex gap-2 mb-4">
-          <input
-            ref={newPhoneRef}
-            type="text"
-            defaultValue=""
-            placeholder="Add phone number"
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
-          />
-          <button
-            type="submit"
-            disabled={loadingPhones}
-            className="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 disabled:bg-gray-400"
-          >
-            Add
-          </button>
-        </form>
-
-        <div className="space-y-2">
-          {phones.map((phone, index) => (
-            <div key={index} className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
-              <span className="text-sm text-gray-700">{phone}</span>
-              <button
-                onClick={() => removePhone(index)}
-                className="text-red-600 hover:text-red-800 text-sm"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          {phones.length === 0 && (
-            <p className="text-sm text-gray-500 italic">No phone numbers added yet.</p>
-          )}
         </div>
 
         <hr className="border-gray-100" />
