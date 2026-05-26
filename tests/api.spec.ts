@@ -327,19 +327,19 @@ test.describe('add home with residents', () => {
   let admin: Session
   test.beforeAll(async ({ request }) => { admin = await login(request, ADMIN) })
 
-  test('creating a homesite can create its residents in one call', async ({ request }) => {
+  test('creating a homesite can create its residents in one call (comma-separated)', async ({ request }) => {
     const created = await request.post('/api/homesites', {
       headers: auth(admin.token),
-      data: { street_number: '42', street_name: 'Galaxy Way', residents: ['Arthur Dent', 'Ford Prefect', '   '] },
+      // One comma-separated entry splits into two; blanks are ignored.
+      data: { street_number: '42', street_name: 'Galaxy Way', residents: ['Bob Engle, Jane Engle', '   ', 'Sam Smith'] },
     })
     expect(created.status()).toBe(201)
     const homesiteId = (await created.json()).id
 
-    // The two non-blank names are attached to the new homesite (blank ignored).
     const list = await (await request.get('/api/homesites', { headers: auth(admin.token) })).json()
     const home = list.find((h: any) => h.id === homesiteId)
     const names = (home.residents || []).map((r: any) => r.name).sort()
-    expect(names).toEqual(['Arthur Dent', 'Ford Prefect'])
+    expect(names).toEqual(['Bob Engle', 'Jane Engle', 'Sam Smith'])
 
     // Cascade-deletes the residents too.
     await request.delete(`/api/homesites/${homesiteId}`, { headers: auth(admin.token) })

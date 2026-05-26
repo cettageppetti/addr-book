@@ -187,11 +187,16 @@ app.post('/api/homesites', async (c) => {
     'INSERT INTO homesites (street_number, street_name, city, state, zip_code) VALUES (?, ?, ?, ?, ?)'
   ).bind(street_number.trim(), street_name.trim(), city?.trim() || s.default_city || '', state?.trim() || s.default_state || '', zip_code?.trim() || s.default_zip_code || '').run()
 
-  // Optionally create the residents who live here (names only — contacts added later).
+  // Optionally create the residents who live here (names only — contacts added
+  // later). Each entry may be a comma-separated list, so "Bob Engle, Jane Engle"
+  // becomes two residents.
   if (Array.isArray(residents)) {
-    for (const rn of residents) {
-      const n = String(rn ?? '').trim()
-      if (n) await c.env.DB.prepare('INSERT INTO residents (homesite_id, name) VALUES (?, ?)').bind(result.meta.last_row_id, n).run()
+    const names = residents
+      .flatMap((rn: any) => String(rn ?? '').split(','))
+      .map((n: string) => n.trim())
+      .filter(Boolean)
+    for (const n of names) {
+      await c.env.DB.prepare('INSERT INTO residents (homesite_id, name) VALUES (?, ?)').bind(result.meta.last_row_id, n).run()
     }
   }
 
