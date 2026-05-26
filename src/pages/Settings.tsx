@@ -24,6 +24,13 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const [residents, setResidents] = useState<any[]>([])
   const [addingUser, setAddingUser] = useState(false)
 
+  // Directory listing opt-in (residents only): is the login email published
+  // as a contact email on the resident's address-book profile?
+  const isResident = !isAdmin && !!user.resident_id
+  const [residentEmails, setResidentEmails] = useState<string[]>([])
+  const [showLoginEmail, setShowLoginEmail] = useState(false)
+  const [savingListing, setSavingListing] = useState(false)
+
   // Reset add-user form fields whenever it opens
   useEffect(() => {
     if (showAddUserForm) {
@@ -65,6 +72,45 @@ export default function Settings({ user, onUserUpdate }: Props) {
       }
     } catch (err) {
       console.error('Failed to fetch residents:', err)
+    }
+  }
+
+  // Load the resident's contact emails so the opt-in reflects current state.
+  useEffect(() => {
+    if (!isResident) return
+    fetch(`/api/residents/${user.resident_id}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => {
+        if (!data) return
+        const addrs: string[] = (data.emails || []).map((e: any) => e.address)
+        setResidentEmails(addrs)
+        setShowLoginEmail(addrs.includes(user.email))
+      })
+      .catch(() => {})
+  }, [isResident, user.resident_id, user.email])
+
+  // Add/remove the login email from the resident's published contact emails.
+  const toggleLoginEmail = async (checked: boolean) => {
+    const next = checked
+      ? Array.from(new Set([...residentEmails, user.email]))
+      : residentEmails.filter(a => a !== user.email)
+    setSavingListing(true); setError(''); setSuccess('')
+    try {
+      const res = await fetch(`/api/residents/${user.resident_id}/contacts`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emails: next }),
+      })
+      if (!res.ok) { const d = await res.json().catch(() => ({})); throw new Error(d.error || 'Update failed') }
+      setResidentEmails(next)
+      setShowLoginEmail(checked)
+      setSuccess(checked
+        ? 'Your login email now appears in your address book profile.'
+        : 'Your login email was removed from your address book profile.')
+    } catch (err: any) {
+      setError(err.message || 'Network error')
+    } finally {
+      setSavingListing(false)
     }
   }
 
@@ -521,6 +567,20 @@ export default function Settings({ user, onUserUpdate }: Props) {
             placeholder="resident@example.com"
           />
         </div>
+
+        <label className="flex items-start gap-2 text-sm text-gray-700">
+          <input
+            type="checkbox"
+            checked={showLoginEmail}
+            disabled={savingListing}
+            onChange={(e) => toggleLoginEmail(e.target.checked)}
+            className="mt-1"
+          />
+          <span>
+            Add my login email to my address book profile
+            <span className="block text-xs text-gray-500">Other residents will see {user.email} on your profile.</span>
+          </span>
+        </label>
 
         <hr className="border-gray-100" />
 
