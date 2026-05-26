@@ -1,6 +1,9 @@
 -- Admin
 INSERT INTO users (email, password_hash, role, must_change_password) VALUES ('admin@addrbook.local', '$2a$10$9h989DJxOdlK649TLkFmM.pFsZifbVNetUdxMOsGNRTc4hbGgsjAi', 'admin', 1);
 
+-- Neighborhood address defaults (editable by an admin under Settings)
+INSERT INTO settings (key, value) VALUES ('default_city', 'Charlotte'), ('default_state', 'NC'), ('default_zip_code', '28226');
+
 -- 120 Homesites
 INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('7248', 'Oak Street', '28226');
 INSERT INTO homesites (street_number, street_name, zip_code) VALUES ('6601', 'Maple Avenue', '28226');

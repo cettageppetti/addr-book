@@ -31,6 +31,10 @@ export default function Settings({ user, onUserUpdate }: Props) {
   const [showLoginEmail, setShowLoginEmail] = useState(false)
   const [savingListing, setSavingListing] = useState(false)
 
+  // Neighborhood address defaults (admin-editable) — prefill homesite forms.
+  const [defaults, setDefaults] = useState({ default_city: '', default_state: '', default_zip_code: '' })
+  const [savingDefaults, setSavingDefaults] = useState(false)
+
   // Reset add-user form fields whenever it opens
   useEffect(() => {
     if (showAddUserForm) {
@@ -290,6 +294,35 @@ export default function Settings({ user, onUserUpdate }: Props) {
     }
   }
 
+  // Load the neighborhood defaults for the admin's settings form.
+  useEffect(() => {
+    if (!isAdmin) return
+    fetch('/api/settings')
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (d) setDefaults({ default_city: d.default_city || '', default_state: d.default_state || '', default_zip_code: d.default_zip_code || '' }) })
+      .catch(() => {})
+  }, [isAdmin])
+
+  const saveDefaults = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSavingDefaults(true); setError(''); setSuccess('')
+    try {
+      const res = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(defaults),
+      })
+      if (!res.ok) { const d = await res.json().catch(() => ({})); throw new Error(d.error || 'Save failed') }
+      const d = await res.json()
+      setDefaults({ default_city: d.default_city || '', default_state: d.default_state || '', default_zip_code: d.default_zip_code || '' })
+      setSuccess('Neighborhood defaults saved')
+    } catch (err: any) {
+      setError(err.message || 'Network error')
+    } finally {
+      setSavingDefaults(false)
+    }
+  }
+
   // Admin account section
   const AdminAccountSection = () => (
     <div className="space-y-6">
@@ -356,6 +389,57 @@ export default function Settings({ user, onUserUpdate }: Props) {
         >
           {loading ? 'Saving...' : 'Save changes'}
         </button>
+      </div>
+
+      <div className="bg-white shadow rounded-xl p-6 space-y-4">
+        <div>
+          <h4 className="text-md font-medium text-gray-900">Neighborhood defaults</h4>
+          <p className="text-xs text-gray-500 mt-1">
+            Pre-fills city, state, and ZIP when adding a homesite, so you don't re-type them for every home.
+          </p>
+        </div>
+        <form onSubmit={saveDefaults} className="space-y-3">
+          <div className="flex gap-3">
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-gray-500 mb-1">City</label>
+              <input
+                type="text"
+                value={defaults.default_city}
+                onChange={(e) => setDefaults(d => ({ ...d, default_city: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                placeholder="City"
+              />
+            </div>
+            <div className="w-24">
+              <label className="block text-xs font-medium text-gray-500 mb-1">State</label>
+              <input
+                type="text"
+                value={defaults.default_state}
+                onChange={(e) => setDefaults(d => ({ ...d, default_state: e.target.value }))}
+                maxLength={2}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                placeholder="State"
+              />
+            </div>
+            <div className="w-28">
+              <label className="block text-xs font-medium text-gray-500 mb-1">ZIP</label>
+              <input
+                type="text"
+                value={defaults.default_zip_code}
+                onChange={(e) => setDefaults(d => ({ ...d, default_zip_code: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                placeholder="ZIP"
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            disabled={savingDefaults}
+            className="w-full py-2 bg-indigo-600 text-white rounded-lg font-medium text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 transition-colors"
+          >
+            {savingDefaults ? 'Saving...' : 'Save defaults'}
+          </button>
+        </form>
       </div>
     </div>
   )

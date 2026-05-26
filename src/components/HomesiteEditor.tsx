@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { fileToJpegBlob, isImage, blobSize } from '../lib/photo'
 
@@ -11,13 +11,26 @@ export function HomesiteAdder({ onSave }: AddProps) {
   const fileRef = useRef<HTMLInputElement>(null)
   const [num,   setNum]   = useState('')
   const [name,  setName]  = useState('')
-  const [city,  setCity]  = useState('Charlotte')
-  const [state, setState] = useState('NC')
-  const [zip,   setZip]   = useState('28226')
+  const [city,  setCity]  = useState('')
+  const [state, setState] = useState('')
+  const [zip,   setZip]   = useState('')
   const [photoBlob, setPhotoBlob] = useState<Blob | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [saving,   setSaving] = useState(false)
   const [error,    setError]  = useState('')
+
+  // Prefill city/state/zip from the admin-configured neighborhood defaults.
+  useEffect(() => {
+    fetch('/api/settings')
+      .then(r => (r.ok ? r.json() : null))
+      .then(s => {
+        if (!s) return
+        setCity(s.default_city || '')
+        setState(s.default_state || '')
+        setZip(s.default_zip_code || '')
+      })
+      .catch(() => {})
+  }, [])
 
   // Upload a blob to the photo endpoint
   const uploadPhoto = async (id: number, blob: Blob) => {
@@ -35,7 +48,7 @@ export function HomesiteAdder({ onSave }: AddProps) {
       const res = await fetch('/api/homesites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city || 'Charlotte', state: state || 'NC', zip_code: zip || '28226' }),
+        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim(), state: state.trim(), zip_code: zip.trim() }),
       })
       if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Save failed') }
       const home = await res.json()
@@ -64,15 +77,15 @@ export function HomesiteAdder({ onSave }: AddProps) {
         <div className="flex gap-3">
           <div className="flex-1">
             <label className="block text-xs font-medium text-gray-500 mb-1">City</label>
-            <input type="text" value={city} onChange={e => setCity(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="Charlotte" required />
+            <input type="text" value={city} onChange={e => setCity(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="City" required />
           </div>
           <div className="w-24">
             <label className="block text-xs font-medium text-gray-500 mb-1">State</label>
-            <input type="text" value={state} onChange={e => setState(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="NC" maxLength={2} required />
+            <input type="text" value={state} onChange={e => setState(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="State" maxLength={2} required />
           </div>
           <div className="w-28">
             <label className="block text-xs font-medium text-gray-500 mb-1">ZIP</label>
-            <input type="text" value={zip} onChange={e => setZip(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="28226" required />
+            <input type="text" value={zip} onChange={e => setZip(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="ZIP" required />
           </div>
         </div>
 
@@ -204,7 +217,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       {!editing ? (
         <>
           <p className="text-gray-400 text-sm mt-1">
-            {homesite.city || 'Charlotte'}, {(homesite.state || homesite.state_code) || 'NC'} {((homesite.zip_code || '') + '').replace(/\s/g, '')}
+            {homesite.city}, {homesite.state} {((homesite.zip_code || '') + '').replace(/\s/g, '')}
           </p>
           <p className="text-gray-400 text-sm">
             {residents.length} resident{residents.length !== 1 ? 's' : ''}

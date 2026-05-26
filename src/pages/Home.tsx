@@ -469,7 +469,7 @@ function HomesiteCard({ homesite }: { homesite: Homesite }) {
         {homesite.street_number} {homesite.street_name}
       </h3>
       <p className="text-gray-400 text-sm mt-1">
-        {homesite.city || 'Charlotte'}, {homesite.state || 'NC'} {((homesite.zip_code || '') + '').replace(/\s/g, '')}
+        {homesite.city}, {homesite.state} {((homesite.zip_code || '') + '').replace(/\s/g, '')}
       </p>
       <p className="text-gray-400 text-sm">
         {residents.length} resident{residents.length !== 1 ? 's' : ''}

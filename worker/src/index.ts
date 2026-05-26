@@ -68,6 +68,16 @@ async function queryOne(db: D1Database, sql: string, bindings?: (string | number
   return stmt.first()
 }
 
+// Admin-configurable defaults (e.g. neighborhood city/state/zip).
+const SETTINGS_KEYS = ['default_city', 'default_state', 'default_zip_code'] as const
+
+async function getSettings(db: D1Database): Promise<Record<string, string>> {
+  const rows = await queryAll(db, 'SELECT key, value FROM settings')
+  const out: Record<string, string> = {}
+  for (const r of (rows.results || []) as any[]) out[r.key] = r.value
+  return out
+}
+
 // ── Routes ─────────────────────────────────────────
 
 // Login rate limiting: after MAX failures within WINDOW for a given email,
@@ -163,9 +173,10 @@ app.post('/api/homesites', async (c) => {
     return c.json({ error: 'street_number and street_name are required' }, 400)
   }
 
+  const s = await getSettings(c.env.DB)
   const result = await c.env.DB.prepare(
     'INSERT INTO homesites (street_number, street_name, city, state, zip_code) VALUES (?, ?, ?, ?, ?)'
-  ).bind(street_number.trim(), street_name.trim(), city?.trim() || 'Charlotte', state?.trim() || 'NC', zip_code?.trim() || '28226').run()
+  ).bind(street_number.trim(), street_name.trim(), city?.trim() || s.default_city || '', state?.trim() || s.default_state || '', zip_code?.trim() || s.default_zip_code || '').run()
 
   const home = await queryOne(c.env.DB, 'SELECT * FROM homesites WHERE id = ?', [result.meta.last_row_id])
   return c.json(home as any, 201)
@@ -185,12 +196,49 @@ app.put('/api/homesites/:id', async (c) => {
     return c.json({ error: 'street_number and street_name are required' }, 400)
   }
 
+  const s = await getSettings(c.env.DB)
   await c.env.DB.prepare(
     'UPDATE homesites SET street_number = ?, street_name = ?, city = ?, state = ?, zip_code = ? WHERE id = ?'
-  ).bind(street_number.trim(), street_name.trim(), city?.trim() || 'Charlotte', state?.trim() || 'NC', zip_code?.trim() || '28226', id).run()
+  ).bind(street_number.trim(), street_name.trim(), city?.trim() || s.default_city || '', state?.trim() || s.default_state || '', zip_code?.trim() || s.default_zip_code || '', id).run()
 
   const home = await queryOne(c.env.DB, 'SELECT * FROM homesites WHERE id = ?', [id])
   return c.json(home as any)
+})
+
+// ── App settings (neighborhood defaults) ────────────────────────────────────
+
+// GET /api/settings (admin only)
+app.get('/api/settings', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+  const s = await getSettings(c.env.DB)
+  return c.json({
+    default_city: s.default_city ?? '',
+    default_state: s.default_state ?? '',
+    default_zip_code: s.default_zip_code ?? '',
+  })
+})
+
+// PUT /api/settings (admin only) — upsert the provided keys
+app.put('/api/settings', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+  const body = await c.req.json()
+  for (const key of SETTINGS_KEYS) {
+    if (key in body) {
+      await c.env.DB.prepare(
+        'INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value'
+      ).bind(key, String(body[key] ?? '').trim()).run()
+    }
+  }
+  const s = await getSettings(c.env.DB)
+  return c.json({
+    default_city: s.default_city ?? '',
+    default_state: s.default_state ?? '',
+    default_zip_code: s.default_zip_code ?? '',
+  })
 })
 
 // ── Photo upload / serve ─────────────────────────────────────────

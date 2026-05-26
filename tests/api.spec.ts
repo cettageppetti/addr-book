@@ -260,6 +260,46 @@ test.describe('resident/account integrity', () => {
   })
 })
 
+test.describe('neighborhood default settings', () => {
+  let admin: Session
+  let resident: Session
+
+  test.beforeAll(async ({ request }) => {
+    admin = await login(request, ADMIN)
+    resident = await login(request, RESIDENT)
+  })
+
+  test('residents cannot read settings', async ({ request }) => {
+    expect((await request.get('/api/settings', { headers: auth(resident.token) })).status()).toBe(403)
+  })
+
+  test('admin updates defaults; new homesites inherit them', async ({ request }) => {
+    const original = await (await request.get('/api/settings', { headers: auth(admin.token) })).json()
+
+    const upd = await request.put('/api/settings', {
+      headers: auth(admin.token),
+      data: { default_city: 'Testville', default_state: 'TX', default_zip_code: '75001' },
+    })
+    expect(upd.status()).toBe(200)
+    expect((await upd.json()).default_city).toBe('Testville')
+
+    // A homesite created without city/state/zip inherits the configured defaults.
+    const created = await request.post('/api/homesites', {
+      headers: auth(admin.token),
+      data: { street_number: '1', street_name: 'Default Way' },
+    })
+    expect(created.status()).toBe(201)
+    const home = await created.json()
+    expect(home.city).toBe('Testville')
+    expect(home.state).toBe('TX')
+    expect(home.zip_code).toBe('75001')
+
+    // Clean up and restore the original defaults.
+    await request.delete(`/api/homesites/${home.id}`, { headers: auth(admin.token) })
+    await request.put('/api/settings', { headers: auth(admin.token), data: original })
+  })
+})
+
 test.describe('profile self-service', () => {
   let admin: Session
   let userId: number

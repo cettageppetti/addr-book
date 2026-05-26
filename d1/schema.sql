@@ -52,6 +52,13 @@ CREATE TABLE IF NOT EXISTS emails (
   FOREIGN KEY (resident_id) REFERENCES residents(id) ON DELETE CASCADE
 );
 
+-- App-wide settings (key/value), e.g. the neighborhood address defaults an
+-- admin sets so adding homesites doesn't require re-typing city/state/zip.
+CREATE TABLE IF NOT EXISTS settings (
+  key   TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);
+
 -- Rolling-window failed-login counter for rate limiting (one row per email).
 CREATE TABLE IF NOT EXISTS login_attempts (
   email        TEXT PRIMARY KEY,

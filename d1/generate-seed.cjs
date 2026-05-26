@@ -53,6 +53,9 @@ const hashResident = bcrypt.hashSync('Resident123!', 10)
 process.stdout.write(`-- Admin\n`)
 process.stdout.write(`INSERT INTO users (email, password_hash, role, must_change_password) VALUES ('admin@addrbook.local', '${hashAdmin}', 'admin', 1);\n\n`)
 
+process.stdout.write(`-- Neighborhood address defaults (editable by an admin under Settings)\n`)
+process.stdout.write(`INSERT INTO settings (key, value) VALUES ('default_city', 'Charlotte'), ('default_state', 'NC'), ('default_zip_code', '28226');\n\n`)
+
 process.stdout.write(`-- 120 Homesites\n`)
 for (let i = 0; i < 120; i++) {
   const num    = rand(9000) + 100
