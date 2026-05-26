@@ -543,11 +543,21 @@ app.put('/api/auth/profile', async (c) => {
   const { email, password, currentPassword } = await c.req.json()
 
   if (email) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return c.json({ error: 'Invalid email address' }, 400)
+    }
     // Guard the UNIQUE(email) constraint so a clash is a 409, not a D1 500
     const clash = await queryOne(c.env.DB,
       'SELECT id FROM users WHERE email = ? AND id != ?', [email, user.id])
     if (clash) return c.json({ error: 'Email already in use' }, 409)
     await c.env.DB.prepare('UPDATE users SET email = ? WHERE id = ?').bind(email, user.id).run()
+    // Re-issue the session cookie so it carries the new email — the JWT is
+    // otherwise stale (still the old email) until the next login.
+    const token = await signToken(
+      { id: user.id, email, role: user.role, resident_id: user.resident_id },
+      c.env.JWT_SECRET
+    )
+    setCookie(c, 'token', token, { httpOnly: true, sameSite: 'Lax', path: '/' })
   }
 
   if (password) {

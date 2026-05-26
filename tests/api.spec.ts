@@ -251,6 +251,26 @@ test.describe('profile self-service', () => {
     })
     expect(res.status()).toBe(400)
   })
+
+  test('rejects an invalid email format', async ({ request }) => {
+    const res = await request.put('/api/auth/profile', {
+      headers: auth(session.token),
+      data: { email: 'not-an-email' },
+    })
+    expect(res.status()).toBe(400)
+  })
+
+  test('changing email re-issues the session cookie with the new email', async ({ request }) => {
+    const next = uniqueEmail('reissue')
+    const res = await request.put('/api/auth/profile', { headers: auth(session.token), data: { email: next } })
+    expect(res.status()).toBe(200)
+    // The response must set a fresh token cookie whose JWT carries the new email.
+    const setCookie = res.headers()['set-cookie'] || ''
+    const token = setCookie.match(/token=([^;]+)/)?.[1] ?? ''
+    expect(token, 'a new token cookie is set').toBeTruthy()
+    const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64url').toString())
+    expect(payload.email).toBe(next)
+  })
 })
 
 test.describe('resident contacts', () => {
