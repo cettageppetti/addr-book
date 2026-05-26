@@ -105,9 +105,11 @@ for (const row of residentRows) {
   }
 }
 
-process.stdout.write(`\n-- Resident user accounts (one per homesite — the first resident)\n`)
+process.stdout.write(`\n-- Resident user accounts (one per homesite — the first resident).\n`)
+process.stdout.write(`-- They start on the shared default password, so must_change_password = 1:\n`)
+process.stdout.write(`-- each must set its own password on first login (and can't be promoted to admin until it does).\n`)
 for (let h = 1; h <= 120; h++) {
-  process.stdout.write(`INSERT INTO users (email, password_hash, role, resident_id) VALUES ('resident${h}@addrbook.local', '${hashResident}', 'resident', ${firstResidentIdByHome[h]});\n`)
+  process.stdout.write(`INSERT INTO users (email, password_hash, role, resident_id, must_change_password) VALUES ('resident${h}@addrbook.local', '${hashResident}', 'resident', ${firstResidentIdByHome[h]}, 1);\n`)
 }
 
 console.error(`Done — ${residentRows.length} residents across 120 homesites`)

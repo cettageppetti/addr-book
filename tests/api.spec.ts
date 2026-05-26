@@ -45,7 +45,7 @@ test.describe('login', () => {
     expect(typeof (await res.json()).needs_setup).toBe('boolean')
   })
 
-  test('an admin-created user must change password on first login; a resident need not', async ({ request }) => {
+  test('accounts on an admin-set default must change password on first login (admin-created and seeded residents)', async ({ request }) => {
     const admin = await login(request, ADMIN)
 
     // Provision a throwaway account; admin-created users get a temp password.
@@ -65,8 +65,8 @@ test.describe('login', () => {
     const me = await (await request.get('/api/auth/me', { headers: auth(session.token) })).json()
     expect(me.must_change_password).toBeTruthy()
 
-    // A regular resident is not forced.
-    expect((await login(request, RESIDENT)).must_change_password).toBeFalsy()
+    // Seeded residents start on the shared default password, so they're flagged too.
+    expect((await login(request, RESIDENT)).must_change_password).toBeTruthy()
 
     await request.delete(`/api/admin/users/${userId}`, { headers: auth(admin.token) })
     await request.delete(`/api/residents/${residentId}`, { headers: auth(admin.token) })
