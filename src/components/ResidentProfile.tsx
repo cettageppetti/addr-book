@@ -4,13 +4,18 @@ import { useParams } from 'react-router-dom'
 interface Resident {
   id: number
   name: string
+  // Homesite (neighborhood) address — always present
   street_number?: string
   street_name?: string
-  zip_code?: string
+  homesite_city?: string
+  homesite_state?: string
+  homesite_zip_code?: string
+  // Optional mailing address (blank = use the homesite address)
   address_street_number?: string
   address_street_name?: string
-  city?: string
-  state?: string
+  address_city?: string
+  address_state?: string
+  address_zip_code?: string
   phones: { id: number; number: string }[]
   emails: { id: number; address: string }[]
 }
@@ -59,20 +64,29 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
   const phones = resident.phones ?? []
   const emails = resident.emails ?? []
 
-  // Per-resident address overrides the shared homesite address
-  const displayNum  = resident.address_street_number || resident.street_number
-  const displayName = resident.address_street_name    || resident.street_name
-  const city        = resident.city   || 'Charlotte'
-  const state       = resident.state  || 'NC'
-  const zip         = resident.zip_code || '28226'
+  // The homesite (neighborhood) address — always shown.
+  const homesiteAddress = [
+    [resident.street_number, resident.street_name].filter(Boolean).join(' '),
+    [resident.homesite_city, resident.homesite_state, resident.homesite_zip_code].filter(Boolean).join(' '),
+  ].filter(Boolean).join(', ')
+  // Optional mailing address — shown separately when the resident has one.
+  const hasMailing = !!(resident.address_street_number || resident.address_street_name ||
+    resident.address_city || resident.address_state || resident.address_zip_code)
+  const mailingAddress = hasMailing
+    ? [
+        [resident.address_street_number, resident.address_street_name].filter(Boolean).join(' '),
+        [resident.address_city, resident.address_state, resident.address_zip_code].filter(Boolean).join(' '),
+      ].filter(Boolean).join(', ')
+    : ''
 
   return (
     <div className="max-w-3xl mx-auto">
       <div className="bg-white rounded-lg shadow p-6 mb-4">
         <h2 className="text-2xl font-bold text-gray-900 mb-1">{resident.name}</h2>
-        <p className="text-gray-600">
-          {displayNum} {displayName}, {city} {state} {zip}
-        </p>
+        <p className="text-gray-600">{homesiteAddress}</p>
+        {mailingAddress && (
+          <p className="text-gray-500 text-sm mt-1">Mailing address: {mailingAddress}</p>
+        )}
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
@@ -109,9 +123,9 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
   const [emailVals, setEmailVals] = useState(resident.emails.map(e => e.address))
   const [addrStreetNum, setAddrStreetNum]   = useState(resident.address_street_number || '')
   const [addrStreetName, setAddrStreetName] = useState(resident.address_street_name || '')
-  const [city, setCity]     = useState(resident.city   || 'Charlotte')
-  const [state, setState]   = useState(resident.state  || 'NC')
-  const [zip, setZip]       = useState(resident.zip_code || '')
+  const [addrCity, setAddrCity]   = useState(resident.address_city  || '')
+  const [addrState, setAddrState] = useState(resident.address_state || '')
+  const [addrZip, setAddrZip]     = useState(resident.address_zip_code || '')
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState('')
 
@@ -150,9 +164,9 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
         body: JSON.stringify({
           address_street_number: addrStreetNum.trim(),
           address_street_name:   addrStreetName.trim(),
-          city,
-          state,
-          zip_code: zip.trim()
+          address_city:  addrCity.trim(),
+          address_state: addrState.trim(),
+          address_zip_code: addrZip.trim(),
         })
       })
       if (!res.ok) throw new Error('Save failed')
@@ -221,9 +235,10 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
 
       {/* Address editor */}
       <form onSubmit={handleSaveAddress}>
-        <h4 className="text-md font-medium text-gray-900 mb-3">Alternate Address</h4>
+        <h4 className="text-md font-medium text-gray-900 mb-3">Mailing address</h4>
         <p className="text-sm text-gray-500 mb-4">
-          Leave blank to use the shared homesite address, or enter a different address for this resident.
+          Optional. Set this only if you receive mail somewhere other than your homesite
+          (e.g. you own here but live elsewhere). Leave blank to use the homesite address.
         </p>
 
         <div className="grid grid-cols-6 gap-3 mb-3">
@@ -254,18 +269,18 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
             <label className="block text-xs text-gray-500 mb-1">City</label>
             <input
               type="text"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
+              value={addrCity}
+              onChange={(e) => setAddrCity(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
-              placeholder="Charlotte"
+              placeholder="City"
             />
           </div>
           <div className="w-20">
             <label className="block text-xs text-gray-500 mb-1">State</label>
             <input
               type="text"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
+              value={addrState}
+              onChange={(e) => setAddrState(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
               placeholder="NC"
             />
@@ -274,8 +289,8 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
             <label className="block text-xs text-gray-500 mb-1">ZIP</label>
             <input
               type="text"
-              value={zip}
-              onChange={(e) => setZip(e.target.value)}
+              value={addrZip}
+              onChange={(e) => setAddrZip(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500"
               placeholder="28226"
             />
@@ -285,15 +300,15 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
         <div className="flex gap-3">
           <button type="submit" disabled={saving}
             className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:bg-gray-400">
-            {saving ? 'Saving...' : 'Save Address'}
+            {saving ? 'Saving...' : 'Save Mailing Address'}
           </button>
           <button type="button"
             onClick={() => {
               setAddrStreetNum('')
               setAddrStreetName('')
-              setCity('Charlotte')
-              setState('NC')
-              setZip('')
+              setAddrCity('')
+              setAddrState('')
+              setAddrZip('')
             }}
             className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
             Reset

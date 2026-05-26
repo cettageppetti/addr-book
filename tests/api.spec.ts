@@ -399,6 +399,24 @@ test.describe('resident contacts', () => {
     })
     expect(restore.status()).toBe(200)
   })
+
+  test('a mailing address (incl. zip) saves and is returned with the homesite address', async ({ request }) => {
+    const patched = await request.patch(`/api/residents/${tempResidentId}/address`, {
+      headers: auth(admin.token),
+      data: {
+        address_street_number: '99', address_street_name: 'Elsewhere Ave',
+        address_city: 'Raleigh', address_state: 'NC', address_zip_code: '27601',
+      },
+    })
+    expect(patched.status()).toBe(200)
+
+    const got = await (await request.get(`/api/residents/${tempResidentId}`, { headers: auth(admin.token) })).json()
+    // The previously-dropped zip is now persisted.
+    expect(got.address_zip_code).toBe('27601')
+    expect(got.address_city).toBe('Raleigh')
+    // The homesite address is still returned (show-both), with its real zip.
+    expect(got.homesite_zip_code).toBeTruthy()
+  })
 })
 
 test.describe('homesite photo', () => {

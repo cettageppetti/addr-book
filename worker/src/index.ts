@@ -414,7 +414,8 @@ app.get('/api/residents/:id', async (c) => {
   // Any logged-in user may view a resident profile (directory). Editing
   // contacts/address stays restricted in those endpoints.
   const resident = await queryOne(c.env.DB, `
-    SELECT r.*, h.street_number, h.street_name
+    SELECT r.*, h.street_number, h.street_name,
+           h.city AS homesite_city, h.state AS homesite_state, h.zip_code AS homesite_zip_code
     FROM residents r
     JOIN homesites h ON h.id = r.homesite_id
     WHERE r.id = ?
@@ -445,7 +446,7 @@ app.patch('/api/residents/:id/address', async (c) => {
   }
 
   const body = await c.req.json()
-  const allowed = ['address_street_number', 'address_street_name', 'city', 'state']
+  const allowed = ['address_street_number', 'address_street_name', 'address_city', 'address_state', 'address_zip_code']
   const updates: string[] = []
   const values: (string | number)[] = []
 

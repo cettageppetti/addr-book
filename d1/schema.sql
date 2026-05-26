@@ -28,10 +28,12 @@ CREATE TABLE IF NOT EXISTS residents (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   homesite_id INTEGER NOT NULL,
   name TEXT NOT NULL,
+  -- Optional mailing address (e.g. an owner who lives elsewhere); blank = use the homesite address.
   address_street_number TEXT,
   address_street_name TEXT,
-  city TEXT,
-  state TEXT,
+  address_city TEXT,
+  address_state TEXT,
+  address_zip_code TEXT,
   FOREIGN KEY (homesite_id) REFERENCES homesites(id) ON DELETE CASCADE
 );
 
