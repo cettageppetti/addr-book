@@ -83,6 +83,8 @@ app.post('/api/auth/login', async (c) => {
 
   const key = String(email).toLowerCase()
   const now = Date.now()
+  // Prune expired counters so the table can't grow unbounded.
+  await c.env.DB.prepare('DELETE FROM login_attempts WHERE window_start < ?').bind(now - LOGIN_WINDOW_MS).run()
   const rec = (await queryOne(c.env.DB,
     'SELECT failed_count, window_start FROM login_attempts WHERE email = ?', [key])) as
     { failed_count: number; window_start: number } | null
@@ -277,7 +279,7 @@ app.post('/api/residents', async (c) => {
   if (!home) return c.json({ error: 'Homesite not found' }, 404)
 
   const result = await c.env.DB.prepare(
-    'INSERT INTO residents (homesite_id, name) VALUES (?, ?)'
+    'INSERT INTO residents (homesite_id, name, created_at) VALUES (?, ?, CURRENT_TIMESTAMP)'
   ).bind(homesite_id, name.trim()).run()
 
   const resident = await queryOne(c.env.DB,
@@ -484,17 +486,38 @@ app.put('/api/residents/:id/contacts', async (c) => {
 
   const { phones, emails } = await c.req.json()
 
+  // Validate + de-dupe before touching the DB so a bad value can't half-apply.
+  let cleanPhones: string[] | null = null
   if (Array.isArray(phones)) {
-    await c.env.DB.prepare('DELETE FROM phones WHERE resident_id = ?').bind(id).run()
-    for (const num of phones) {
-      if (num?.trim()) await c.env.DB.prepare('INSERT INTO phones (resident_id, number) VALUES (?, ?)').bind(id, num.trim()).run()
+    cleanPhones = [...new Set(phones.map((p: any) => String(p ?? '').trim()).filter(Boolean))]
+    for (const num of cleanPhones) {
+      if ((num.match(/\d/g) || []).length < 10) {
+        return c.json({ error: `Invalid phone number: ${num}` }, 400)
+      }
     }
   }
 
+  let cleanEmails: string[] | null = null
   if (Array.isArray(emails)) {
+    cleanEmails = [...new Set(emails.map((e: any) => String(e ?? '').trim()).filter(Boolean))]
+    for (const addr of cleanEmails) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(addr)) {
+        return c.json({ error: `Invalid email address: ${addr}` }, 400)
+      }
+    }
+  }
+
+  if (cleanPhones) {
+    await c.env.DB.prepare('DELETE FROM phones WHERE resident_id = ?').bind(id).run()
+    for (const num of cleanPhones) {
+      await c.env.DB.prepare('INSERT INTO phones (resident_id, number) VALUES (?, ?)').bind(id, num).run()
+    }
+  }
+
+  if (cleanEmails) {
     await c.env.DB.prepare('DELETE FROM emails WHERE resident_id = ?').bind(id).run()
-    for (const addr of emails) {
-      if (addr?.trim()) await c.env.DB.prepare('INSERT INTO emails (resident_id, address) VALUES (?, ?)').bind(id, addr.trim()).run()
+    for (const addr of cleanEmails) {
+      await c.env.DB.prepare('INSERT INTO emails (resident_id, address) VALUES (?, ?)').bind(id, addr).run()
     }
   }
 

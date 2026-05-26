@@ -400,6 +400,22 @@ test.describe('resident contacts', () => {
     expect(restore.status()).toBe(200)
   })
 
+  test('rejects an invalid email in contacts', async ({ request }) => {
+    const res = await request.put(`/api/residents/${tempResidentId}/contacts`, {
+      headers: auth(admin.token),
+      data: { emails: ['not-an-email'] },
+    })
+    expect(res.status()).toBe(400)
+  })
+
+  test('rejects an implausible phone in contacts', async ({ request }) => {
+    const res = await request.put(`/api/residents/${tempResidentId}/contacts`, {
+      headers: auth(admin.token),
+      data: { phones: ['12345'] },
+    })
+    expect(res.status()).toBe(400)
+  })
+
   test('a mailing address (incl. zip) saves and is returned with the homesite address', async ({ request }) => {
     const patched = await request.patch(`/api/residents/${tempResidentId}/address`, {
       headers: auth(admin.token),

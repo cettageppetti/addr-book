@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS residents (
   address_city TEXT,
   address_state TEXT,
   address_zip_code TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (homesite_id) REFERENCES homesites(id) ON DELETE CASCADE
 );
 
