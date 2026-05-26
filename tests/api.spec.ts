@@ -355,18 +355,32 @@ test.describe('user roles', () => {
     return list.find((u: any) => u.id === id)?.role
   }
 
-  test('admin can promote a resident user to admin and back', async ({ request }) => {
+  test('admin can promote a user only after it sets its own password, then demote freely', async ({ request }) => {
     const r = await request.post('/api/residents', { headers: auth(admin.token), data: { name: 'Role Temp', homesite_id: 1 } })
     const rid = (await r.json()).id
+    const email = uniqueEmail('role')
     const u = await request.post('/api/admin/users', {
       headers: auth(admin.token),
-      data: { email: uniqueEmail('role'), password: 'Role1234!', resident_id: rid },
+      data: { email, password: 'Role1234!', resident_id: rid },
     })
     const uid = (await u.json()).id
 
+    // Still on the admin-set temp password → promotion is blocked.
+    expect((await request.put(`/api/admin/users/${uid}/role`, { headers: auth(admin.token), data: { role: 'admin' } })).status()).toBe(400)
+    expect(await roleOf(request, admin.token, uid)).toBe('resident')
+
+    // User sets its own password, clearing the forced-change flag.
+    const userSession = await login(request, { email, password: 'Role1234!' })
+    expect((await request.put(`/api/users/${uid}/password`, {
+      headers: auth(userSession.token),
+      data: { currentPassword: 'Role1234!', newPassword: 'NewRole123!' },
+    })).status()).toBe(200)
+
+    // Now promotion is allowed.
     expect((await request.put(`/api/admin/users/${uid}/role`, { headers: auth(admin.token), data: { role: 'admin' } })).status()).toBe(200)
     expect(await roleOf(request, admin.token, uid)).toBe('admin')
 
+    // Demotion is unrestricted regardless of password state.
     expect((await request.put(`/api/admin/users/${uid}/role`, { headers: auth(admin.token), data: { role: 'resident' } })).status()).toBe(200)
     expect(await roleOf(request, admin.token, uid)).toBe('resident')
 

@@ -679,7 +679,7 @@ app.get('/api/admin/users', async (c) => {
   if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
 
   const rows = await queryAll(c.env.DB, `
-    SELECT u.id, u.email, u.role, u.resident_id,
+    SELECT u.id, u.email, u.role, u.resident_id, u.must_change_password,
            r.name as resident_name
     FROM users u
     LEFT JOIN residents r ON u.resident_id = r.id
@@ -767,8 +767,12 @@ app.put('/api/admin/users/:id/role', async (c) => {
     return c.json({ error: "role must be 'admin' or 'resident'" }, 400)
   }
 
-  const target = await queryOne(c.env.DB, 'SELECT id FROM users WHERE id = ?', [id])
+  const target = await queryOne(c.env.DB, 'SELECT must_change_password FROM users WHERE id = ?', [id])
   if (!target) return c.json({ error: 'User not found' }, 404)
+  // Only promote established accounts — not ones still on an admin-set temp password.
+  if (role === 'admin' && (target as any).must_change_password) {
+    return c.json({ error: 'User must set their own password before being promoted to admin' }, 400)
+  }
 
   await c.env.DB.prepare('UPDATE users SET role = ? WHERE id = ?').bind(role, id).run()
   return c.json({ ok: true })

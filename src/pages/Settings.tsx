@@ -630,12 +630,23 @@ export default function Settings({ user, onUserUpdate }: Props) {
                     <span className="text-gray-400 text-xs">Owner</span>
                   ) : (
                     <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={() => handleChangeRole(u.id, u.role === 'admin' ? 'resident' : 'admin')}
-                        className="text-gray-700 hover:text-gray-900 text-sm"
-                      >
-                        {u.role === 'admin' ? 'Make Resident' : 'Make Admin'}
-                      </button>
+                      {u.role === 'admin' ? (
+                        <button
+                          onClick={() => handleChangeRole(u.id, 'resident')}
+                          className="text-gray-700 hover:text-gray-900 text-sm"
+                        >
+                          Make Resident
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleChangeRole(u.id, 'admin')}
+                          disabled={!!u.must_change_password}
+                          title={u.must_change_password ? 'User must set their own password before becoming an admin' : undefined}
+                          className={`text-sm ${u.must_change_password ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:text-gray-900'}`}
+                        >
+                          Make Admin
+                        </button>
+                      )}
                       <span className="text-gray-300">|</span>
                       <button
                         onClick={() => setResetTarget(u.id)}
