@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate, Link, useLocation, useNavigate } from 'react-router-dom'
 import ResidentProfile from '../components/ResidentProfile'
 import { HomesiteAdder, HomesiteAdminCard, DEFAULT_PHOTO } from '../components/HomesiteEditor'
+import { Button, Input } from '../components/ui'
 
 type Tab = 'homesites' | 'residents' | 'profile'
 
@@ -167,12 +168,12 @@ export default function Home({ user }: { user: any }) {
         <>
           <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
             <div className="relative flex-1 min-w-0">
-              <input
+              <Input
                 type="text"
                 placeholder="Search by name or address..."
                 value={homesiteSearch}
                 onChange={(e) => setHomesiteSearch(e.target.value)}
-className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-brand-500"
+                className="pr-8"
               />
               {homesiteSearch && (
                 <button
@@ -188,12 +189,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-br
               )}
             </div>
             {isAdmin && (
-              <button
-                onClick={() => setShowCreate(true)}
-                className="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700 text-sm font-medium"
-              >
-                + Add Homesite
-              </button>
+              <Button onClick={() => setShowCreate(true)}>+ Add Homesite</Button>
             )}
           </div>
 
@@ -307,12 +303,12 @@ function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents, fe
     <>
       <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
         <div className="relative flex-1 min-w-0">
-          <input
+          <Input
             type="text"
             placeholder="Search by name or address..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-brand-500"
+            className="pr-8"
           />
           {search && (
             <button
@@ -327,12 +323,9 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-br
             </button>
           )}
         </div>
-        <button
-          onClick={() => { setShowAdd(true); setAddHomesite(homesites[0]?.id || 0) }}
-          className="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700 text-sm font-medium"
-        >
+        <Button onClick={() => { setShowAdd(true); setAddHomesite(homesites[0]?.id || 0) }}>
           + Add Resident
-        </button>
+        </Button>
       </div>
 
       {/* Add row */}
@@ -362,15 +355,13 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-br
                 ))}
             </select>
           </div>
-          <button type="submit" disabled={addSaving}
-            className="px-3 py-1.5 bg-brand-600 text-white rounded text-sm hover:bg-brand-700 disabled:bg-gray-400">
+          <Button type="submit" size="sm" disabled={addSaving}>
             {addSaving ? 'Adding...' : 'Add Resident'}
-          </button>
-          <button type="button"
-            onClick={() => { setShowAdd(false); setAddName('') }}
-            className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded text-sm hover:bg-gray-200">
+          </Button>
+          <Button type="button" variant="secondary" size="sm"
+            onClick={() => { setShowAdd(false); setAddName('') }}>
             Cancel
-          </button>
+          </Button>
         </form>
       )}
 
@@ -517,15 +508,13 @@ function ResidentRow({ resident, homesites, onDelete, onOpenHomesite }: {
                     ))}
                 </select>
               </div>
-              <button type="submit" disabled={saving}
-                className="px-3 py-1.5 bg-brand-600 text-white rounded text-sm hover:bg-brand-700 disabled:bg-gray-400">
+              <Button type="submit" size="sm" disabled={saving}>
                 {saving ? 'Saving...' : 'Save'}
-              </button>
-              <button type="button"
-                onClick={() => { setName(resident.name); setHomesiteId(resident.homesite_id); setEditing(false) }}
-                className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded text-sm hover:bg-gray-200">
+              </Button>
+              <Button type="button" variant="secondary" size="sm"
+                onClick={() => { setName(resident.name); setHomesiteId(resident.homesite_id); setEditing(false) }}>
                 Cancel
-              </button>
+              </Button>
             </form>
           </td>
         </tr>
@@ -592,12 +581,12 @@ function ResidentReadOnlyList({ residents, onOpenHomesite }: {
     <div>
       <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
         <div className="relative flex-1 min-w-0">
-          <input
+          <Input
             type="text"
             placeholder="Search by name or address..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-brand-500"
+            className="pr-8"
           />
           {search && (
             <button

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Button, Input, Badge } from '../components/ui'
 
 interface Props {
   user: { id: number; email: string; role: string; resident_id: number | null }
@@ -377,11 +378,10 @@ export default function Settings({ user, onUserUpdate }: Props) {
       <div className="bg-white shadow rounded-xl p-6 space-y-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
-          <input
+          <Input
             ref={emailRef}
             type="email"
             defaultValue={user.email}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="admin@example.com"
           />
         </div>
@@ -396,45 +396,37 @@ export default function Settings({ user, onUserUpdate }: Props) {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Current password <span className="text-red-500">*</span>
           </label>
-          <input
+          <Input
             ref={currentPasswordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="••••••••"
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">New password</label>
-          <input
+          <Input
             ref={passwordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="Min. 8 characters"
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Confirm new password</label>
-          <input
+          <Input
             ref={confirmPasswordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="Repeat new password"
           />
         </div>
 
-        <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={loading}
-          className="w-full py-2 bg-brand-600 text-white rounded-lg font-medium text-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:bg-gray-400 transition-colors"
-        >
+        <Button type="button" onClick={handleSubmit} disabled={loading} className="w-full">
           {loading ? 'Saving...' : 'Save changes'}
-        </button>
+        </Button>
       </div>
 
       <div className="bg-white shadow rounded-xl p-6 space-y-4">
@@ -445,21 +437,16 @@ export default function Settings({ user, onUserUpdate }: Props) {
           </p>
         </div>
         <form onSubmit={saveSiteName} className="space-y-3">
-          <input
+          <Input
             type="text"
             value={siteName}
             onChange={(e) => setSiteName(e.target.value)}
             maxLength={60}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="e.g. Maple Grove Directory"
           />
-          <button
-            type="submit"
-            disabled={savingSiteName}
-            className="w-full py-2 bg-brand-600 text-white rounded-lg font-medium text-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:bg-gray-400 transition-colors"
-          >
+          <Button type="submit" disabled={savingSiteName} className="w-full">
             {savingSiteName ? 'Saving...' : 'Save name'}
-          </button>
+          </Button>
         </form>
       </div>
 
@@ -474,43 +461,36 @@ export default function Settings({ user, onUserUpdate }: Props) {
           <div className="flex gap-3">
             <div className="flex-1">
               <label className="block text-xs font-medium text-gray-500 mb-1">City</label>
-              <input
+              <Input
                 type="text"
                 value={defaults.default_city}
                 onChange={(e) => setDefaults(d => ({ ...d, default_city: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                 placeholder="City"
               />
             </div>
             <div className="w-24">
               <label className="block text-xs font-medium text-gray-500 mb-1">State</label>
-              <input
+              <Input
                 type="text"
                 value={defaults.default_state}
                 onChange={(e) => setDefaults(d => ({ ...d, default_state: e.target.value }))}
                 maxLength={2}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                 placeholder="State"
               />
             </div>
             <div className="w-28">
               <label className="block text-xs font-medium text-gray-500 mb-1">ZIP</label>
-              <input
+              <Input
                 type="text"
                 value={defaults.default_zip_code}
                 onChange={(e) => setDefaults(d => ({ ...d, default_zip_code: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                 placeholder="ZIP"
               />
             </div>
           </div>
-          <button
-            type="submit"
-            disabled={savingDefaults}
-            className="w-full py-2 bg-brand-600 text-white rounded-lg font-medium text-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:bg-gray-400 transition-colors"
-          >
+          <Button type="submit" disabled={savingDefaults} className="w-full">
             {savingDefaults ? 'Saving...' : 'Save defaults'}
-          </button>
+          </Button>
         </form>
       </div>
     </div>
@@ -577,11 +557,10 @@ export default function Settings({ user, onUserUpdate }: Props) {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Email <span className="text-red-500">*</span>
                   </label>
-                  <input
+                  <Input
                     ref={newEmailRef}
                     type="email"
                     defaultValue=""
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                     placeholder="user@example.com"
                   />
                 </div>
@@ -589,11 +568,10 @@ export default function Settings({ user, onUserUpdate }: Props) {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Password <span className="text-red-500">*</span>
                   </label>
-                  <input
+                  <Input
                     ref={newPasswordRef}
                     type="password"
                     defaultValue=""
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
                     placeholder="Min. 8 characters"
                   />
                 </div>
@@ -629,20 +607,12 @@ export default function Settings({ user, onUserUpdate }: Props) {
                 </select>
               </div>
               <div className="flex gap-2">
-                <button
-                  type="submit"
-                  disabled={addingUser}
-                  className="px-4 py-2 bg-brand-600 text-white rounded-lg text-sm hover:bg-brand-700 disabled:bg-gray-400"
-                >
+                <Button type="submit" disabled={addingUser}>
                   {addingUser ? 'Creating...' : 'Create User'}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowAddUserForm(false)}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm hover:bg-gray-300"
-                >
+                </Button>
+                <Button type="button" variant="secondary" onClick={() => setShowAddUserForm(false)}>
                   Cancel
-                </button>
+                </Button>
               </div>
             </form>
           </div>
@@ -671,11 +641,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
               <tr key={u.id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{u.email}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                    u.role === 'admin' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
-                  }`}>
-                    {u.role}
-                  </span>
+                  <Badge tone={u.role === 'admin' ? 'success' : 'info'}>{u.role}</Badge>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{u.resident_name || '-'}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -735,11 +701,10 @@ export default function Settings({ user, onUserUpdate }: Props) {
       <div className="bg-white shadow rounded-xl p-6 space-y-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
-          <input
+          <Input
             ref={emailRef}
             type="email"
             defaultValue={user.email}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="resident@example.com"
           />
         </div>
@@ -769,45 +734,37 @@ export default function Settings({ user, onUserUpdate }: Props) {
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Current password <span className="text-red-500">*</span>
           </label>
-          <input
+          <Input
             ref={currentPasswordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="••••••••"
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">New password</label>
-          <input
+          <Input
             ref={passwordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="Min. 8 characters"
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Confirm new password</label>
-          <input
+          <Input
             ref={confirmPasswordRef}
             type="password"
             defaultValue=""
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm"
             placeholder="Repeat new password"
           />
         </div>
 
-        <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={loading}
-          className="w-full py-2 bg-brand-600 text-white rounded-lg font-medium text-sm hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:bg-gray-400 transition-colors"
-        >
+        <Button type="button" onClick={handleSubmit} disabled={loading} className="w-full">
           {loading ? 'Saving...' : 'Save changes'}
-        </button>
+        </Button>
       </div>
     </div>
   )

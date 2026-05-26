@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { Button, Input } from './ui'
 
 interface Resident {
   id: number
@@ -213,11 +214,10 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
         <div className="mb-4">
           {phoneVals.map((val, i) => (
             <div key={i} className="flex gap-2 mb-2">
-              <input
+              <Input
                 type="text"
                 value={val}
                 onChange={(e) => updatePhone(i, e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               />
             </div>
           ))}
@@ -229,11 +229,10 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
         <div className="mb-4">
           {emailVals.map((val, i) => (
             <div key={i} className="flex gap-2 mb-2">
-              <input
+              <Input
                 type="text"
                 value={val}
                 onChange={(e) => updateEmail(i, e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               />
             </div>
           ))}
@@ -242,10 +241,9 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
           </button>
         </div>
 
-        <button type="submit" disabled={saving}
-          className="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700 disabled:bg-gray-400">
+        <Button type="submit" disabled={saving}>
           {saving ? 'Saving...' : 'Save Contacts'}
-        </button>
+        </Button>
       </form>
 
       {/* Address editor */}
@@ -259,21 +257,19 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
         <div className="grid grid-cols-6 gap-3 mb-3">
           <div>
             <label className="block text-xs text-gray-500 mb-1">Street #</label>
-            <input
+            <Input
               type="text"
               value={addrStreetNum}
               onChange={(e) => setAddrStreetNum(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               placeholder="123"
             />
           </div>
           <div className="col-span-5">
             <label className="block text-xs text-gray-500 mb-1">Street Name</label>
-            <input
+            <Input
               type="text"
               value={addrStreetName}
               onChange={(e) => setAddrStreetName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               placeholder="Oak Street"
             />
           </div>
@@ -282,52 +278,47 @@ function ContactEditor({ resident, onUpdate }: { resident: Resident; onUpdate: (
         <div className="grid grid-cols-4 gap-3 mb-4">
           <div>
             <label className="block text-xs text-gray-500 mb-1">City</label>
-            <input
+            <Input
               type="text"
               value={addrCity}
               onChange={(e) => setAddrCity(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               placeholder="City"
             />
           </div>
           <div className="w-20">
             <label className="block text-xs text-gray-500 mb-1">State</label>
-            <input
+            <Input
               type="text"
               value={addrState}
               onChange={(e) => setAddrState(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               placeholder="NC"
             />
           </div>
           <div className="col-span-2">
             <label className="block text-xs text-gray-500 mb-1">ZIP</label>
-            <input
+            <Input
               type="text"
               value={addrZip}
               onChange={(e) => setAddrZip(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-brand-500"
               placeholder="28226"
             />
           </div>
         </div>
 
         <div className="flex gap-3">
-          <button type="submit" disabled={saving}
-            className="px-4 py-2 bg-brand-600 text-white rounded hover:bg-brand-700 disabled:bg-gray-400">
+          <Button type="submit" disabled={saving}>
             {saving ? 'Saving...' : 'Save Mailing Address'}
-          </button>
-          <button type="button"
+          </Button>
+          <Button type="button" variant="secondary"
             onClick={() => {
               setAddrStreetNum('')
               setAddrStreetName('')
               setAddrCity('')
               setAddrState('')
               setAddrZip('')
-            }}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+            }}>
             Reset
-          </button>
+          </Button>
         </div>
       </form>
     </div>
