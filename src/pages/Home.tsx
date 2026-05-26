@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { Navigate, Link, useLocation, useNavigate } from 'react-router-dom'
 import ResidentProfile from '../components/ResidentProfile'
 import { HomesiteAdder, HomesiteAdminCard, DEFAULT_PHOTO } from '../components/HomesiteEditor'
 
@@ -37,9 +37,13 @@ function compareResidents(a: Resident, b: Resident, field: SortField): number {
 export default function Home({ user }: { user: any }) {
   const [loading, setLoading] = useState(true)
   const [tab,       setTab]   = useState<Tab>(() => {
-    if (user?.role === 'resident') return 'profile'
-    const p = new URLSearchParams(window.location.search).get('tab')
+    // Honor explicit deep-links (?tab= / ?homesite=) for everyone, including
+    // residents, so a profile's address link can land on the Homesites tab.
+    const params = new URLSearchParams(window.location.search)
+    const p = params.get('tab')
     if (p === 'homesites' || p === 'residents') return p
+    if (params.get('homesite')) return 'homesites'
+    if (user?.role === 'resident') return 'profile'
     return (localStorage.getItem('addrtab') || 'homesites') as Tab
   })
 
@@ -52,6 +56,9 @@ export default function Home({ user }: { user: any }) {
   const [scrollHomesiteId,    setScrollHomesiteId]    = useState<number | null>(null)
   const [highlightHomesiteId, setHighlightHomesiteId] = useState<number | null>(null)
 
+  const location = useLocation()
+  const navigate = useNavigate()
+
   const openHomesite = (homesiteId: number) => {
     localStorage.setItem('addrtab', 'homesites')
     setShowCreate(false)
@@ -63,6 +70,16 @@ export default function Home({ user }: { user: any }) {
   useEffect(() => {
     if (user) { fetchHomesites(); fetchResidents() }
   }, [user])
+
+  // Deep-link from elsewhere (e.g. a resident's profile address): /?homesite=<id>
+  // jumps to the Homesites tab, scrolls to the card, then cleans the URL. Works
+  // whether Home mounts fresh or is already mounted (it reacts to location).
+  useEffect(() => {
+    const hid = new URLSearchParams(location.search).get('homesite')
+    if (!hid) return
+    openHomesite(Number(hid))
+    navigate('/', { replace: true })
+  }, [location.search])
 
   // Once the Homesites tab is rendered, scroll the requested card into view.
   useEffect(() => {

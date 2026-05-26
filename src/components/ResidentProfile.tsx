@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 
 interface Resident {
   id: number
   name: string
+  homesite_id?: number
   // Homesite (neighborhood) address — always present
   street_number?: string
   street_name?: string
@@ -83,7 +84,17 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
     <div className="max-w-3xl mx-auto">
       <div className="bg-white rounded-lg shadow p-6 mb-4">
         <h2 className="text-2xl font-bold text-gray-900 mb-1">{resident.name}</h2>
-        <p className="text-gray-600">{homesiteAddress}</p>
+        <p className="text-gray-600">
+          {resident.homesite_id ? (
+            <Link
+              to={`/?homesite=${resident.homesite_id}`}
+              className="text-indigo-600 hover:underline"
+              title="View this homesite"
+            >
+              {homesiteAddress}
+            </Link>
+          ) : homesiteAddress}
+        </p>
         {mailingAddress && (
           <p className="text-gray-500 text-sm mt-1">Mailing address: {mailingAddress}</p>
         )}
