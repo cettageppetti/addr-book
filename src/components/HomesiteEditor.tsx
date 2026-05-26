@@ -220,7 +220,7 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
   }
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="h-full hover:shadow-lg transition-shadow">
       {/* Photo + edit/delete overlay */}
       <img
         src={previewSrc || DEFAULT_PHOTO}

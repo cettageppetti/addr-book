@@ -527,7 +527,7 @@ function ResidentRow({ resident, homesites, onDelete, onOpenHomesite }: {
 function HomesiteCard({ homesite }: { homesite: Homesite }) {
   const residents = homesite.residents || []
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="h-full hover:shadow-lg transition-shadow">
       <img
         src={homesite.has_photo ? `/api/homesites/${homesite.id}/photo` : DEFAULT_PHOTO}
         onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = DEFAULT_PHOTO }}
