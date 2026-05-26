@@ -205,7 +205,7 @@ export default function Home({ user }: { user: any }) {
                   <div
                     key={h.id}
                     id={`homesite-${h.id}`}
-                    className={`rounded-xl transition-shadow ${highlightHomesiteId === h.id ? 'ring-2 ring-brand-500 ring-offset-2' : ''}`}
+                    className={`rounded-2xl transition-shadow ${highlightHomesiteId === h.id ? 'ring-2 ring-brand-500 ring-offset-2' : ''}`}
                   >
                     {isAdmin
                       ? <HomesiteAdminCard homesite={h}

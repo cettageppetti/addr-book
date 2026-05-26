@@ -41,7 +41,7 @@ Input.displayName = 'Input'
 
 // ── Card ──────────────────────────────────────────────────────────────────────
 export function Card({ className = '', ...props }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={`bg-white rounded-xl shadow p-6 ${className}`} {...props} />
+  return <div className={`bg-white rounded-2xl shadow-sm p-6 ${className}`} {...props} />
 }
 
 // ── Badge ─────────────────────────────────────────────────────────────────────
