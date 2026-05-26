@@ -71,6 +71,60 @@ test.describe('login', () => {
     await request.delete(`/api/admin/users/${userId}`, { headers: auth(admin.token) })
     await request.delete(`/api/residents/${residentId}`, { headers: auth(admin.token) })
   })
+
+  test('a forced-change user sets a new password without supplying the old one', async ({ request }) => {
+    const admin = await login(request, ADMIN)
+    const r = await request.post('/api/residents', { headers: auth(admin.token), data: { name: 'Forced Temp', homesite_id: 1 } })
+    const residentId = (await r.json()).id
+    const email = uniqueEmail('forced')
+    const created = await request.post('/api/admin/users', {
+      headers: auth(admin.token),
+      data: { email, password: 'Temp1234!', resident_id: residentId },
+    })
+    const userId = (await created.json()).id
+
+    // As the change-password gate does: send only newPassword, no currentPassword.
+    const session = await login(request, { email, password: 'Temp1234!' })
+    expect(session.must_change_password).toBeTruthy()
+    const res = await request.put(`/api/users/${userId}/password`, {
+      headers: auth(session.token),
+      data: { newPassword: 'BrandNew123!' },
+    })
+    expect(res.status()).toBe(200)
+
+    // Flag cleared, new password works, old one no longer does.
+    expect((await login(request, { email, password: 'BrandNew123!' })).must_change_password).toBeFalsy()
+    expect((await request.post('/api/auth/login', { data: { email, password: 'Temp1234!' } })).status()).toBe(401)
+
+    await request.delete(`/api/admin/users/${userId}`, { headers: auth(admin.token) })
+    await request.delete(`/api/residents/${residentId}`, { headers: auth(admin.token) })
+  })
+
+  test('a normal (non-flagged) self password change still requires the current password', async ({ request }) => {
+    const admin = await login(request, ADMIN)
+    const r = await request.post('/api/residents', { headers: auth(admin.token), data: { name: 'NoCurrent Temp', homesite_id: 1 } })
+    const residentId = (await r.json()).id
+    const email = uniqueEmail('nocurrent')
+    const created = await request.post('/api/admin/users', {
+      headers: auth(admin.token),
+      data: { email, password: 'Temp1234!', resident_id: residentId },
+    })
+    const userId = (await created.json()).id
+
+    // Clear the forced-change flag first.
+    const session = await login(request, { email, password: 'Temp1234!' })
+    await request.put(`/api/users/${userId}/password`, { headers: auth(session.token), data: { newPassword: 'BrandNew123!' } })
+
+    // Now a self change without the current password is rejected.
+    const settled = await login(request, { email, password: 'BrandNew123!' })
+    expect((await request.put(`/api/users/${userId}/password`, {
+      headers: auth(settled.token),
+      data: { newPassword: 'Another123!' },
+    })).status()).toBe(400)
+
+    await request.delete(`/api/admin/users/${userId}`, { headers: auth(admin.token) })
+    await request.delete(`/api/residents/${residentId}`, { headers: auth(admin.token) })
+  })
 })
 
 test.describe('login rate limiting', () => {

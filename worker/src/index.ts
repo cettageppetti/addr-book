@@ -618,9 +618,15 @@ app.put('/api/users/:id/password', async (c) => {
   }
 
   if (user.role !== 'admin') {
-    const u = await queryOne(c.env.DB, 'SELECT password_hash FROM users WHERE id = ?', [id])
-    if (!u || !bcrypt.compareSync(currentPassword, u.password_hash as string)) {
-      return c.json({ error: 'Current password incorrect' }, 400)
+    const u = await queryOne(c.env.DB, 'SELECT password_hash, must_change_password FROM users WHERE id = ?', [id])
+    if (!u) return c.json({ error: 'User not found' }, 404)
+    // A user on the forced-change flag is replacing an admin-set temporary
+    // password it never chose, so it sets a new one without the old. Normal
+    // self-service changes still require the current password.
+    if (!u.must_change_password) {
+      if (!currentPassword || !bcrypt.compareSync(currentPassword, u.password_hash as string)) {
+        return c.json({ error: 'Current password incorrect' }, 400)
+      }
     }
   }
 
