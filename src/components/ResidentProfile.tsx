@@ -107,7 +107,9 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
           <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Phone Numbers</h4>
           {phones.length
             ? <ul className="space-y-2">{phones.map(p => (
-                <li key={p.id} className="text-gray-700">{p.number}</li>
+                <li key={p.id}>
+                  <a href={`tel:${p.number.replace(/[^\d+]/g, '')}`} className="text-indigo-600 hover:underline">{p.number}</a>
+                </li>
               ))}</ul>
             : <p className="text-gray-400 italic">None on file</p>
           }
@@ -117,7 +119,9 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
           <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Email Addresses</h4>
           {emails.length
             ? <ul className="space-y-2">{emails.map(e => (
-                <li key={e.id} className="text-gray-700">{e.address}</li>
+                <li key={e.id}>
+                  <a href={`mailto:${e.address}`} className="text-indigo-600 hover:underline">{e.address}</a>
+                </li>
               ))}</ul>
             : <p className="text-gray-400 italic">None on file</p>
           }
