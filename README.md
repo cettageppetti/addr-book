@@ -120,6 +120,8 @@ bash d1/setup.sh
 ## Security
 
 - Passwords hashed with bcrypt (cost 10)
+- Forced password change on first login for accounts on a temporary password —
+  the seeded admin and any admin-created user must set a new password before using the app
 - Login is rate-limited per email: 5 failed attempts within 15 min returns 429 (cleared on success)
 - Auth is a JWT in an httpOnly cookie (24h expiry) — the client never stores the token
 - SameSite=Lax — change to Strict in production with HTTPS
