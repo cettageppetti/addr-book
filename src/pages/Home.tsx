@@ -135,7 +135,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
 
           {isAdmin && showCreateHomesite && (
             <div className="mb-6">
-              <HomesiteAdder onSave={() => { setShowCreate(false); fetchHomesites() }} />
+              <HomesiteAdder onSave={() => { setShowCreate(false); fetchHomesites(); fetchResidents() }} />
             </div>
           )}
 

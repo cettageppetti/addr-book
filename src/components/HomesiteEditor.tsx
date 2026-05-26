@@ -14,6 +14,7 @@ export function HomesiteAdder({ onSave }: AddProps) {
   const [city,  setCity]  = useState('')
   const [state, setState] = useState('')
   const [zip,   setZip]   = useState('')
+  const [residentNames, setResidentNames] = useState<string[]>([''])
   const [photoBlob, setPhotoBlob] = useState<Blob | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [saving,   setSaving] = useState(false)
@@ -48,7 +49,7 @@ export function HomesiteAdder({ onSave }: AddProps) {
       const res = await fetch('/api/homesites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim(), state: state.trim(), zip_code: zip.trim() }),
+        body: JSON.stringify({ street_number: num.trim(), street_name: name.trim(), city: city.trim(), state: state.trim(), zip_code: zip.trim(), residents: residentNames.map(n => n.trim()).filter(Boolean) }),
       })
       if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Save failed') }
       const home = await res.json()
@@ -87,6 +88,23 @@ export function HomesiteAdder({ onSave }: AddProps) {
             <label className="block text-xs font-medium text-gray-500 mb-1">ZIP</label>
             <input type="text" value={zip} onChange={e => setZip(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500" placeholder="ZIP" required />
           </div>
+        </div>
+
+        {/* Residents (optional) — name only; contacts can be added later */}
+        <div className="border-t pt-3">
+          <label className="block text-xs font-medium text-gray-500 mb-1">Residents (optional)</label>
+          {residentNames.map((rn, i) => (
+            <input
+              key={i}
+              type="text"
+              value={rn}
+              onChange={e => setResidentNames(prev => prev.map((v, idx) => idx === i ? e.target.value : v))}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-indigo-500 mb-2"
+              placeholder="Resident name"
+            />
+          ))}
+          <button type="button" onClick={() => setResidentNames(prev => [...prev, ''])}
+            className="text-sm text-indigo-600 hover:text-indigo-800">+ Add resident</button>
         </div>
 
         {/* Photo upload */}

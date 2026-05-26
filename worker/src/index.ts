@@ -177,7 +177,7 @@ app.post('/api/homesites', async (c) => {
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
   if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
 
-  const { street_number, street_name, city, state, zip_code } = await c.req.json()
+  const { street_number, street_name, city, state, zip_code, residents } = await c.req.json()
   if (!street_number?.trim() || !street_name?.trim()) {
     return c.json({ error: 'street_number and street_name are required' }, 400)
   }
@@ -186,6 +186,14 @@ app.post('/api/homesites', async (c) => {
   const result = await c.env.DB.prepare(
     'INSERT INTO homesites (street_number, street_name, city, state, zip_code) VALUES (?, ?, ?, ?, ?)'
   ).bind(street_number.trim(), street_name.trim(), city?.trim() || s.default_city || '', state?.trim() || s.default_state || '', zip_code?.trim() || s.default_zip_code || '').run()
+
+  // Optionally create the residents who live here (names only — contacts added later).
+  if (Array.isArray(residents)) {
+    for (const rn of residents) {
+      const n = String(rn ?? '').trim()
+      if (n) await c.env.DB.prepare('INSERT INTO residents (homesite_id, name) VALUES (?, ?)').bind(result.meta.last_row_id, n).run()
+    }
+  }
 
   const home = await queryOne(c.env.DB, 'SELECT * FROM homesites WHERE id = ?', [result.meta.last_row_id])
   return c.json(home as any, 201)
