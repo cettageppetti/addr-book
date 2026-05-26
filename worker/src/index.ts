@@ -455,7 +455,7 @@ app.get('/api/homesites', async (c) => {
     FROM homesites h
     LEFT JOIN residents r ON r.homesite_id = h.id
     GROUP BY h.id
-    ORDER BY CAST(h.street_number AS INTEGER), h.street_name
+    ORDER BY h.street_name COLLATE NOCASE, CAST(h.street_number AS INTEGER)
   `
 
   const homes = await queryAll(c.env.DB, sql)

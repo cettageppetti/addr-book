@@ -685,3 +685,28 @@ test.describe('homesite photo', () => {
     expect(await findHasPhoto()).toBeFalsy()
   })
 })
+
+test.describe('homesites listing order', () => {
+  test('ordered alphabetically by street name, then numerically by street number', async ({ request }) => {
+    const admin = await login(request, ADMIN)
+    const tag = `Zzz Order ${Date.now()}`
+    const ids: number[] = []
+    // Insert deliberately out of order, with a two-digit number that would sort
+    // before a one-digit one lexically (so the numeric cast is exercised).
+    for (const [num, suffix] of [['20', 'Ave'], ['3', 'Ave'], ['5', 'Blvd']] as const) {
+      const res = await request.post('/api/homesites', {
+        headers: auth(admin.token),
+        data: { street_number: num, street_name: `${tag} ${suffix}` },
+      })
+      ids.push((await res.json()).id)
+    }
+
+    const list = await (await request.get('/api/homesites', { headers: auth(admin.token) })).json()
+    const ours = list
+      .filter((h: any) => h.street_name?.startsWith(tag))
+      .map((h: any) => `${h.street_number} ${h.street_name}`)
+    expect(ours).toEqual([`3 ${tag} Ave`, `20 ${tag} Ave`, `5 ${tag} Blvd`])
+
+    for (const id of ids) await request.delete(`/api/homesites/${id}`, { headers: auth(admin.token) })
+  })
+})
