@@ -750,4 +750,28 @@ app.post('/api/admin/users/:id/reset-password', async (c) => {
   return c.json({ ok: true })
 })
 
+// PUT /api/admin/users/:id/role — promote/demote (admin only)
+app.put('/api/admin/users/:id/role', async (c) => {
+  const user = await getUserFromCookie(c)
+  if (!user) return c.json({ error: 'Unauthorized' }, 401)
+  if (user.role !== 'admin') return c.json({ error: 'Forbidden' }, 403)
+
+  const id = parseInt(c.req.param('id'))
+  if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
+  // Blocking self-changes also guarantees at least one admin always remains:
+  // the last admin could only be demoted by themselves, which isn't allowed.
+  if (id === user.id) return c.json({ error: 'You cannot change your own role' }, 400)
+
+  const { role } = await c.req.json()
+  if (role !== 'admin' && role !== 'resident') {
+    return c.json({ error: "role must be 'admin' or 'resident'" }, 400)
+  }
+
+  const target = await queryOne(c.env.DB, 'SELECT id FROM users WHERE id = ?', [id])
+  if (!target) return c.json({ error: 'User not found' }, 404)
+
+  await c.env.DB.prepare('UPDATE users SET role = ? WHERE id = ?').bind(role, id).run()
+  return c.json({ ok: true })
+})
+
 export default app

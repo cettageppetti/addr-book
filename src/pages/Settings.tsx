@@ -176,6 +176,26 @@ export default function Settings({ user, onUserUpdate }: Props) {
     }
   }
 
+  const handleChangeRole = async (userId: number, role: 'admin' | 'resident') => {
+    setError(''); setSuccess('')
+    try {
+      const res = await fetch(`/api/admin/users/${userId}/role`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role }),
+      })
+      if (res.ok) {
+        fetchUsers()
+        setSuccess(role === 'admin' ? 'User promoted to admin' : 'User changed to resident')
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setError(data.error || 'Failed to change role')
+      }
+    } catch (err: any) {
+      setError(err.message || 'Network error')
+    }
+  }
+
   const handleDeleteUser = async (userId: number) => {
     setError('')
     if (!confirm(`Confirm delete user ${userId}?`)) return
@@ -610,6 +630,13 @@ export default function Settings({ user, onUserUpdate }: Props) {
                     <span className="text-gray-400 text-xs">Owner</span>
                   ) : (
                     <div className="flex items-center justify-end gap-2">
+                      <button
+                        onClick={() => handleChangeRole(u.id, u.role === 'admin' ? 'resident' : 'admin')}
+                        className="text-gray-700 hover:text-gray-900 text-sm"
+                      >
+                        {u.role === 'admin' ? 'Make Resident' : 'Make Admin'}
+                      </button>
+                      <span className="text-gray-300">|</span>
                       <button
                         onClick={() => setResetTarget(u.id)}
                         className="text-indigo-600 hover:text-indigo-900 text-sm"

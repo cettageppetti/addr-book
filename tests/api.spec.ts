@@ -346,6 +346,41 @@ test.describe('add home with residents', () => {
   })
 })
 
+test.describe('user roles', () => {
+  let admin: Session
+  test.beforeAll(async ({ request }) => { admin = await login(request, ADMIN) })
+
+  const roleOf = async (request: any, token: string, id: number) => {
+    const list = await (await request.get('/api/admin/users', { headers: auth(token) })).json()
+    return list.find((u: any) => u.id === id)?.role
+  }
+
+  test('admin can promote a resident user to admin and back', async ({ request }) => {
+    const r = await request.post('/api/residents', { headers: auth(admin.token), data: { name: 'Role Temp', homesite_id: 1 } })
+    const rid = (await r.json()).id
+    const u = await request.post('/api/admin/users', {
+      headers: auth(admin.token),
+      data: { email: uniqueEmail('role'), password: 'Role1234!', resident_id: rid },
+    })
+    const uid = (await u.json()).id
+
+    expect((await request.put(`/api/admin/users/${uid}/role`, { headers: auth(admin.token), data: { role: 'admin' } })).status()).toBe(200)
+    expect(await roleOf(request, admin.token, uid)).toBe('admin')
+
+    expect((await request.put(`/api/admin/users/${uid}/role`, { headers: auth(admin.token), data: { role: 'resident' } })).status()).toBe(200)
+    expect(await roleOf(request, admin.token, uid)).toBe('resident')
+
+    await request.delete(`/api/admin/users/${uid}`, { headers: auth(admin.token) })
+    await request.delete(`/api/residents/${rid}`, { headers: auth(admin.token) })
+  })
+
+  test('an admin cannot change their own role, and residents cannot change roles', async ({ request }) => {
+    expect((await request.put(`/api/admin/users/${admin.id}/role`, { headers: auth(admin.token), data: { role: 'resident' } })).status()).toBe(400)
+    const resident = await login(request, RESIDENT)
+    expect((await request.put(`/api/admin/users/${admin.id}/role`, { headers: auth(resident.token), data: { role: 'admin' } })).status()).toBe(403)
+  })
+})
+
 test.describe('profile self-service', () => {
   let admin: Session
   let userId: number
