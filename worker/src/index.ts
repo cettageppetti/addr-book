@@ -162,6 +162,15 @@ app.get('/api/auth/me', async (c) => {
   })
 })
 
+// GET /api/auth/setup-state — public. True only while the seeded default admin
+// is still on its temporary password, so the login screen can show the
+// first-time credentials hint (and hide it for good once the admin changes it).
+app.get('/api/auth/setup-state', async (c) => {
+  const row = await queryOne(c.env.DB,
+    "SELECT 1 FROM users WHERE email = 'admin@addrbook.local' AND must_change_password = 1")
+  return c.json({ needs_setup: !!row })
+})
+
 // POST /api/homesites  (admin only)
 app.post('/api/homesites', async (c) => {
   const user = await getUserFromCookie(c)

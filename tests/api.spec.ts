@@ -39,6 +39,12 @@ test.describe('login', () => {
     expect(s.role).toBe('admin')
   })
 
+  test('setup-state is public and returns a boolean', async ({ request }) => {
+    const res = await request.get('/api/auth/setup-state')
+    expect(res.status()).toBe(200)
+    expect(typeof (await res.json()).needs_setup).toBe('boolean')
+  })
+
   test('an admin-created user must change password on first login; a resident need not', async ({ request }) => {
     const admin = await login(request, ADMIN)
 

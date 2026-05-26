@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useState, useEffect, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
@@ -6,7 +6,17 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [needsSetup, setNeedsSetup] = useState(false)
   const navigate = useNavigate()
+
+  // Show the first-time credentials hint only while the default admin
+  // hasn't changed its temporary password yet.
+  useEffect(() => {
+    fetch('/api/auth/setup-state')
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (d) setNeedsSetup(!!d.needs_setup) })
+      .catch(() => {})
+  }, [])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -89,6 +99,14 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
+
+        {needsSetup && (
+          <div className="text-center text-sm text-gray-600 border-t pt-4">
+            <p className="font-medium text-gray-700">First-time setup</p>
+            <p>Sign in as <span className="font-mono">admin@addrbook.local</span> / <span className="font-mono">ChangeThis123!</span></p>
+            <p className="text-xs text-gray-500 mt-1">You'll be prompted to set a new password. This hint disappears afterward.</p>
+          </div>
+        )}
       </div>
     </div>
   )
