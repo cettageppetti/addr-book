@@ -16,6 +16,24 @@ interface Resident {
   id: number; name: string; homesite_id: number; homesite_address?: string
 }
 
+// ── Shared resident sorting ───────────────────────────────────────────────────
+// homesite_address is "<number> <street name>", e.g. "123 Oak Street".
+type SortField = 'name' | 'address'
+const lastName   = (n: string) => n.trim().split(/\s+/).slice(-1)[0] || ''
+const firstName  = (n: string) => n.trim().split(/\s+/).slice(0, -1).join(' ')
+const streetName = (addr = '') => addr.replace(/^\s*\d+\s*/, '').trim()
+const streetNum  = (addr = '') => parseInt(addr.match(/^\s*(\d+)/)?.[1] ?? '', 10) || 0
+const alpha = (a: string, b: string) => a.localeCompare(b, undefined, { sensitivity: 'base' })
+
+// Name → last name then first; Address → street name then street number.
+function compareResidents(a: Resident, b: Resident, field: SortField): number {
+  if (field === 'name') {
+    return alpha(lastName(a.name), lastName(b.name)) || alpha(firstName(a.name), firstName(b.name))
+  }
+  return alpha(streetName(a.homesite_address), streetName(b.homesite_address))
+    || streetNum(a.homesite_address) - streetNum(b.homesite_address)
+}
+
 export default function Home({ user }: { user: any }) {
   const [loading, setLoading] = useState(true)
   const [tab,       setTab]   = useState<Tab>(() => {
@@ -195,10 +213,10 @@ function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents, fe
   const [addSaving,   setAddSaving]   = useState(false)
 
   // Sort state
-  const [sortField, setSortField] = useState<'name' | 'address'>('name')
+  const [sortField, setSortField] = useState<SortField>('name')
   const [sortDir,   setSortDir]   = useState<'asc' | 'desc'>('asc')
 
-  const handleSort = (field: 'name' | 'address') => {
+  const handleSort = (field: SortField) => {
     if (sortField === field) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
     else { setSortField(field); setSortDir('asc') }
   }
@@ -321,11 +339,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
         </thead>
         <tbody>
           {[...filtered].sort((a, b) => {
-            const cmp = sortField === 'name'
-              ? (a.name.split(' ').slice(-1)[0] || a.name)
-                  .localeCompare(b.name.split(' ').slice(-1)[0] || b.name)
-              : (a.homesite_address || '').replace(/^\d+\s/, '')
-                  .localeCompare((b.homesite_address || '').replace(/^\d+\s/, ''))
+            const cmp = compareResidents(a, b, sortField)
             return sortDir === 'asc' ? cmp : -cmp
           }).map(r => (
             <ResidentRow
@@ -491,10 +505,21 @@ function ResidentReadOnlyList({ residents }: {
   residents: Resident[]
 }) {
   const [search, setSearch] = useState('')
+  const [sortField, setSortField] = useState<SortField>('name')
+  const [sortDir,   setSortDir]   = useState<'asc' | 'desc'>('asc')
+  const handleSort = (field: SortField) => {
+    if (sortField === field) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
+    else { setSortField(field); setSortDir('asc') }
+  }
+
   const filtered = residents.filter(r =>
     r.name.toLowerCase().includes(search.toLowerCase()) ||
     (r.homesite_address || '').toLowerCase().includes(search.toLowerCase())
   )
+  const sorted = [...filtered].sort((a, b) => {
+    const cmp = compareResidents(a, b, sortField)
+    return sortDir === 'asc' ? cmp : -cmp
+  })
 
   return (
     <div>
@@ -521,16 +546,26 @@ function ResidentReadOnlyList({ residents }: {
       </div>
 
       <div className="overflow-x-auto">
-        {filtered.length > 0 ? (
+        {sorted.length > 0 ? (
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr className="text-left text-xs font-medium text-gray-500 uppercase">
-                <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">Address</th>
+                <th
+                  className="px-4 py-2 cursor-pointer select-none hover:text-indigo-600"
+                  onClick={() => handleSort('name')}
+                >
+                  Name {sortField === 'name' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
+                </th>
+                <th
+                  className="px-4 py-2 cursor-pointer select-none hover:text-indigo-600"
+                  onClick={() => handleSort('address')}
+                >
+                  Address {sortField === 'address' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {filtered.map(r => (
+              {sorted.map(r => (
                 <tr key={r.id}>
                   <td className="px-4 py-2">
                     <Link to={`/residents/${r.id}`}
