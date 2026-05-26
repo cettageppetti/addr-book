@@ -47,10 +47,39 @@ export default function Home({ user }: { user: any }) {
   const [homesiteSearch, setHomesiteSearch] = useState('')
   const [residents, setResidents]           = useState<Resident[]>([])
   const [showCreateHomesite, setShowCreate] = useState(false)
+  // When navigating from a resident's address to the Homesites tab: the id of
+  // the card to scroll to, and the id to briefly highlight once it's shown.
+  const [scrollHomesiteId,    setScrollHomesiteId]    = useState<number | null>(null)
+  const [highlightHomesiteId, setHighlightHomesiteId] = useState<number | null>(null)
+
+  const openHomesite = (homesiteId: number) => {
+    localStorage.setItem('addrtab', 'homesites')
+    setShowCreate(false)
+    setHomesiteSearch('')          // clear any filter so the target card is visible
+    setScrollHomesiteId(homesiteId)
+    setTab('homesites')
+  }
 
   useEffect(() => {
     if (user) { fetchHomesites(); fetchResidents() }
   }, [user])
+
+  // Once the Homesites tab is rendered, scroll the requested card into view.
+  useEffect(() => {
+    if (tab !== 'homesites' || scrollHomesiteId == null) return
+    const el = document.getElementById(`homesite-${scrollHomesiteId}`)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    setHighlightHomesiteId(scrollHomesiteId)
+    setScrollHomesiteId(null)
+  }, [tab, scrollHomesiteId, homesites])
+
+  // Fade the highlight after a moment.
+  useEffect(() => {
+    if (highlightHomesiteId == null) return
+    const t = setTimeout(() => setHighlightHomesiteId(null), 2000)
+    return () => clearTimeout(t)
+  }, [highlightHomesiteId])
 
   const fetchHomesites = async () => {
     try {
@@ -159,15 +188,22 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
 
           {filteredHomesites.length > 0 || homesiteSearch === ''
             ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredHomesites.map(h => isAdmin
-                  ? <HomesiteAdminCard key={h.id} homesite={h}
-                      onDelete={async (id) => {
-                        await fetch(`/api/homesites/${id}`, { method: 'DELETE' })
-                        setHomesites(prev => prev.filter(x => x.id !== id))
-                      }}
-                    />
-                  : <HomesiteCard key={h.id} homesite={h} />
-                )}
+                {filteredHomesites.map(h => (
+                  <div
+                    key={h.id}
+                    id={`homesite-${h.id}`}
+                    className={`rounded-xl transition-shadow ${highlightHomesiteId === h.id ? 'ring-2 ring-indigo-500 ring-offset-2' : ''}`}
+                  >
+                    {isAdmin
+                      ? <HomesiteAdminCard homesite={h}
+                          onDelete={async (id) => {
+                            await fetch(`/api/homesites/${id}`, { method: 'DELETE' })
+                            setHomesites(prev => prev.filter(x => x.id !== id))
+                          }}
+                        />
+                      : <HomesiteCard homesite={h} />}
+                  </div>
+                ))}
               </div>
             : <div className="text-center py-12 text-gray-500">No matching homesites found.</div>
           }
@@ -183,13 +219,14 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
         <ResidentAdminPanel residents={residents} homesites={homesites}
           fetchResidents={fetchResidents}
           fetchHomesites={fetchHomesites}
+          onOpenHomesite={openHomesite}
           onDelete={async (id) => {
             await fetch(`/api/residents/${id}`, { method: 'DELETE' })
             fetchResidents(); fetchHomesites()
           }}
         />
       ) : (
-        <ResidentReadOnlyList residents={residents} />
+        <ResidentReadOnlyList residents={residents} onOpenHomesite={openHomesite} />
       ))}
 
       {/* ── My Profile tab (resident only) ─────────────────────────────── */}
@@ -200,9 +237,10 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
   )
 }
 
-function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents, fetchHomesites }: {
+function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents, fetchHomesites, onOpenHomesite }: {
   residents: Resident[]; homesites: Homesite[]
   onDelete: (id: number) => void; fetchResidents: () => void; fetchHomesites: () => void
+  onOpenHomesite: (homesiteId: number) => void
 }) {
   const [search,     setSearch]    = useState('')
   const [showAdd,    setShowAdd]   = useState(false)
@@ -347,6 +385,7 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
               resident={r}
               homesites={homesites}
               onDelete={onDelete}
+              onOpenHomesite={onOpenHomesite}
             />
           ))}
         </tbody>
@@ -363,9 +402,10 @@ className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-in
 
 // ── Single resident row with inline edit form ─────────────────────────────────
 
-function ResidentRow({ resident, homesites, onDelete }: {
+function ResidentRow({ resident, homesites, onDelete, onOpenHomesite }: {
   resident: Resident; homesites: Homesite[]
   onDelete: (id: number) => void
+  onOpenHomesite: (homesiteId: number) => void
 }) {
   const [confirming, setConfirming] = useState(false)
   const [editing,    setEditing]    = useState(false)
@@ -401,7 +441,16 @@ function ResidentRow({ resident, homesites, onDelete }: {
         <td className="px-4 py-3 font-medium text-gray-900">
           <Link to={`/residents/${resident.id}`} className="text-indigo-600 hover:underline">{resident.name}</Link>
         </td>
-        <td className="px-4 py-3 text-gray-500">{resident.homesite_address || `Homesite #${resident.homesite_id}`}</td>
+        <td className="px-4 py-3 text-gray-500">
+          <button
+            type="button"
+            onClick={() => onOpenHomesite(resident.homesite_id)}
+            className="text-left text-indigo-600 hover:underline"
+            title="View this homesite"
+          >
+            {resident.homesite_address || `Homesite #${resident.homesite_id}`}
+          </button>
+        </td>
         <td className="px-4 py-3 text-right">
           {!editing && (
             <button
@@ -501,8 +550,9 @@ function HomesiteCard({ homesite }: { homesite: Homesite }) {
 }
 
 // ── Read-only resident list for residents ─────────────────────────────────────
-function ResidentReadOnlyList({ residents }: {
+function ResidentReadOnlyList({ residents, onOpenHomesite }: {
   residents: Resident[]
+  onOpenHomesite: (homesiteId: number) => void
 }) {
   const [search, setSearch] = useState('')
   const [sortField, setSortField] = useState<SortField>('name')
@@ -574,7 +624,14 @@ function ResidentReadOnlyList({ residents }: {
                     </Link>
                   </td>
                   <td className="px-4 py-2 text-sm text-gray-500">
-                    {r.homesite_address || '-'}
+                    <button
+                      type="button"
+                      onClick={() => onOpenHomesite(r.homesite_id)}
+                      className="text-left text-indigo-600 hover:underline"
+                      title="View this homesite"
+                    >
+                      {r.homesite_address || '-'}
+                    </button>
                   </td>
                 </tr>
               ))}
