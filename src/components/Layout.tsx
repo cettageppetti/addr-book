@@ -11,6 +11,7 @@ interface LayoutProps {
 
 export default function Layout({ user, onLogout, children }: LayoutProps) {
   const [siteName, setSiteName] = useState('')
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     fetch('/api/site-info')
@@ -38,19 +39,45 @@ export default function Layout({ user, onLogout, children }: LayoutProps) {
           </Link>
 
           {user && (
-            <div className="flex items-center gap-4">
-              <Link to="/settings" className="text-sm text-gray-600 hover:text-brand-600">
-                Settings
-              </Link>
-              <span className="text-gray-700 text-sm">
-                {user.role === 'admin' ? 'Admin' : 'Resident'}: {user.email}
-              </span>
+            <div className="relative">
               <button
-                onClick={onLogout}
-                className="text-sm text-gray-600 hover:text-red-600"
+                onClick={() => setMenuOpen(o => !o)}
+                aria-label="Menu"
+                aria-expanded={menuOpen}
+                className="-mr-2 p-2 rounded-lg text-gray-600 hover:text-brand-600 hover:bg-gray-100"
               >
-                Logout
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
               </button>
+
+              {menuOpen && (
+                <>
+                  {/* click-away layer */}
+                  <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
+                  <div className="absolute right-0 mt-2 w-60 z-20 bg-white rounded-xl shadow-lg ring-1 ring-black/5 py-1">
+                    <div className="px-4 py-3 border-b border-gray-100">
+                      <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
+                        {user.role === 'admin' ? 'Admin' : 'Resident'}
+                      </p>
+                      <p className="text-sm text-gray-700 break-all">{user.email}</p>
+                    </div>
+                    <Link
+                      to="/settings"
+                      onClick={() => setMenuOpen(false)}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      Settings
+                    </Link>
+                    <button
+                      onClick={() => { setMenuOpen(false); onLogout() }}
+                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>
