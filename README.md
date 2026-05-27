@@ -168,6 +168,34 @@ rm -rf ~/.wrangler/state/
 bash d1/setup.sh
 ```
 
+## Resetting a forgotten admin password
+
+There is no self-service password reset, so a locked-out admin is recovered
+directly in the production database (requires `wrangler login`). This sets a
+temporary password, forces a change at next login, and clears the login
+rate-limit counter.
+
+```bash
+# From the repo root (after `npm install`).
+
+# 1. Hash a temporary password — replace TEMP with one ≥10 characters
+#    (you'll change it right after logging in):
+node -e "console.log(require('bcryptjs').hashSync('TEMP', 10))"
+
+# 2. Write the SQL, pasting the hash from step 1 in place of PASTE_HASH_HERE.
+#    Using a file avoids shell-quoting issues with the '$' in bcrypt hashes:
+cat > /tmp/reset.sql <<'SQL'
+UPDATE users SET password_hash = 'PASTE_HASH_HERE', must_change_password = 1 WHERE email = 'admin@addrbook.local';
+DELETE FROM login_attempts;
+SQL
+
+# 3. Apply to production, then remove the file:
+cd worker && npx wrangler d1 execute addr-book --remote --file=/tmp/reset.sql && rm /tmp/reset.sql
+```
+
+Then sign in with the temporary password; you'll be required to set a new one
+(min 10 characters). Omit `--remote` to run the same reset against the local dev DB.
+
 ## Security
 
 - Passwords hashed with bcrypt (cost 10)
