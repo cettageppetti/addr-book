@@ -57,13 +57,13 @@ test.describe('login', () => {
     const email = uniqueEmail('mustchange')
     const created = await request.post('/api/admin/users', {
       headers: auth(admin.token),
-      data: { email, password: 'Temp1234!', resident_id: residentId },
+      data: { email, password: 'Temp12345!', resident_id: residentId },
     })
     expect(created.status()).toBe(201)
     const userId = (await created.json()).id
 
     // First login is flagged to force a password change; /me agrees.
-    const session = await login(request, { email, password: 'Temp1234!' })
+    const session = await login(request, { email, password: 'Temp12345!' })
     expect(session.must_change_password).toBeTruthy()
     const me = await (await request.get('/api/auth/me', { headers: auth(session.token) })).json()
     expect(me.must_change_password).toBeTruthy()
@@ -79,12 +79,12 @@ test.describe('login', () => {
     const email = uniqueEmail('forced')
     const created = await request.post('/api/admin/users', {
       headers: auth(admin.token),
-      data: { email, password: 'Temp1234!', resident_id: residentId },
+      data: { email, password: 'Temp12345!', resident_id: residentId },
     })
     const userId = (await created.json()).id
 
     // As the change-password gate does: send only newPassword, no currentPassword.
-    const session = await login(request, { email, password: 'Temp1234!' })
+    const session = await login(request, { email, password: 'Temp12345!' })
     expect(session.must_change_password).toBeTruthy()
     const res = await request.put(`/api/users/${userId}/password`, {
       headers: auth(session.token),
@@ -94,7 +94,7 @@ test.describe('login', () => {
 
     // Flag cleared, new password works, old one no longer does.
     expect((await login(request, { email, password: 'BrandNew123!' })).must_change_password).toBeFalsy()
-    expect((await request.post('/api/auth/login', { data: { email, password: 'Temp1234!' } })).status()).toBe(401)
+    expect((await request.post('/api/auth/login', { data: { email, password: 'Temp12345!' } })).status()).toBe(401)
 
     await request.delete(`/api/admin/users/${userId}`, { headers: auth(admin.token) })
     await request.delete(`/api/residents/${residentId}`, { headers: auth(admin.token) })
@@ -107,12 +107,12 @@ test.describe('login', () => {
     const email = uniqueEmail('nocurrent')
     const created = await request.post('/api/admin/users', {
       headers: auth(admin.token),
-      data: { email, password: 'Temp1234!', resident_id: residentId },
+      data: { email, password: 'Temp12345!', resident_id: residentId },
     })
     const userId = (await created.json()).id
 
     // Clear the forced-change flag first.
-    const session = await login(request, { email, password: 'Temp1234!' })
+    const session = await login(request, { email, password: 'Temp12345!' })
     await request.put(`/api/users/${userId}/password`, { headers: auth(session.token), data: { newPassword: 'BrandNew123!' } })
 
     // Now a self change without the current password is rejected.
@@ -249,7 +249,7 @@ test.describe('admin user management', () => {
 
     const created = await request.post('/api/admin/users', {
       headers: auth(admin.token),
-      data: { email, password: 'Smoke123!', role: 'resident', resident_id: rid },
+      data: { email, password: 'Smoke1234!', role: 'resident', resident_id: rid },
     })
     expect(created.status()).toBe(201)
     const id = (await created.json()).id
@@ -257,23 +257,23 @@ test.describe('admin user management', () => {
 
     const dup = await request.post('/api/admin/users', {
       headers: auth(admin.token),
-      data: { email, password: 'Smoke123!', resident_id: rid },
+      data: { email, password: 'Smoke1234!', resident_id: rid },
     })
     expect(dup.status(), 'duplicate email is rejected').toBe(409)
 
     const reset = await request.post(`/api/admin/users/${id}/reset-password`, {
       headers: auth(admin.token),
-      data: { newPassword: 'Reset123!' },
+      data: { newPassword: 'Reset1234!' },
     })
     expect(reset.status()).toBe(200)
 
     // The reset must actually take effect.
-    expect((await request.post('/api/auth/login', { data: { email, password: 'Reset123!' } })).status()).toBe(200)
+    expect((await request.post('/api/auth/login', { data: { email, password: 'Reset1234!' } })).status()).toBe(200)
 
     expect((await request.delete(`/api/admin/users/${id}`, { headers: auth(admin.token) })).status()).toBe(200)
 
     // After deletion, login fails.
-    expect((await request.post('/api/auth/login', { data: { email, password: 'Reset123!' } })).status()).toBe(401)
+    expect((await request.post('/api/auth/login', { data: { email, password: 'Reset1234!' } })).status()).toBe(401)
 
     await request.delete(`/api/residents/${rid}`, { headers: auth(admin.token) })
   })
@@ -443,7 +443,7 @@ test.describe('user roles', () => {
     const email = uniqueEmail('role')
     const u = await request.post('/api/admin/users', {
       headers: auth(admin.token),
-      data: { email, password: 'Role1234!', resident_id: rid },
+      data: { email, password: 'Role12345!', resident_id: rid },
     })
     const uid = (await u.json()).id
 
@@ -452,10 +452,10 @@ test.describe('user roles', () => {
     expect(await roleOf(request, admin.token, uid)).toBe('resident')
 
     // User sets its own password, clearing the forced-change flag.
-    const userSession = await login(request, { email, password: 'Role1234!' })
+    const userSession = await login(request, { email, password: 'Role12345!' })
     expect((await request.put(`/api/users/${uid}/password`, {
       headers: auth(userSession.token),
-      data: { currentPassword: 'Role1234!', newPassword: 'NewRole123!' },
+      data: { currentPassword: 'Role12345!', newPassword: 'NewRole123!' },
     })).status()).toBe(200)
 
     // Now promotion is allowed.
@@ -741,5 +741,46 @@ test.describe('homesites listing order', () => {
     expect(ours).toEqual([`3 ${tag} Ave`, `20 ${tag} Ave`, `5 ${tag} Blvd`])
 
     for (const id of ids) await request.delete(`/api/homesites/${id}`, { headers: auth(admin.token) })
+  })
+})
+
+test.describe('auth hardening', () => {
+  let admin: Session
+  test.beforeAll(async ({ request }) => { admin = await login(request, ADMIN) })
+
+  test('rejects weak passwords (too short or common)', async ({ request }) => {
+    const r = await request.post('/api/residents', { headers: auth(admin.token), data: { name: 'PwPolicy Temp', homesite_id: 1 } })
+    const rid = (await r.json()).id
+
+    // < 10 chars → rejected
+    const short = await request.post('/api/admin/users', { headers: auth(admin.token), data: { email: uniqueEmail('pw'), password: 'Short12!', resident_id: rid } })
+    expect(short.status()).toBe(400)
+    // common/blocklisted → rejected
+    const common = await request.post('/api/admin/users', { headers: auth(admin.token), data: { email: uniqueEmail('pw'), password: 'password123', resident_id: rid } })
+    expect(common.status()).toBe(400)
+    // acceptable → created
+    const ok = await request.post('/api/admin/users', { headers: auth(admin.token), data: { email: uniqueEmail('pw'), password: 'GoodPass123!', resident_id: rid } })
+    expect(ok.status()).toBe(201)
+    const uid = (await ok.json()).id
+
+    await request.delete(`/api/admin/users/${uid}`, { headers: auth(admin.token) })
+    await request.delete(`/api/residents/${rid}`, { headers: auth(admin.token) })
+  })
+
+  test("a deleted account's existing token stops working immediately", async ({ request }) => {
+    const r = await request.post('/api/residents', { headers: auth(admin.token), data: { name: 'Revoke Temp', homesite_id: 1 } })
+    const rid = (await r.json()).id
+    const email = uniqueEmail('revoke')
+    const created = await request.post('/api/admin/users', { headers: auth(admin.token), data: { email, password: 'GoodPass123!', resident_id: rid } })
+    const uid = (await created.json()).id
+
+    const session = await login(request, { email, password: 'GoodPass123!' })
+    expect((await request.get('/api/auth/me', { headers: auth(session.token) })).status()).toBe(200)
+
+    // Deleting the account invalidates its still-held token (auth re-checks the DB).
+    await request.delete(`/api/admin/users/${uid}`, { headers: auth(admin.token) })
+    expect((await request.get('/api/auth/me', { headers: auth(session.token) })).status()).toBe(401)
+
+    await request.delete(`/api/residents/${rid}`, { headers: auth(admin.token) })
   })
 })

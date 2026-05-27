@@ -237,8 +237,8 @@ export default function Settings({ user, onUserUpdate }: Props) {
       return
     }
 
-    if (pw.length < 8) {
-      setError('Password must be at least 8 characters')
+    if (pw.length < 10) {
+      setError('Password must be at least 10 characters')
       return
     }
 
@@ -276,8 +276,8 @@ export default function Settings({ user, onUserUpdate }: Props) {
       return
     }
 
-    if (password.length < 8) {
-      setError('Password must be at least 8 characters')
+    if (password.length < 10) {
+      setError('Password must be at least 10 characters')
       return
     }
 
@@ -431,7 +431,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ref={passwordRef}
             type="password"
             defaultValue=""
-            placeholder="Min. 8 characters"
+            placeholder="Min. 10 characters"
           />
         </div>
 
@@ -563,7 +563,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                 <input
                   ref={resetPasswordRef}
                   type="password"
-                  placeholder="Min. 8 characters"
+                  placeholder="Min. 10 characters"
                   className="px-3 py-2 border border-gray-300 rounded-lg text-sm w-48"
                   autoFocus
                 />
@@ -620,7 +620,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
                     ref={newPasswordRef}
                     type="password"
                     defaultValue=""
-                    placeholder="Min. 8 characters"
+                    placeholder="Min. 10 characters"
                   />
                 </div>
               </div>
@@ -796,7 +796,7 @@ export default function Settings({ user, onUserUpdate }: Props) {
             ref={passwordRef}
             type="password"
             defaultValue=""
-            placeholder="Min. 8 characters"
+            placeholder="Min. 10 characters"
           />
         </div>
 

@@ -43,8 +43,14 @@ async function getUserFromCookie(c: any) {
   }
   if (!token) return null
   try {
-    const payload = await jose.jwtVerify(token, new TextEncoder().encode(c.env.JWT_SECRET))
-    return payload.payload as { id: number; email: string; role: string; resident_id: number }
+    const { payload } = await jose.jwtVerify(token, new TextEncoder().encode(c.env.JWT_SECRET))
+    // Re-read the account from the DB so authorization reflects its *current*
+    // role and existence: a demoted or deleted user's existing token stops
+    // working immediately, rather than staying valid until the token expires.
+    const row = await queryOne(c.env.DB,
+      'SELECT id, email, role, resident_id FROM users WHERE id = ?', [payload.id as number])
+    if (!row) return null
+    return row as { id: number; email: string; role: string; resident_id: number }
   } catch {
     return null
   }
@@ -54,7 +60,7 @@ async function signToken(payload: object, secret: string): Promise<string> {
   return new jose.SignJWT(payload as any)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('24h')
+    .setExpirationTime('12h')
     .sign(new TextEncoder().encode(secret))
 }
 
@@ -69,6 +75,26 @@ async function queryOne(db: D1Database, sql: string, bindings?: (string | number
   let stmt = db.prepare(sql)
   if (bindings?.length) stmt = stmt.bind(...bindings)
   return stmt.first()
+}
+
+// ── Password policy ───────────────────────────────────────────────────────────
+// A precomputed bcrypt hash used only to equalize login timing for unknown
+// emails (so response time can't reveal whether an account exists).
+const DUMMY_PASSWORD_HASH = '$2a$10$cY438A6nLwwYc43y1WkaC.i9JajgxigxbHbl3uokWBSggHCCi.7i.'
+
+// Obvious weak/common passwords to reject (incl. the repo's default), matched
+// case-insensitively. Length already rules out most short ones.
+const WEAK_PASSWORDS = new Set([
+  'password123', 'passw0rd123', '1234567890', '12345678910', 'qwertyuiop',
+  'qwerty12345', 'welcome1234', 'changethis123!', 'admin1234567', 'iloveyou123',
+  'letmein1234', 'abcdefghij', '1111111111', 'password1234',
+])
+
+// Returns an error message if the password is unacceptable, else null.
+function passwordError(pw: string | undefined | null): string | null {
+  if (!pw || pw.length < 10) return 'Password must be at least 10 characters'
+  if (WEAK_PASSWORDS.has(pw.toLowerCase())) return 'That password is too common — please choose another'
+  return null
 }
 
 // Admin-configurable defaults (e.g. neighborhood city/state/zip).
@@ -113,7 +139,12 @@ app.post('/api/auth/login', async (c) => {
   const user = await queryOne(c.env.DB,
     'SELECT * FROM users WHERE email = ?', [email])
 
-  if (!user || !bcrypt.compareSync(password, user.password_hash as string)) {
+  // Always run a bcrypt comparison — against a dummy hash when the email isn't
+  // registered — so login response time doesn't reveal whether an account
+  // exists (defeats timing-based user enumeration).
+  const passwordOk = bcrypt.compareSync(password, (user?.password_hash as string) || DUMMY_PASSWORD_HASH)
+
+  if (!user || !passwordOk) {
     // Record the failure (start a fresh window if there isn't an active one).
     if (inWindow) {
       await c.env.DB.prepare('UPDATE login_attempts SET failed_count = failed_count + 1 WHERE email = ?').bind(key).run()
@@ -665,9 +696,8 @@ app.put('/api/users/:id/password', async (c) => {
   }
 
   const { currentPassword, newPassword } = await c.req.json()
-  if (!newPassword || newPassword.length < 8) {
-    return c.json({ error: 'Password must be at least 8 characters' }, 400)
-  }
+  const pwErr = passwordError(newPassword)
+  if (pwErr) return c.json({ error: pwErr }, 400)
 
   if (user.role !== 'admin') {
     const u = await queryOne(c.env.DB, 'SELECT password_hash, must_change_password FROM users WHERE id = ?', [id])
@@ -716,6 +746,8 @@ app.put('/api/auth/profile', async (c) => {
   }
 
   if (password) {
+    const pwErr = passwordError(password)
+    if (pwErr) return c.json({ error: pwErr }, 400)
     const u = await queryOne(c.env.DB, 'SELECT password_hash FROM users WHERE id = ?', [user.id])
     if (!u || !bcrypt.compareSync(currentPassword, u.password_hash as string)) {
       return c.json({ error: 'Current password incorrect' }, 400)
@@ -756,9 +788,8 @@ app.post('/api/admin/users', async (c) => {
   if (!email || !password || !resident_id) {
     return c.json({ error: 'email, password, and resident_id required' }, 400)
   }
-  if (password.length < 8) {
-    return c.json({ error: 'Password must be at least 8 characters' }, 400)
-  }
+  const pwErr = passwordError(password)
+  if (pwErr) return c.json({ error: pwErr }, 400)
 
   const resident = await queryOne(c.env.DB, 'SELECT id FROM residents WHERE id = ?', [resident_id])
   if (!resident) return c.json({ error: 'Resident not found' }, 404)
@@ -799,9 +830,8 @@ app.post('/api/admin/users/:id/reset-password', async (c) => {
   if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
 
   const { newPassword } = await c.req.json()
-  if (!newPassword || newPassword.length < 8) {
-    return c.json({ error: 'Password must be at least 8 characters' }, 400)
-  }
+  const pwErr = passwordError(newPassword)
+  if (pwErr) return c.json({ error: pwErr }, 400)
 
   await c.env.DB.prepare('UPDATE users SET password_hash = ? WHERE id = ?')
     .bind(bcrypt.hashSync(newPassword, 10), id).run()

@@ -18,8 +18,8 @@ export default function ChangePasswordGate({ user, onDone }: Props) {
     e.preventDefault()
     setError('')
 
-    if (password.length < 8) {
-      setError('Password must be at least 8 characters')
+    if (password.length < 10) {
+      setError('Password must be at least 10 characters')
       return
     }
     if (password !== confirm) {
@@ -64,7 +64,7 @@ export default function ChangePasswordGate({ user, onDone }: Props) {
             type="password"
             required
             autoFocus
-            placeholder="New password (min 8 characters)"
+            placeholder="New password (min 10 characters)"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
