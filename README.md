@@ -42,44 +42,72 @@ default — change it immediately on any deployment (see Deploying to Cloudflare
 ## Database Schema
 
 ```
-users       — id, email, password_hash, role (resident/admin), resident_id
-homesites   — id, street_number, street_name, city, state, zip_code, photo BLOB
-residents   — id, homesite_id (FK), name
-phones      — id, resident_id (FK), number
-emails      — id, resident_id (FK), address
+users          — id, email, password_hash, role (resident/admin), resident_id (FK), must_change_password
+homesites      — id, street_number, street_name, city, state, zip_code, photo BLOB
+residents      — id, homesite_id (FK), name, address_* (optional mailing address), created_at
+phones         — id, resident_id (FK), number
+emails         — id, resident_id (FK), address
+settings       — key, value  (neighborhood defaults, community name, theme)
+login_attempts — email, failed_count, window_start  (per-email login rate limiting)
 ```
 
 ## API Endpoints
 
+All endpoints require authentication except those marked _(public)_; _(admin)_ marks admin-only.
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/auth/login` | Authenticate, sets httpOnly cookie |
-| POST | `/api/auth/logout` | Clear cookie |
+| POST | `/api/auth/login` | Authenticate; sets an httpOnly cookie |
+| POST | `/api/auth/logout` | Clear the session cookie |
 | GET | `/api/auth/me` | Current user info |
-| GET | `/api/homesites` | All (admin) or own homesite (resident) |
+| PUT | `/api/auth/profile` | Update own email and/or password |
+| GET | `/api/auth/setup-state` | Whether first-time admin setup is pending _(public)_ |
+| GET | `/api/site-info` | Community name + theme _(public)_ |
+| GET | `/api/manifest.webmanifest` | PWA manifest, named/themed from settings _(public)_ |
+| GET | `/api/settings` | Read neighborhood defaults, community name, theme _(admin)_ |
+| PUT | `/api/settings` | Update settings _(admin)_ |
+| GET | `/api/homesites` | Full directory — every logged-in user |
+| POST | `/api/homesites` | Create a homesite (+ optional residents) _(admin)_ |
+| PUT | `/api/homesites/:id` | Update a homesite _(admin)_ |
+| DELETE | `/api/homesites/:id` | Delete a homesite _(admin)_ |
+| GET | `/api/homesites/:id/photo` | Binary JPEG photo (or 404) |
+| PUT | `/api/homesites/:id/photo` | Upload photo (binary, ≤200 KB JPEG) _(admin)_ |
+| DELETE | `/api/homesites/:id/photo` | Remove photo _(admin)_ |
+| GET | `/api/residents` | Full directory — every logged-in user |
 | GET | `/api/residents/:id` | Resident + phones + emails |
-| GET  | `/api/homesites/:id/photo` | Binary JPEG photo (or 404) |
-| PUT  | `/api/homesites/:id/photo` | Upload photo (binary, ≤200 KB JPEG) |
-| DELETE | `/api/homesites/:id/photo` | Remove photo |
-| PUT  | `/api/residents/:id/contacts` | Replace phones/emails |
-| PUT  | `/api/users/:id/password` | Change password |
+| POST | `/api/residents` | Create a resident _(admin)_ |
+| PUT | `/api/residents/:id` | Update a resident's name/homesite _(admin)_ |
+| DELETE | `/api/residents/:id` | Delete a resident _(admin)_ |
+| PUT | `/api/residents/:id/contacts` | Replace phones/emails (admin or the resident) |
+| PATCH | `/api/residents/:id/address` | Update optional mailing address (admin or the resident) |
+| GET | `/api/admin/users` | List login accounts _(admin)_ |
+| POST | `/api/admin/users` | Create a login for a resident _(admin)_ |
+| DELETE | `/api/admin/users/:id` | Delete a login account _(admin)_ |
+| POST | `/api/admin/users/:id/reset-password` | Set a new password, forcing change _(admin)_ |
+| PUT | `/api/admin/users/:id/role` | Promote/demote between resident and admin _(admin)_ |
+| PUT | `/api/users/:id/password` | Change a password (self-service / forced first-login) |
 
 ## Project Structure
 
 ```
 addr-book/
-├── worker/                  # Cloudflare Worker API
-│   ├── src/index.ts         # Hono app with all routes
-│   ├── wrangler.toml        # Worker config (D1 binding)
+├── worker/                  # Cloudflare Worker — API + serves the built site
+│   ├── src/index.ts         # Hono app: all /api routes + SPA fallback
+│   ├── wrangler.toml        # Worker config (D1 + static-assets bindings)
 │   └── package.json
-├── d1/                      # D1 schema + seed
+├── d1/                      # D1 schema + seeds
 │   ├── schema.sql           # Full schema (apply once to a fresh DB)
-│   ├── seed.sql             # Pre-generated INSERT statements
+│   ├── seed.sql             # Demo dataset (120 homesites, ~350 residents)
+│   ├── seed-admin.sql       # Admin-only seed (clean production start)
+│   ├── generate-seed.cjs    # Regenerates seed.sql
 │   └── setup.sh             # One-time local D1 setup script
-└── src/                     # React frontend
-    ├── App.tsx
-    ├── pages/
-    └── components/
+├── src/                     # React frontend
+│   ├── App.tsx
+│   ├── pages/               # Home, Settings
+│   ├── components/          # Layout, Login, ResidentProfile, HomesiteEditor, ui primitives
+│   └── lib/                 # theme, site name, photo, auth helpers
+├── tests/                   # Playwright API smoke suite
+└── .github/workflows/       # CI (typecheck + build, API tests)
 ```
 
 ## Homesite Photos
