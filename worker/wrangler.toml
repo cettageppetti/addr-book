@@ -2,6 +2,15 @@ name = "addr-book-api"
 main = "src/index.ts"
 compatibility_date = "2025-01-09"
 
+# Custom domain. On deploy, Cloudflare auto-creates the proxied DNS record and
+# provisions the TLS cert in the stonecroftnews.com zone (no manual CNAME).
+routes = [
+  { pattern = "addrbook.stonecroftnews.com", custom_domain = true }
+]
+
+# Serve only from the custom domain — keep the free *.workers.dev URL disabled.
+workers_dev = false
+
 [[d1_databases]]
 binding = "DB"
 database_name = "addr-book"
