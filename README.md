@@ -160,6 +160,19 @@ Notes:
 - Redeploy after changes with `npm run build` then `cd worker && npx wrangler deploy`.
 - A custom domain can be attached in the Cloudflare dashboard.
 
+## Access (production gate)
+
+The production instance sits behind **Cloudflare Access** (Zero Trust): the
+public hostname is gated at Cloudflare's edge, so an unauthenticated request is
+challenged for identity (email one-time-PIN) *before* it ever reaches the
+Worker. This is a perimeter layer **in addition to** the app's own login —
+defense in depth — and keeps the directory off the open internet.
+
+- Configured in the Cloudflare Zero Trust dashboard (Access → Applications), not
+  in this repo, so a fresh clone has no gate until you add one.
+- Does not affect `wrangler deploy`, `wrangler d1 execute --remote`, or local
+  dev / CI — Access only gates the public hostname.
+
 ## Resetting Local D1
 
 ```bash
