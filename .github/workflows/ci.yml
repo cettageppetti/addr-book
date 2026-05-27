@@ -31,6 +31,10 @@ jobs:
       - run: npm ci
       - name: Install Worker deps
         run: cd worker && npm ci
+      - name: Build the site
+        # The Worker serves dist/ via its assets binding, so `wrangler dev`
+        # (started by d1/setup.sh) needs the build to exist.
+        run: npm run build
       - name: Seed local D1 and run the API smoke suite
         # Put the Worker's local wrangler on PATH so d1/setup.sh (which calls
         # `wrangler` directly) and the Playwright webServer both find it.

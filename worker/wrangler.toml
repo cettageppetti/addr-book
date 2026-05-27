@@ -4,8 +4,16 @@ compatibility_date = "2025-01-09"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "addr-book-local"
-database_id = "local"
+database_name = "addr-book"
+database_id = "49f786ef-e501-469f-879d-f77e672423a4"
+
+# Serve the built React app (npm run build → dist/) alongside the API, so the
+# site and /api are one origin. not_found_handling serves index.html for
+# client-side routes. ../dist is relative to this file (worker/).
+[assets]
+directory = "../dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
 
 # Non-secret config. JWT_SECRET is intentionally NOT here — it's a Wrangler
 # secret: `wrangler secret put JWT_SECRET` for deployed envs, and worker/.dev.vars

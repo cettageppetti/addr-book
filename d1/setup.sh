@@ -37,7 +37,7 @@ sleep 3
 
 echo ""
 echo "Applying schema..."
-wrangler d1 execute addr-book-local --local --file="$PROJECT_DIR/d1/schema.sql" 2>&1 || {
+wrangler d1 execute addr-book --local --file="$PROJECT_DIR/d1/schema.sql" 2>&1 || {
   echo "Schema failed. Check /tmp/wrangler-dev.log:"
   tail -20 /tmp/wrangler-dev.log
   kill $WRANGLER_PID 2>/dev/null; exit 1
@@ -45,11 +45,11 @@ wrangler d1 execute addr-book-local --local --file="$PROJECT_DIR/d1/schema.sql" 
 
 echo ""
 echo "Seeding data (this takes ~30s)..."
-wrangler d1 execute addr-book-local --local \
+wrangler d1 execute addr-book --local \
   --file="$PROJECT_DIR/d1/seed.sql" 2>&1
 
 echo ""
-COUNT=$(wrangler d1 execute addr-book-local --local --json \
+COUNT=$(wrangler d1 execute addr-book --local --json \
   --command="SELECT COUNT(*) AS n FROM homesites" 2>/dev/null \
   | grep -Eo '"n":[[:space:]]*[0-9]+' | grep -Eo '[0-9]+')
 echo "✓ Done: $COUNT homesites seeded in local D1"

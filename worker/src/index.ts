@@ -9,6 +9,9 @@ type Env = {
   JWT_SECRET: string
   // Comma-separated list of origins allowed to make credentialed requests.
   ALLOWED_ORIGINS?: string
+  // Static-assets binding (the built React app in ../dist). Present in
+  // production; undefined under `wrangler dev` where Vite serves the frontend.
+  ASSETS?: Fetcher
 }
 
 const app = new Hono<{ Bindings: Env }>()
@@ -134,6 +137,7 @@ app.post('/api/auth/login', async (c) => {
   setCookie(c, 'token', token, {
     httpOnly: true,
     sameSite: 'Lax',
+    secure: true,
     path: '/',
   })
 
@@ -708,7 +712,7 @@ app.put('/api/auth/profile', async (c) => {
       { id: user.id, email, role: user.role, resident_id: user.resident_id },
       c.env.JWT_SECRET
     )
-    setCookie(c, 'token', token, { httpOnly: true, sameSite: 'Lax', path: '/' })
+    setCookie(c, 'token', token, { httpOnly: true, sameSite: 'Lax', secure: true, path: '/' })
   }
 
   if (password) {
@@ -830,6 +834,19 @@ app.put('/api/admin/users/:id/role', async (c) => {
 
   await c.env.DB.prepare('UPDATE users SET role = ? WHERE id = ?').bind(role, id).run()
   return c.json({ ok: true })
+})
+
+// ── Static site (production) ────────────────────────────────────────────────
+// Anything that isn't an API route is served by the built React app via the
+// ASSETS binding; unknown client-side routes resolve to index.html (the
+// manifest's single-page-application not_found_handling). Unmatched /api/*
+// paths return a JSON 404 rather than the SPA shell. Under `wrangler dev`
+// there's no ASSETS binding (Vite serves the frontend), so this is a no-op.
+app.all('*', (c) => {
+  const { pathname } = new URL(c.req.url)
+  if (pathname.startsWith('/api/')) return c.json({ error: 'Not found' }, 404)
+  if (c.env.ASSETS) return c.env.ASSETS.fetch(c.req.raw)
+  return c.notFound()
 })
 
 export default app
