@@ -178,6 +178,43 @@ app.get('/api/site-info', async (c) => {
   return c.json({ site_name: s.site_name ?? '', site_theme: s.site_theme ?? '' })
 })
 
+// GET /api/manifest.webmanifest — the PWA manifest, generated so the installed
+// app's name matches the community (site_name) and the splash matches the active
+// theme. Served under /api so it's same-origin with the SPA. Colors mirror
+// src/lib/theme.ts / index.css — keep in sync.
+const MANIFEST_THEME: Record<string, { theme_color: string; background_color: string }> = {
+  warm:    { theme_color: '#c2663c', background_color: '#faf6f1' },
+  garden:  { theme_color: '#059669', background_color: '#f4f7f2' },
+  civic:   { theme_color: '#2563eb', background_color: '#f1f5f9' },
+  coastal: { theme_color: '#0891b2', background_color: '#eef6f8' },
+  dusk:    { theme_color: '#7c3aed', background_color: '#f6f4f8' },
+}
+app.get('/api/manifest.webmanifest', async (c) => {
+  const s = await getSettings(c.env.DB)
+  const name = (s.site_name || '').trim()
+  const colors = MANIFEST_THEME[s.site_theme || 'warm'] || MANIFEST_THEME.warm
+  const manifest = {
+    name: name || 'Neighborhood Address Book',
+    short_name: name || 'Address Book',
+    description: 'Your neighborhood directory of homes and residents.',
+    start_url: '/',
+    scope: '/',
+    display: 'standalone',
+    orientation: 'portrait',
+    background_color: colors.background_color,
+    theme_color: colors.theme_color,
+    icons: [
+      { src: '/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: '/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+      { src: '/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+    ],
+  }
+  return c.body(JSON.stringify(manifest), 200, {
+    'Content-Type': 'application/manifest+json',
+    'Cache-Control': 'no-cache',
+  })
+})
+
 // POST /api/homesites  (admin only)
 app.post('/api/homesites', async (c) => {
   const user = await getUserFromCookie(c)

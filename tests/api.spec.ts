@@ -392,6 +392,15 @@ test.describe('neighborhood default settings', () => {
     expect(pubAfter.site_name).toBe('Maple Grove')
     expect(pubAfter.site_theme).toBe('civic')
 
+    // The PWA manifest (public, served by the Worker) reflects name + theme.
+    const man = await request.get('/api/manifest.webmanifest')
+    expect(man.status()).toBe(200)
+    expect(man.headers()['content-type']).toContain('manifest')
+    const mj = await man.json()
+    expect(mj.name).toBe('Maple Grove')
+    expect(mj.short_name).toBe('Maple Grove')
+    expect(mj.theme_color).toBe('#2563eb') // civic blue
+
     await request.put('/api/settings', { headers: auth(admin.token), data: original })
   })
 })

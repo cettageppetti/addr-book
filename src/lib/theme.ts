@@ -21,6 +21,10 @@ const STORAGE_KEY = 'addr_theme'
 export function applyTheme(id: string | null | undefined): ThemeId {
   const theme = (id && VALID.has(id)) ? (id as ThemeId) : DEFAULT_THEME
   document.documentElement.dataset.theme = theme
+  // Tint the browser chrome / iOS status bar to match the active theme.
+  const accent = THEMES.find(t => t.id === theme)?.accent
+  const meta = document.querySelector('meta[name="theme-color"]')
+  if (accent && meta) meta.setAttribute('content', accent)
   try { localStorage.setItem(STORAGE_KEY, theme) } catch { /* ignore */ }
   return theme
 }

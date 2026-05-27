@@ -2,6 +2,7 @@ import { useState, useEffect, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input } from './ui'
 import { applyTheme } from '../lib/theme'
+import { applySiteName } from '../lib/site'
 
 export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
   const [email, setEmail] = useState('')
@@ -21,7 +22,7 @@ export default function Login({ onLogin }: { onLogin: (user: any) => void }) {
       .catch(() => {})
     fetch('/api/site-info')
       .then(r => (r.ok ? r.json() : null))
-      .then(d => { if (d) { setSiteName(d.site_name || ''); applyTheme(d.site_theme) } })
+      .then(d => { if (d) { setSiteName(d.site_name || ''); applyTheme(d.site_theme); applySiteName(d.site_name) } })
       .catch(() => {})
   }, [])
 
