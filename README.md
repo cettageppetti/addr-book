@@ -31,7 +31,10 @@ The Vite dev server proxies `/api` → `http://localhost:8787`, so develop again
 | Database | D1 (SQLite, local via Wrangler) |
 | Auth | JWT in httpOnly cookies |
 
-## Default Credentials
+## Default Credentials (local dev seed)
+
+These are the **local** seed logins. The admin password is also the production
+default — change it immediately on any deployment (see Deploying to Cloudflare).
 
 - **Admin**: `admin@addrbook.local` / `ChangeThis123!`
 - **Residents**: `resident1–120@addrbook.local` / `Resident123!`
@@ -88,26 +91,46 @@ Homesites support an optional photo stored as a binary JPEG BLOB in D1.
 
 ## Deploying to Cloudflare
 
+Deploys as a **single Worker** that serves both the API and the built React app
+(via the `[assets]` binding in `worker/wrangler.toml`) — one origin, fits the
+free tier.
+
+**Prerequisites:** Node ≥22, a Cloudflare account, and `wrangler login`.
+
 ```bash
-# 1. Create production D1 database
-wrangler d1 create addr-book
-# Copy the database_id into worker/wrangler.toml
+cd worker && npx wrangler login
 
-# 2. Apply the schema
-wrangler d1 execute addr-book --remote --file=d1/schema.sql
+# 1. Create YOUR OWN production D1 database, then copy the printed database_id
+#    into worker/wrangler.toml (replace the existing id — it points at another
+#    account's database).
+npx wrangler d1 create addr-book
 
-# 3. Seed production data
-wrangler d1 execute addr-book --remote --file=d1/seed.sql
+# 2. Create the tables in the remote database
+npx wrangler d1 execute addr-book --remote --file=../d1/schema.sql
 
-# 4. Set the JWT signing secret (prompts for the value — not stored in the repo)
-cd worker && wrangler secret put JWT_SECRET
+# 3. Seed the admin login only (recommended — onboard your neighborhood fresh).
+npx wrangler d1 execute addr-book --remote --file=../d1/seed-admin.sql
+#    Or load the full demo dataset instead: --file=../d1/seed.sql
 
-# 5. Set ALLOWED_ORIGINS to your frontend origin(s) in worker/wrangler.toml [vars]
-#    (comma-separated), then deploy the worker
-wrangler deploy
+# 4. Set the session-signing secret (generated locally, never shown)
+openssl rand -base64 32 | npx wrangler secret put JWT_SECRET
 
-# 6. Add pages project and configure route to worker
+# 5. Build the site, then deploy (the Worker serves dist/)
+cd .. && npm run build
+cd worker && npx wrangler deploy
 ```
+
+Deploy prints your URL: `https://<worker-name>.<your-subdomain>.workers.dev`.
+
+> **⚠️ Change the admin password immediately.** `ChangeThis123!` is public in
+> this repo. Open your site, sign in as `admin@addrbook.local` — you'll be
+> forced to set a new password — and do it **before sharing the URL**.
+
+Notes:
+- `ALLOWED_ORIGINS` (`worker/wrangler.toml` `[vars]`) only affects cross-origin
+  API clients; the app is same-origin, so the default needs no change.
+- Redeploy after changes with `npm run build` then `cd worker && npx wrangler deploy`.
+- A custom domain can be attached in the Cloudflare dashboard.
 
 ## Resetting Local D1
 
@@ -123,8 +146,8 @@ bash d1/setup.sh
 - Forced password change on first login for accounts on a temporary password —
   the seeded admin and any admin-created user must set a new password before using the app
 - Login is rate-limited per email: 5 failed attempts within 15 min returns 429 (cleared on success)
-- Auth is a JWT in an httpOnly cookie (24h expiry) — the client never stores the token
-- SameSite=Lax — change to Strict in production with HTTPS
+- Auth is a JWT in an httpOnly, Secure, SameSite=Lax cookie (24h expiry) — the client never stores the token
+- The seeded admin password (`ChangeThis123!`) is a **public default** — on any deployment, sign in and change it immediately (enforced by the forced first-login change)
 - `JWT_SECRET` is a Wrangler secret (`wrangler secret put JWT_SECRET`); for local dev
   it's loaded from `worker/.dev.vars` (copy `worker/.dev.vars.example`, gitignored)
 - CORS is restricted to an allowlist via `ALLOWED_ORIGINS` (worker/wrangler.toml `[vars]`)
