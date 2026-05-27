@@ -43,7 +43,7 @@ default — change it immediately on any deployment (see Deploying to Cloudflare
 
 ```
 users       — id, email, password_hash, role (resident/admin), resident_id
-homesites   — id, street_number, street_name, zip_code (28226), photo BLOB
+homesites   — id, street_number, street_name, city, state, zip_code, photo BLOB
 residents   — id, homesite_id (FK), name
 phones      — id, resident_id (FK), number
 emails      — id, resident_id (FK), address
