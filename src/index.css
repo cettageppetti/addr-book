@@ -101,3 +101,17 @@
     color: var(--color-ink);
   }
 }
+
+/* iOS/iPadOS Safari auto-zooms when a focused form control's font is under
+   16px, and never zooms back out on blur — leaving the page enlarged with
+   content cut off. Render controls at 16px on touch devices to suppress the
+   zoom; pointer-fine devices (desktop) keep the compact 14px design. Left
+   unlayered so it overrides Tailwind's layered text-* utilities without
+   needing !important. */
+@media (hover: none) and (pointer: coarse) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
