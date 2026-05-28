@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate, Link, useLocation, useNavigate } from 'react-router-dom'
 import ResidentProfile from '../components/ResidentProfile'
 import { HomesiteAdder, HomesiteAdminCard, DEFAULT_PHOTO } from '../components/HomesiteEditor'
@@ -36,6 +36,33 @@ function compareResidents(a: Resident, b: Resident, field: SortField): number {
     || streetNum(a.homesite_address) - streetNum(b.homesite_address)
 }
 
+// Search box with a clear (✕) affordance, shared by the Homesites and
+// Residents toolbars.
+function SearchBar({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="relative flex-1 min-w-0">
+      <Input
+        type="text"
+        placeholder="Search by name or address..."
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="pr-8"
+      />
+      {value && (
+        <button
+          type="button"
+          onClick={() => onChange('')}
+          tabIndex={-1}
+          aria-label="Clear search"
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+        >
+          ✕
+        </button>
+      )}
+    </div>
+  )
+}
+
 export default function Home({ user }: { user: any }) {
   const [loading, setLoading] = useState(true)
   const [tab,       setTab]   = useState<Tab>(() => {
@@ -61,19 +88,10 @@ export default function Home({ user }: { user: any }) {
   const location = useLocation()
   const navigate = useNavigate()
 
-  // Publish the sticky nav row's live height as --nav-h so each tab's search /
-  // action row can stick flush beneath it. The nav isn't a fixed height — the
-  // admin heading + tabs wrap to two lines on narrow screens — so we measure it.
-  const navRef = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const el = navRef.current
-    if (!el) return
-    const publish = () => document.documentElement.style.setProperty('--nav-h', `${el.offsetHeight}px`)
-    publish()
-    const ro = new ResizeObserver(publish)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
+  // Residents search + add are lifted here so the tabs and every tab's
+  // search/add controls live in one sticky toolbar (see the render).
+  const [residentSearch,   setResidentSearch]   = useState('')
+  const [showAddResident,  setShowAddResident]  = useState(false)
 
   const openHomesite = (homesiteId: number) => {
     localStorage.setItem('addrtab', 'homesites')
@@ -150,65 +168,62 @@ export default function Home({ user }: { user: any }) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Tab bar — sticky under the header so it stays in view while scrolling.
-          bg-sand matches the page so content scrolls cleanly beneath it. */}
-      <div ref={navRef} className="sticky top-[var(--header-h)] z-30 bg-sand py-4 flex items-center justify-between gap-4 flex-wrap">
-        {isAdmin && <h2 className="text-2xl font-bold text-gray-900">Administration</h2>}
-        <div className="flex justify-end gap-1 bg-gray-100 rounded-lg p-1">
-          {!isAdmin && (
-            <button
-              onClick={() => { localStorage.setItem('addrtab', 'profile'); setTab('profile') }}
-              className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
-                tab === 'profile' ? 'bg-white shadow text-brand-600' : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              My Profile
-            </button>
-          )}
-          {(['homesites', 'residents'] as Tab[]).map(t => (
-            <button
-              key={t}
-              onClick={() => { localStorage.setItem('addrtab', t); setTab(t as Tab); setShowCreate(false); setHomesiteSearch('') }}
-              className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
-                tab === t ? 'bg-white shadow text-brand-600' : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+      {/* Sticky toolbar: the tabs AND the active tab's search/add controls live
+          in one element, so the whole bar stays put while scrolling. It sticks
+          at a single fixed offset (the header height) — no per-row measuring. */}
+      <div className="sticky top-[var(--header-h)] z-30 bg-sand pt-4 pb-4 space-y-3">
+        {/* Tabs */}
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          {isAdmin && <h2 className="text-2xl font-bold text-gray-900">Administration</h2>}
+          <div className="flex justify-end gap-1 bg-gray-100 rounded-lg p-1">
+            {!isAdmin && (
+              <button
+                onClick={() => { localStorage.setItem('addrtab', 'profile'); setTab('profile') }}
+                className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+                  tab === 'profile' ? 'bg-white shadow text-brand-600' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                My Profile
+              </button>
+            )}
+            {(['homesites', 'residents'] as Tab[]).map(t => (
+              <button
+                key={t}
+                onClick={() => {
+                  localStorage.setItem('addrtab', t); setTab(t as Tab)
+                  setShowCreate(false); setHomesiteSearch('')
+                  setShowAddResident(false); setResidentSearch('')
+                }}
+                className={`px-4 py-2 rounded text-sm font-medium transition-colors capitalize ${
+                  tab === t ? 'bg-white shadow text-brand-600' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {/* Homesites: search + add */}
+        {tab === 'homesites' && (
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <SearchBar value={homesiteSearch} onChange={setHomesiteSearch} />
+            {isAdmin && <Button onClick={() => setShowCreate(true)}>+ Add Homesite</Button>}
+          </div>
+        )}
+
+        {/* Residents: search + add */}
+        {tab === 'residents' && (
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <SearchBar value={residentSearch} onChange={setResidentSearch} />
+            {isAdmin && <Button onClick={() => setShowAddResident(true)}>+ Add Resident</Button>}
+          </div>
+        )}
       </div>
 
-      {/* ── Homesites tab ─────────────────────────────────────────────── */}
+      {/* ── Homesites tab content ─────────────────────────────────────── */}
       {tab === 'homesites' && (
         <>
-          <div className="sticky top-[calc(var(--header-h)_+_var(--nav-h,0px))] z-20 bg-sand pb-4 flex items-center justify-between gap-4 flex-wrap">
-            <div className="relative flex-1 min-w-0">
-              <Input
-                type="text"
-                placeholder="Search by name or address..."
-                value={homesiteSearch}
-                onChange={(e) => setHomesiteSearch(e.target.value)}
-                className="pr-8"
-              />
-              {homesiteSearch && (
-                <button
-                  type="button"
-                  onClick={() => setHomesiteSearch('')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  tabIndex={-1}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
-              )}
-            </div>
-            {isAdmin && (
-              <Button onClick={() => setShowCreate(true)}>+ Add Homesite</Button>
-            )}
-          </div>
-
           {isAdmin && showCreateHomesite && (
             <div className="mb-6">
               <HomesiteAdder onSave={() => { setShowCreate(false); fetchHomesites(); fetchResidents() }} />
@@ -243,9 +258,12 @@ export default function Home({ user }: { user: any }) {
         </>
       )}
 
-      {/* ── Residents tab ─────────────────────────────────────────────── */}
+      {/* ── Residents tab content ─────────────────────────────────────── */}
       {tab === 'residents' && (isAdmin ? (
         <ResidentAdminPanel residents={residents} homesites={homesites}
+          search={residentSearch}
+          showAdd={showAddResident}
+          setShowAdd={setShowAddResident}
           fetchResidents={fetchResidents}
           fetchHomesites={fetchHomesites}
           onOpenHomesite={openHomesite}
@@ -255,7 +273,7 @@ export default function Home({ user }: { user: any }) {
           }}
         />
       ) : (
-        <ResidentReadOnlyList residents={residents} onOpenHomesite={openHomesite} />
+        <ResidentReadOnlyList residents={residents} search={residentSearch} onOpenHomesite={openHomesite} />
       ))}
 
       {/* ── My Profile tab (resident only) ─────────────────────────────── */}
@@ -266,18 +284,19 @@ export default function Home({ user }: { user: any }) {
   )
 }
 
-function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents, fetchHomesites, onOpenHomesite }: {
+function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents, fetchHomesites, onOpenHomesite, search, showAdd, setShowAdd }: {
   residents: Resident[]; homesites: Homesite[]
   onDelete: (id: number) => void; fetchResidents: () => void; fetchHomesites: () => void
   onOpenHomesite: (homesiteId: number) => void
+  // Search and add-form visibility are owned by Home (the sticky toolbar).
+  search: string; showAdd: boolean; setShowAdd: (v: boolean) => void
 }) {
-  const [search,     setSearch]    = useState('')
-  const [showAdd,    setShowAdd]   = useState(false)
   const [addName,     setAddName]     = useState('')
   const [addHomesite, setAddHomesite] = useState(homesites[0]?.id || 0)
-
-
   const [addSaving,   setAddSaving]   = useState(false)
+
+  // Default the homesite select each time the add form is opened.
+  useEffect(() => { if (showAdd) setAddHomesite(homesites[0]?.id || 0) }, [showAdd])
 
   // Sort state
   const [sortField, setSortField] = useState<SortField>('name')
@@ -317,34 +336,7 @@ function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents, fe
 
   return (
     <>
-      <div className="sticky top-[calc(var(--header-h)_+_var(--nav-h,0px))] z-20 bg-sand pb-4 flex items-center justify-between gap-4 flex-wrap">
-        <div className="relative flex-1 min-w-0">
-          <Input
-            type="text"
-            placeholder="Search by name or address..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pr-8"
-          />
-          {search && (
-            <button
-              type="button"
-              onClick={() => setSearch('')}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              tabIndex={-1}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
-            </button>
-          )}
-        </div>
-        <Button onClick={() => { setShowAdd(true); setAddHomesite(homesites[0]?.id || 0) }}>
-          + Add Resident
-        </Button>
-      </div>
-
-      {/* Add row */}
+      {/* Add row (toggled from the sticky toolbar's "+ Add Resident") */}
       {showAdd && (
         <form onSubmit={handleAdd}
           className="bg-brand-50 rounded-lg p-4 mb-4 flex gap-3 items-end flex-wrap border border-brand-200">
@@ -572,11 +564,11 @@ function HomesiteCard({ homesite }: { homesite: Homesite }) {
 }
 
 // ── Read-only resident list for residents ─────────────────────────────────────
-function ResidentReadOnlyList({ residents, onOpenHomesite }: {
+function ResidentReadOnlyList({ residents, onOpenHomesite, search }: {
   residents: Resident[]
   onOpenHomesite: (homesiteId: number) => void
+  search: string  // owned by Home (the sticky toolbar)
 }) {
-  const [search, setSearch] = useState('')
   const [sortField, setSortField] = useState<SortField>('name')
   const [sortDir,   setSortDir]   = useState<'asc' | 'desc'>('asc')
   const handleSort = (field: SortField) => {
@@ -595,27 +587,6 @@ function ResidentReadOnlyList({ residents, onOpenHomesite }: {
 
   return (
     <div>
-      <div className="sticky top-[calc(var(--header-h)_+_var(--nav-h,0px))] z-20 bg-sand pb-4 flex items-center justify-between gap-4 flex-wrap">
-        <div className="relative flex-1 min-w-0">
-          <Input
-            type="text"
-            placeholder="Search by name or address..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pr-8"
-          />
-          {search && (
-            <button
-              type="button"
-              onClick={() => setSearch('')}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              tabIndex={-1}
-            >
-              ✕
-            </button>
-          )}
-        </div>
-      </div>
 
       <div className="overflow-x-auto">
         {sorted.length > 0 ? (
