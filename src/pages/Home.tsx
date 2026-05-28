@@ -118,6 +118,14 @@ export default function Home({ user }: { user: any }) {
     navigate('/', { replace: true })
   }, [location.search])
 
+  // Switching tabs is state-only (no route change), so reset scroll to the top
+  // so the new tab opens below the sticky header rather than at the old offset.
+  // Skip when a deep-link is pending (scrollHomesiteId set) — that scrolls to a
+  // specific card instead; intentionally keyed on `tab` only.
+  useEffect(() => {
+    if (scrollHomesiteId == null) window.scrollTo(0, 0)
+  }, [tab]) // eslint-disable-line react-hooks/exhaustive-deps
+
   // Once the Homesites tab is rendered, scroll the requested card into view.
   useEffect(() => {
     if (tab !== 'homesites' || scrollHomesiteId == null) return
