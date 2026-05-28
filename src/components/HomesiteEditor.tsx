@@ -164,8 +164,6 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
   const [deletePhoto, setDeletePhoto]   = useState(false)
   const [saving,    setSaving]  = useState(false)
 
-  // True when user selected a new photo (show preview + "remove" option)
-  const hasPending = pendingBlob !== null || deletePhoto
   // URL to show in the preview — pending if available, otherwise the stored
   // photo with a cache-busting ?v= token so a replacement isn't masked by cache.
   const previewSrc = pendingUrl ?? (!deletePhoto && homesite.has_photo
@@ -196,17 +194,26 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
       homesite.state         = updated.state || ''
       homesite.zip_code      = updated.zip_code
 
-      // Upload new photo, remove existing, or leave as-is
+      // Upload new photo, remove existing, or leave as-is. Either write bumps
+      // the server's photo_version; mirror that locally so the preview URL
+      // changes and the card refetches instead of showing a cached image.
       if (deletePhoto) {
         await fetch(PHOTO_ENDPOINT(homesite.id), { method: 'DELETE' })
-      }
-      if (pendingBlob) {
+        homesite.has_photo = 0
+        homesite.photo_version = (homesite.photo_version ?? 0) + 1
+      } else if (pendingBlob) {
         await fetch(PHOTO_ENDPOINT(homesite.id), {
           method: 'PUT',
           body: pendingBlob,
         })
+        homesite.has_photo = 1
+        homesite.photo_version = (homesite.photo_version ?? 0) + 1
       }
 
+      // Clear the pending photo state so re-opening the editor reflects what
+      // was actually saved rather than a stale selection.
+      if (pendingUrl) URL.revokeObjectURL(pendingUrl)
+      setPendingBlob(null); setPendingUrl(null); setDeletePhoto(false)
       setEditing(false)
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Save failed')
@@ -279,25 +286,34 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
               } catch { alert('Failed to process image') }
             }} />
           <div className="flex items-center gap-2">
-            {hasPending
-              ? <>
-                  <img src={pendingUrl!} alt="Preview" className="h-12 w-12 object-cover rounded border" />
-                  <span className="text-xs text-gray-500">{blobSize(pendingBlob!)}</span>
-                  <button type="button" onClick={() => {
-                    if (pendingUrl) URL.revokeObjectURL(pendingUrl)
-                    setPendingBlob(null); setPendingUrl(null)
-                    if (fileRef.current) fileRef.current.value = ''
-                  }} className="text-xs text-red-500 hover:text-red-700">Cancel</button>
-                </>
-              : <button type="button" onClick={() => fileRef.current?.click()}
-                className="text-xs text-brand-600 hover:text-brand-800 border border-brand-200 rounded px-2 py-1">📷 Add/Replace</button>
-            }
-            {!deletePhoto && homesite.photo !== undefined && (
-              <button type="button" onClick={() => {
-                if (pendingUrl) URL.revokeObjectURL(pendingUrl)
-                setPendingBlob(null); setPendingUrl(null)
-                setDeletePhoto(true)
-              }} className="text-xs text-gray-400 hover:text-red-500">Remove photo</button>
+            {pendingBlob ? (
+              // A new photo is selected but not yet saved.
+              <>
+                <img src={pendingUrl!} alt="Preview" className="h-12 w-12 object-cover rounded border" />
+                <span className="text-xs text-gray-500">{blobSize(pendingBlob)}</span>
+                <button type="button" onClick={() => {
+                  if (pendingUrl) URL.revokeObjectURL(pendingUrl)
+                  setPendingBlob(null); setPendingUrl(null)
+                  if (fileRef.current) fileRef.current.value = ''
+                }} className="text-xs text-red-500 hover:text-red-700">Cancel</button>
+              </>
+            ) : deletePhoto ? (
+              // Existing photo marked for removal; takes effect on Save.
+              <>
+                <span className="text-xs text-gray-500">Photo will be removed on save</span>
+                <button type="button" onClick={() => setDeletePhoto(false)}
+                  className="text-xs text-brand-600 hover:text-brand-800">Undo</button>
+              </>
+            ) : (
+              // No pending change — offer add/replace, plus remove if one exists.
+              <>
+                <button type="button" onClick={() => fileRef.current?.click()}
+                  className="text-xs text-brand-600 hover:text-brand-800 border border-brand-200 rounded px-2 py-1">📷 Add/Replace</button>
+                {homesite.has_photo && (
+                  <button type="button" onClick={() => setDeletePhoto(true)}
+                    className="text-xs text-gray-400 hover:text-red-500">Remove photo</button>
+                )}
+              </>
             )}
           </div>
 
