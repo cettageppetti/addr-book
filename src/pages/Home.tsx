@@ -135,9 +135,10 @@ export default function Home({ user }: { user: any }) {
   const isAdmin = user.role === 'admin'
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-      {/* Tab bar */}
-      <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Tab bar — sticky under the header so it stays in view while scrolling.
+          bg-sand matches the page so content scrolls cleanly beneath it. */}
+      <div className="sticky top-[var(--header-h)] z-30 bg-sand py-4 flex items-center justify-between gap-4 flex-wrap">
         {isAdmin && <h2 className="text-2xl font-bold text-gray-900">Administration</h2>}
         <div className="flex justify-end gap-1 bg-gray-100 rounded-lg p-1">
           {!isAdmin && (

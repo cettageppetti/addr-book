@@ -26,8 +26,8 @@ export default function Layout({ user, onLogout, children }: LayoutProps) {
 
   return (
     <div className="min-h-screen bg-sand">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
+      <header className="sticky top-0 z-40 bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[var(--header-h)] flex justify-between items-center">
           <Link
             to="/"
             className="inline-flex items-center gap-2 text-xl font-bold text-brand-600 hover:text-brand-700 hover:underline"
@@ -83,7 +83,7 @@ export default function Layout({ user, onLogout, children }: LayoutProps) {
         </div>
       </header>
 
-      <main className="py-8">
+      <main className="pb-8">
         {children}
       </main>
     </div>

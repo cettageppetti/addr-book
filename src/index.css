@@ -26,6 +26,12 @@
   --color-ink:  #3d352e;
 }
 
+/* Height of the sticky app header. The sticky navigation row offsets its
+   `top` by exactly this, so the two stay flush — one source of truth. */
+:root {
+  --header-h: 3.5rem;
+}
+
 /* Fresh Garden — emerald */
 :root[data-theme="garden"] {
   --color-brand-50:  #ecfdf5;
