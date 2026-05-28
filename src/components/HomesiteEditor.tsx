@@ -166,8 +166,11 @@ export function HomesiteAdminCard({ homesite, onDelete }: CardProps) {
 
   // True when user selected a new photo (show preview + "remove" option)
   const hasPending = pendingBlob !== null || deletePhoto
-  // URL to show in the preview — pending if available, otherwise homesite photo
-  const previewSrc = pendingUrl ?? (!deletePhoto && homesite.has_photo ? PHOTO_ENDPOINT(homesite.id) : null)
+  // URL to show in the preview — pending if available, otherwise the stored
+  // photo with a cache-busting ?v= token so a replacement isn't masked by cache.
+  const previewSrc = pendingUrl ?? (!deletePhoto && homesite.has_photo
+    ? `${PHOTO_ENDPOINT(homesite.id)}?v=${homesite.photo_version ?? 0}`
+    : null)
 
   const residents = homesite.residents || []
 

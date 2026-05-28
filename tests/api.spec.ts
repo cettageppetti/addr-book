@@ -721,6 +721,31 @@ test.describe('homesite photo', () => {
     await request.delete(`/api/homesites/${homesiteId}/photo`, { headers: auth(admin.token) })
     expect(await findHasPhoto()).toBeFalsy()
   })
+
+  test('photo_version increments on each photo write (cache-busting token)', async ({ request }) => {
+    const versionOf = async () => {
+      const list = await (await request.get('/api/homesites', { headers: auth(admin.token) })).json()
+      return list.find((h: any) => h.id === homesiteId)?.photo_version as number
+    }
+
+    const before = await versionOf()
+    await request.put(`/api/homesites/${homesiteId}/photo`, {
+      headers: { ...auth(admin.token), 'Content-Type': 'image/jpeg' },
+      data: Buffer.from('v1'),
+    })
+    const afterUpload = await versionOf()
+    expect(afterUpload).toBe(before + 1)
+
+    // Replacing the photo bumps the token again, so the URL changes and the
+    // browser can't serve a stale cached image.
+    await request.put(`/api/homesites/${homesiteId}/photo`, {
+      headers: { ...auth(admin.token), 'Content-Type': 'image/jpeg' },
+      data: Buffer.from('v2'),
+    })
+    expect(await versionOf()).toBe(afterUpload + 1)
+
+    await request.delete(`/api/homesites/${homesiteId}/photo`, { headers: auth(admin.token) })
+  })
 })
 
 test.describe('homesites listing order', () => {

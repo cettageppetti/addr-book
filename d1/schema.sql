@@ -21,6 +21,9 @@ CREATE TABLE IF NOT EXISTS homesites (
   city TEXT DEFAULT 'Charlotte',
   state TEXT DEFAULT 'NC',
   photo BLOB,
+  -- Bumped on every photo write; used as a cache-busting ?v= token so a
+  -- replaced photo isn't masked by a stale browser cache entry.
+  photo_version INTEGER NOT NULL DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -382,7 +382,7 @@ app.delete('/api/homesites/:id/photo', async (c) => {
   const id = parseInt(c.req.param('id'))
   if (isNaN(id)) return c.json({ error: 'Invalid id' }, 400)
 
-  await c.env.DB.prepare('UPDATE homesites SET photo = NULL WHERE id = ?').bind(id).run()
+  await c.env.DB.prepare('UPDATE homesites SET photo = NULL, photo_version = photo_version + 1 WHERE id = ?').bind(id).run()
   return c.json({ ok: true })
 })
 
@@ -400,7 +400,7 @@ app.put('/api/homesites/:id/photo', async (c) => {
     return c.json({ error: `Photo too large (max ${MAX_BYTES / 1024} KB)` }, 400)
   }
 
-  await c.env.DB.prepare('UPDATE homesites SET photo = ? WHERE id = ?').bind(body, id).run()
+  await c.env.DB.prepare('UPDATE homesites SET photo = ?, photo_version = photo_version + 1 WHERE id = ?').bind(body, id).run()
   return c.json({ ok: true })
 })
 
@@ -536,7 +536,7 @@ app.get('/api/homesites', async (c) => {
   // Full neighborhood directory — every logged-in user sees all homesites.
   const sql = `
     SELECT h.id, h.street_number, h.street_name, h.city, h.state, h.zip_code,
-      (h.photo IS NOT NULL) AS has_photo,
+      (h.photo IS NOT NULL) AS has_photo, h.photo_version,
       json_group_array(json_object('id', r.id, 'name', r.name)) FILTER (WHERE r.id IS NOT NULL) as residents_json,
       (SELECT MIN(r2.id) FROM residents r2 WHERE r2.homesite_id = h.id) as first_resident_id
     FROM homesites h

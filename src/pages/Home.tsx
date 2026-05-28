@@ -10,6 +10,7 @@ interface Homesite {
   id: number; street_number: string; street_name: string
   city?: string; state?: string; zip_code?: string
   has_photo?: number
+  photo_version?: number
   residents?: { id: number; name: string }[]
 }
 
@@ -529,7 +530,7 @@ function HomesiteCard({ homesite }: { homesite: Homesite }) {
   return (
     <Card className="h-full hover:shadow-lg transition-shadow">
       <img
-        src={homesite.has_photo ? `/api/homesites/${homesite.id}/photo` : DEFAULT_PHOTO}
+        src={homesite.has_photo ? `/api/homesites/${homesite.id}/photo?v=${homesite.photo_version ?? 0}` : DEFAULT_PHOTO}
         onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = DEFAULT_PHOTO }}
         alt="Homesite"
         className="w-full h-32 object-cover rounded border mb-3"
