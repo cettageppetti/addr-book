@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Layout from './components/Layout'
 import Login from './components/Login'
 import Home from './pages/Home'
@@ -7,6 +7,16 @@ import Settings from './pages/Settings'
 import ResidentProfile from './components/ResidentProfile'
 import ChangePasswordGate from './components/ChangePasswordGate'
 import { logout } from './lib/auth'
+
+// SPA navigations keep the previous scroll position, so opening a resident
+// profile from a scrolled-down list would render it at that offset — its top
+// hidden under the sticky header. Reset to the top on each route change so a
+// new page always starts fully below the header.
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -70,6 +80,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
 
