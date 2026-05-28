@@ -97,6 +97,19 @@ function passwordError(pw: string | undefined | null): string | null {
   return null
 }
 
+// Normalize a US phone to xxx-xxx-xxxx when its digits cleanly map to a 10-digit
+// number (optionally with a leading country-code 1). Anything else — extensions,
+// international, or too-few digits — is returned trimmed but otherwise untouched
+// so we never mangle a value we don't recognize.
+function normalizePhone(input: string): string {
+  const digits = input.replace(/\D/g, '')
+  const local = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits
+  if (local.length === 10) {
+    return `${local.slice(0, 3)}-${local.slice(3, 6)}-${local.slice(6)}`
+  }
+  return input.trim()
+}
+
 // Admin-configurable defaults (e.g. neighborhood city/state/zip).
 const SETTINGS_KEYS = ['default_city', 'default_state', 'default_zip_code', 'site_name', 'site_theme'] as const
 
@@ -646,7 +659,10 @@ app.put('/api/residents/:id/contacts', async (c) => {
   // Validate + de-dupe before touching the DB so a bad value can't half-apply.
   let cleanPhones: string[] | null = null
   if (Array.isArray(phones)) {
-    cleanPhones = [...new Set(phones.map((p: any) => String(p ?? '').trim()).filter(Boolean))]
+    // Normalize first so differently-formatted entries for the same number
+    // collapse to one (e.g. "(704)221-2969" and "7042212969" → "704-221-2969").
+    const normalized = phones.map((p: any) => normalizePhone(String(p ?? ''))).filter(Boolean)
+    cleanPhones = [...new Set(normalized)]
     for (const num of cleanPhones) {
       if ((num.match(/\d/g) || []).length < 10) {
         return c.json({ error: `Invalid phone number: ${num}` }, 400)

@@ -588,6 +588,25 @@ test.describe('resident contacts', () => {
     expect(body.emails.length).toBe(1)
   })
 
+  test('normalizes phone numbers to xxx-xxx-xxxx and de-dupes equivalents', async ({ request }) => {
+    // Same US number, three formats (incl. a leading country-code 1) → one row.
+    const res = await request.put(`/api/residents/${tempResidentId}/contacts`, {
+      headers: auth(admin.token),
+      data: { phones: ['(704)2212969', '7042212969', '1 704 221 2969'] },
+    })
+    expect(res.status()).toBe(200)
+    expect((await res.json()).phones.map((p: any) => p.number)).toEqual(['704-221-2969'])
+  })
+
+  test('leaves a number it does not recognize untouched (trimmed)', async ({ request }) => {
+    const res = await request.put(`/api/residents/${tempResidentId}/contacts`, {
+      headers: auth(admin.token),
+      data: { phones: ['  704-221-2969 x42  '] },
+    })
+    expect(res.status()).toBe(200)
+    expect((await res.json()).phones.map((p: any) => p.number)).toEqual(['704-221-2969 x42'])
+  })
+
   test('a non-owner resident cannot edit them', async ({ request }) => {
     const res = await request.put(`/api/residents/${tempResidentId}/contacts`, {
       headers: auth(resident.token),
@@ -608,7 +627,8 @@ test.describe('resident contacts', () => {
       data: { phones: ['(704) 555-0123'] },
     })
     expect(updated.status()).toBe(200)
-    expect((await updated.json()).phones.map((p: any) => p.number)).toEqual(['(704) 555-0123'])
+    // Stored normalized to xxx-xxx-xxxx, not as typed.
+    expect((await updated.json()).phones.map((p: any) => p.number)).toEqual(['704-555-0123'])
 
     const restore = await request.put(`/api/residents/${ownId}/contacts`, {
       headers: auth(resident.token),
