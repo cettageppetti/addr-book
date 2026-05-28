@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Navigate, Link, useLocation, useNavigate } from 'react-router-dom'
 import ResidentProfile from '../components/ResidentProfile'
 import { HomesiteAdder, HomesiteAdminCard, DEFAULT_PHOTO } from '../components/HomesiteEditor'
@@ -60,6 +60,20 @@ export default function Home({ user }: { user: any }) {
 
   const location = useLocation()
   const navigate = useNavigate()
+
+  // Publish the sticky nav row's live height as --nav-h so each tab's search /
+  // action row can stick flush beneath it. The nav isn't a fixed height — the
+  // admin heading + tabs wrap to two lines on narrow screens — so we measure it.
+  const navRef = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    const el = navRef.current
+    if (!el) return
+    const publish = () => document.documentElement.style.setProperty('--nav-h', `${el.offsetHeight}px`)
+    publish()
+    const ro = new ResizeObserver(publish)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
   const openHomesite = (homesiteId: number) => {
     localStorage.setItem('addrtab', 'homesites')
@@ -138,7 +152,7 @@ export default function Home({ user }: { user: any }) {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Tab bar — sticky under the header so it stays in view while scrolling.
           bg-sand matches the page so content scrolls cleanly beneath it. */}
-      <div className="sticky top-[var(--header-h)] z-30 bg-sand py-4 flex items-center justify-between gap-4 flex-wrap">
+      <div ref={navRef} className="sticky top-[var(--header-h)] z-30 bg-sand py-4 flex items-center justify-between gap-4 flex-wrap">
         {isAdmin && <h2 className="text-2xl font-bold text-gray-900">Administration</h2>}
         <div className="flex justify-end gap-1 bg-gray-100 rounded-lg p-1">
           {!isAdmin && (
@@ -168,7 +182,7 @@ export default function Home({ user }: { user: any }) {
       {/* ── Homesites tab ─────────────────────────────────────────────── */}
       {tab === 'homesites' && (
         <>
-          <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
+          <div className="sticky top-[calc(var(--header-h)_+_var(--nav-h,0px))] z-20 bg-sand pb-4 flex items-center justify-between gap-4 flex-wrap">
             <div className="relative flex-1 min-w-0">
               <Input
                 type="text"
@@ -303,7 +317,7 @@ function ResidentAdminPanel({ residents, homesites, onDelete, fetchResidents, fe
 
   return (
     <>
-      <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
+      <div className="sticky top-[calc(var(--header-h)_+_var(--nav-h,0px))] z-20 bg-sand pb-4 flex items-center justify-between gap-4 flex-wrap">
         <div className="relative flex-1 min-w-0">
           <Input
             type="text"
@@ -581,7 +595,7 @@ function ResidentReadOnlyList({ residents, onOpenHomesite }: {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
+      <div className="sticky top-[calc(var(--header-h)_+_var(--nav-h,0px))] z-20 bg-sand pb-4 flex items-center justify-between gap-4 flex-wrap">
         <div className="relative flex-1 min-w-0">
           <Input
             type="text"
