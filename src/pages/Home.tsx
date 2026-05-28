@@ -289,7 +289,7 @@ export default function Home({ user }: { user: any }) {
 
       {/* ── My Profile tab (resident only) ─────────────────────────────── */}
       {tab === 'profile' && user?.resident_id && (
-        <ResidentProfile user={user} residentId={String(user.resident_id)} activeTab={tab} onTabChange={(t) => { localStorage.setItem('addrtab', t); setTab(t as Tab) }} />
+        <ResidentProfile user={user} residentId={String(user.resident_id)} embedded activeTab={tab} onTabChange={(t) => { localStorage.setItem('addrtab', t); setTab(t as Tab) }} />
       )}
     </div>
   )

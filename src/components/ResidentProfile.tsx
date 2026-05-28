@@ -27,9 +27,13 @@ interface Props {
   user: { role: string; resident_id?: number } | null
   activeTab?: 'homesites' | 'residents' | 'profile'
   onTabChange?: (tab: 'homesites' | 'residents') => void
+  // True when rendered inside Home's "My Profile" tab, which already supplies
+  // top spacing via the sticky toolbar — so we drop our own pt-8 to avoid an
+  // extra gap. The standalone /residents/:id route leaves this false.
+  embedded?: boolean
 }
 
-export default function ResidentProfile({ residentId: propResidentId, user }: Props) {
+export default function ResidentProfile({ residentId: propResidentId, user, embedded }: Props) {
   const urlParams = useParams()
   // Priority: prop > URL param > localStorage (localStorage only for "My Profile" tab, which has no prop or URL)
   const residentId = propResidentId || urlParams.id || (() => {
@@ -82,7 +86,7 @@ export default function ResidentProfile({ residentId: propResidentId, user }: Pr
     : ''
 
   return (
-    <div className="max-w-3xl mx-auto pt-8">
+    <div className={`max-w-3xl mx-auto ${embedded ? '' : 'pt-8'}`}>
       <div className="bg-white rounded-lg shadow p-6 mb-4">
         <h2 className="text-2xl font-bold text-gray-900 mb-1">{resident.name}</h2>
         <p className="text-gray-600">
