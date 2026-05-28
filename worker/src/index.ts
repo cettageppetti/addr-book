@@ -362,7 +362,11 @@ app.get('/api/homesites/:id/photo', async (c) => {
   const row = await queryOne(c.env.DB, 'SELECT photo FROM homesites WHERE id = ?', [id])
   if (!row || !(row as any).photo) return c.json({ error: 'No photo' }, 404)
 
-  const buf = (row as any).photo as ArrayBuffer
+  // D1 returns BLOB columns as a number[] (not an ArrayBuffer), so re-encode to
+  // raw bytes — otherwise c.body() coerces the array to a string and the JPEG
+  // never decodes in the browser.
+  const raw = (row as any).photo
+  const buf = raw instanceof ArrayBuffer ? raw : Uint8Array.from(raw as number[]).buffer
   return c.body(buf, 200, {
     'Content-Type': 'image/jpeg',
     'Cache-Control': 'private, max-age=3600',

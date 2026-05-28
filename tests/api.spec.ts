@@ -680,7 +680,9 @@ test.describe('homesite photo', () => {
   })
 
   test('accepts, serves, and removes a photo', async ({ request }) => {
-    const small = Buffer.from('not-a-real-jpeg-but-small')
+    // Use raw bytes (including a non-ASCII byte) so a corrupted round-trip is
+    // detectable — D1 returns BLOBs as number[], which must be re-encoded.
+    const small = Buffer.from([0xff, 0xd8, 0xff, 0x00, 0x10, 0x42, 0x4d])
     const put = await request.put(`/api/homesites/${homesiteId}/photo`, {
       headers: { ...auth(admin.token), 'Content-Type': 'image/jpeg' },
       data: small,
@@ -690,6 +692,8 @@ test.describe('homesite photo', () => {
     const get = await request.get(`/api/homesites/${homesiteId}/photo`, { headers: auth(admin.token) })
     expect(get.status()).toBe(200)
     expect(get.headers()['content-type']).toContain('image/jpeg')
+    // The served body must be the exact bytes that were uploaded.
+    expect(Buffer.from(await get.body()).equals(small)).toBe(true)
 
     expect((await request.delete(`/api/homesites/${homesiteId}/photo`, { headers: auth(admin.token) })).status()).toBe(200)
 
